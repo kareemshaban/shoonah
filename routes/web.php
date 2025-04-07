@@ -88,13 +88,31 @@ Route::group(
         Route::get('/productAutoComplete/{name}', [App\Http\Controllers\ProductController::class, 'productAutoComplete'])->name('productAutoComplete');
         Route::get('/add_product_to_supplier_action/{item_id}/{supplier_id}', [App\Http\Controllers\ProductController::class, 'add_product_to_supplier_action'])->name('add_product_to_supplier_action');
         Route::get('/getSupplierProducts/{id}', [App\Http\Controllers\ProductController::class, 'getSupplierProducts'])->name('getSupplierProducts');
+        Route::get('/deleteSupplierProduct/{id}', [App\Http\Controllers\SupplierProductsController::class, 'destroy'])->name('deleteSupplierProduct');
+        Route::get('/getSupplierProduct/{id}', [App\Http\Controllers\SupplierProductsController::class, 'show'])->name('getSupplierProduct');
 
 
 
 
         Route::get('/materials', [App\Http\Controllers\MaterialController::class, 'index'])->name('materials');
+        Route::post('/store-material', [App\Http\Controllers\MaterialController::class, 'store'])->name('store-material');
+        Route::get('/getMaterial/{id}', [App\Http\Controllers\MaterialController::class, 'show'])->name('getMaterial');
+        Route::get('/deleteMaterial/{id}', [App\Http\Controllers\MaterialController::class, 'destroy'])->name('deleteMaterial');
+
+
+
 
         Route::get('/compositions', [App\Http\Controllers\CompositionController::class, 'index'])->name('compositions');
+        Route::post('/store-composition', [App\Http\Controllers\CompositionController::class, 'store'])->name('store-composition');
+        Route::get('/getCompositions/{id}', [App\Http\Controllers\CompositionController::class, 'show'])->name('getCompositions');
+        Route::get('/deleteCompositions/{id}', [App\Http\Controllers\CompositionController::class, 'destroy'])->name('deleteCompositions');
+        Route::get('/edit-compositions/{id}', [App\Http\Controllers\CompositionController::class, 'edit'])->name('edit-compositions');
+        Route::get('/create-compositions', [App\Http\Controllers\CompositionController::class, 'create'])->name('create-compositions');
+        Route::post('/update-compositions', [App\Http\Controllers\CompositionController::class, 'update'])->name('update-compositions');
+        Route::get('/getCompositionsCode', [App\Http\Controllers\CompositionController::class, 'getCompositionsCode'])->name('getCompositionsCode');
+        Route::get('/materialAutoComplete/{name}', [App\Http\Controllers\CompositionController::class, 'materialAutoComplete'])->name('materialAutoComplete');
+
+
 
         Route::get('/quotationRequests', [App\Http\Controllers\QuotationRequestController::class, 'index'])->name('quotationRequests');
 

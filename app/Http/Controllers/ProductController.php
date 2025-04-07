@@ -269,7 +269,7 @@ class ProductController extends Controller
             ]);
             return redirect()->route('add_product_to_supplier')->with('success', __('main.saved'));
         } else {
-            $product = SupplierProducts::find($id) ;
+            $product = SupplierProducts::find($request -> id) ;
             if($product){
                 $product -> update([
                     'supplier_id' => $request -> supplier_id,
@@ -309,9 +309,15 @@ class ProductController extends Controller
     }
 
     public function getSupplierProducts($supplier_id){
-        $products = DB::table('supplier_products')
-                -> join('products' , 'products.id', '=', 'supplier_products.product_id')
-                -> select('supplier_products.*' , 'products.name_ar' , 'products.name_en')
+        $products = DB::table('products')
+                -> join('supplier_products' , 'products.id', '=', 'supplier_products.product_id')
+                -> join('brands' , 'brands.id', '=', 'products.brand_id')
+                -> join('categories' , 'categories.id', '=', 'products.category_id')
+                -> join('departments' , 'departments.id', '=', 'products.department_id')
+                -> select('supplier_products.*' , 'products.name_ar' , 'products.name_en' , 'products.mainImg' ,
+                    'products.isPrivate' , 'products.isAvailable' ,'brands.name_ar as brand_ar' , 'brands.name_en as brand_en' ,
+                    'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
+                    'departments.name_ar as department_ar' , 'departments.name_en as department_en')
                 -> where ('supplier_products.supplier_id' , '=' , $supplier_id)
                 -> get();
        echo json_encode($products);

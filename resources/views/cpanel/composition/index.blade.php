@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 4 , 'subSlag' => 44])
+        @include('layouts.sidebar' , ['slag' => 5 , 'subSlag' => 52])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,51 +27,41 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.product_department')}} /</span> {{__('main.product_list')}}
+                            <span class="text-muted fw-light">{{__('main.material_list')}} /</span> {{__('main.compositions')}}
                         </h4>
-                      <a href="{{route('create-product')}}">  <button type="button" class="btn btn-primary"  id="createButton" style="height: 45px">
-                            {{__('main.add_new')}}  <span class="tf-icons bx bx-plus"></span>&nbsp;
-                        </button>
-                      </a>
+                        <a href="{{route('create-compositions')}}">
+                            <button type="button" class="btn btn-primary"  id="createButton" style="height: 45px">
+                                {{__('main.add_new')}}  <span class="tf-icons bx bx-plus"></span>&nbsp;
+                            </button>
+                        </a>
+
+
                     </div>
 
 
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.product_list')}}</h5>
+                        <h5 class="card-header">{{__('main.compositions')}}</h5>
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> {{__('main.mainImg')}}</th>
                                     <th class="text-center"> {{__('main.name_ar')}}</th>
                                     <th class="text-center">{{__('main.name_en')}}</th>
-                                    <th class="text-center">{{__('main.brand')}}</th>
                                     <th class="text-center">{{__('main.department')}}</th>
                                     <th class="text-center">{{__('main.category')}}</th>
-                                    <th class="text-center">{{__('main.productType')}}</th>
-                                    <th class="text-center">{{__('main.productState')}}</th>
+                                    <th class="text-center">{{__('main.cost')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $product)
+                                @foreach($data as $item)
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
-                                        <td class="text-center">
-                                            <img src="{{ asset('images/products/' . $product->mainImg) }}" width="50" />
-                                        </td>
-                                        <td class="text-center">{{$product -> name_ar}}</td>
-                                        <td class="text-center">{{$product -> name_en}}</td>
-                                        <td class="text-center">
-                                            @if(Config::get('app.locale')=='ar' )
-                                            {{$product -> brand_ar}}
-                                                @else
-                                                {{$product -> brand_en}}
-                                            @endif
-                                        </td>
+                                        <td class="text-center">{{$item -> name_ar}}</td>
+                                        <td class="text-center">{{$item -> name_en}}</td>
                                         <td class="text-center">
                                             @if(Config::get('app.locale')=='ar' )
                                                 {{$product -> department_ar}}
@@ -86,29 +76,16 @@
                                                 {{$product -> category_en}}
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            @if($product -> isPrivate == 0)
-                                                <span class="badge bg-primary">{{__('main.productType0')}}</span>
-                                            @else
-                                                <span class="badge bg-info">{{__('main.productType1')}}</span>
-
-                                            @endif
-
-                                        </td>
-                                        <td class="text-center">
-                                            @if($product -> isAvailable == 0)
-                                                <span class="badge bg-danger">{{__('main.productState1')}}</span>
-                                            @else
-                                                <span class="badge bg-success">{{__('main.productState0')}}</span>
-
-                                            @endif
-
-                                        </td>
+                                        <td class="text-center">{{$item -> cost}}</td>
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
-                                               <a href="{{route('edit-product' , $product -> id)}}">  <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}" style="font-size: 25px ; cursor: pointer"></i></a>
+                                                <a href="{{route('edit-compositions' , $item -> id)}}">
+                                                    <i class='bx bxs-edit-alt text-success' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
+                                                       style="font-size: 25px ; cursor: pointer"></i>
+                                                </a>
+
                                                 <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
-                                                   id="{{$product -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                   id="{{$item -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                             </div>
                                         </td>
                                     </tr>
@@ -137,11 +114,10 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.Products.deleteModal')
+@include('cpanel.composition.deleteModal')
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;
-
     $(document).on('click', '.deleteBtn', function(event) {
         id = event.currentTarget.id ;
         console.log(id);
@@ -178,12 +154,10 @@
     });
 
     function confirmDelete(id){
-        let url = "{{ route('deleteProduct', ':id') }}";
+        let url = "{{ route('deleteCompositions', ':id') }}";
         url = url.replace(':id', id);
         document.location.href=url;
     }
-
-
 
 </script>
 </body>

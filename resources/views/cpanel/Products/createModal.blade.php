@@ -63,7 +63,6 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
-                                    <input  name="id" id="id" type="hidden"/>
 
                                 </div>
                             </div>

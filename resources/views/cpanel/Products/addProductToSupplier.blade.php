@@ -144,6 +144,7 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
+@include('cpanel.Products.deleteSupplierProductModal')
 @include('cpanel.Products.createModal')
 @include('cpanel.Products.alertModal')
 @include('layouts.footer')
@@ -168,24 +169,84 @@
 
             success: function (response) {
                 var lang = $('#lang').val() ;
-                var html = "<tr>";
+                var html = "";
                 $.each(response , function (key , value){
+                    html += '<tr>';
                     var img =  '/../images/products/' + value.mainImg ;
                     if(lang == 'ar'){
-                        html += `<td class="text-center"> <img src=${ asset('images/products/' . $product->mainImg) }}" width="50" /></td>`;
-                    } else {
-                        html += `<li style="width: 100%">
-                                      <a href="#" class="dropdown-item" style="display: flex; align-items: center;">
-                                        <!-- Image -->
-                                        <img src="${img}"  alt="image" style="width: 30px;  margin-right: 10px; margin-left: 10px">
-                                        <!-- Text -->
-                                        ${value.name_en}
-                                      </a>
-                                    </li>`;
-                    }
+                        html += `<td class="text-center"> ${key + 1} </td>` ;
+                        html += `<td class="text-center"> <img src=${img} width="50" /></td>`;
+                        html += `<td class="text-center"> ${value.name_ar} </td>`;
+                        html += `<td class="text-center"> ${value.brand_ar} </td>`;
+                        html += `<td class="text-center"> ${value.department_ar} </td>`;
+                        html += `<td class="text-center"> ${value.category_ar} </td>`;
+                        html += `<td class="text-center"> ${value.quantity} </td>`;
+                        html += `<td class="text-center"> ${value.price} </td>`;
+                        var productType0 = "{{ __('main.productType0') }}";
+                        var productType1 = "{{ __('main.productType1') }}";
+                        if(value.isPrivate == 0){
+                            html += `<td class="text-center">  <span class="badge bg-primary"> ${productType0}  </span> </td>`;
+                        } else {
+                            html += `<td class="text-center">  <span class="badge bg-info"> ${productType1}  </span> </td>`;
+                        }
+                        var productState1 = "{{ __('main.productState1') }}";
+                        var productState0 = "{{ __('main.productState0') }}";
+                        if(value.isAvailable == 0){
+                            html += `<td class="text-center">  <span class="badge bg-primary"> ${productState1}  </span> </td>`;
+                        } else {
+                            html += `<td class="text-center">  <span class="badge bg-info"> ${productState0}  </span> </td>`;
+                        }
 
+                        var edit_action = "{{ __('main.edit_action') }}";
+                        var delete_action = "{{ __('main.delete_action') }}";
+                        html += ` <td class="text-center">
+                                            <div style="display: flex ; gap: 10px ; justify-content: center ">
+                                                 <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="${edit_action}"
+                                                   data-id="${value.id}"  style="font-size: 25px ; cursor: pointer"></i>
+                                                <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="${delete_action}"
+                                                  data-id="${value.id}" style="font-size: 25px ; cursor: pointer"></i>
+                                            </div>
+                                        </td>`;
+
+                    } else {
+                        html += `<td class="text-center"> ${key + 1} </td>` ;
+                        html += `<td class="text-center"> <img src=${img} width="50" /></td>`;
+                        html += `<td class="text-center"> ${value.name_en} </td>`;
+                        html += `<td class="text-center"> ${value.brand_en} </td>`;
+                        html += `<td class="text-center"> ${value.department_en} </td>`;
+                        html += `<td class="text-center"> ${value.category_en} </td>`;
+                        html += `<td class="text-center"> ${value.quantity} </td>`;
+                        html += `<td class="text-center"> ${value.price} </td>`;
+                        var productType0 = "{{ __('main.productType0') }}";
+                        var productType1 = "{{ __('main.productType1') }}";
+                        if(value.isPrivate == 0){
+                            html += `<td class="text-center">  <span class="badge bg-primary"> ${productType0}  </span> </td>`;
+                        } else {
+                            html += `<td class="text-center">  <span class="badge bg-info"> ${productType1}  </span> </td>`;
+                        }
+                        var productState1 = "{{ __('main.productState1') }}";
+                        var productState0 = "{{ __('main.productState0') }}";
+                        if(value.isAvailable == 0){
+                            html += `<td class="text-center">  <span class="badge bg-primary"> ${productState1}  </span> </td>`;
+                        } else {
+                            html += `<td class="text-center">  <span class="badge bg-info"> ${productState0}  </span> </td>`;
+                        }
+
+                        var edit_action = "{{ __('main.edit_action') }}";
+                        var delete_action = "{{ __('main.delete_action') }}";
+                        html += ` <td class="text-center">
+                                            <div style="display: flex ; gap: 10px ; justify-content: center ">
+                                                 <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="${edit_action}"
+                                                    data-id="${value.id}" style="font-size: 25px ; cursor: pointer"></i>
+                                                <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="${delete_action}"
+                                                   data-id="${value.id}" style="font-size: 25px ; cursor: pointer"></i>
+                                            </div>
+                                        </td>`;
+                    }
+                    html += '</tr>' ;
                 });
-                html += '</tr>' ;
+                console.log(html);
+
                 $('#product-table').html(html);
 
             },
@@ -337,6 +398,96 @@
         id = 0 ;
         $('#item').val("");
         $('#product-list').html("");
+    });
+
+    $(document).on('click', '.deleteBtn', function(event) {
+        id = $(this).attr('data-id');
+        console.log(id);
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href,
+            beforeSend: function() {
+                $('#loader').show();
+            },
+            // return the result
+            success: function(result) {
+                $('#deleteModal').modal("show");
+            },
+            complete: function() {
+                $('#loader').hide();
+            },
+            error: function(jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            },
+            timeout: 8000
+        })
+    });
+
+    $(document).on('click', '.btnConfirmDelete', function(event) {
+
+        confirmDelete(id);
+    });
+
+    function confirmDelete(id){
+        let url = "{{ route('deleteSupplierProduct', ':id') }}";
+        url = url.replace(':id', id);
+        document.location.href=url;
+    }
+
+    $(document).on('click', '.editBtn', function(event) {
+        id = $(this).attr('data-id');
+           console.log(id);
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            type:'get',
+            url:'/getSupplierProduct' + '/' + id,
+            dataType: 'json',
+
+            success:function(response){
+                console.log(response);
+                if(response){
+                    let href = $(this).attr('data-attr');
+                    $.ajax({
+                        url: href,
+                        beforeSend: function() {
+                            $('#loader').show();
+                        },
+                        // return the result
+                        success: function(result) {
+                            $('#createModal').modal("show");
+                            $(".modal-body #supplier").val(response.supplier_id);
+                            $(".modal-body #supplier_id").val(response.supplier_id);
+                            $(".modal-body #id").val(response.id);
+                            $(".modal-body #item").val(response.product_id);
+                            $(".modal-body #item_id").val(response.product_id);
+                            $(".modal-body #quantity").val(response.quantity);
+                            $(".modal-body #price").val(response.price);
+
+                            var translatedText = "{{ __('main.editData') }}";
+                            $(".modelTitle").html(translatedText);
+
+
+
+                        },
+                        complete: function() {
+                            $('#loader').hide();
+                        },
+                        error: function(jqXHR, testStatus, error) {
+                            console.log(error);
+                            alert("Page " + href + " cannot open. Error:" + error);
+                            $('#loader').hide();
+                        },
+                        timeout: 8000
+                    })
+                } else {
+
+                }
+            }
+        });
     });
 </script>
 </body>

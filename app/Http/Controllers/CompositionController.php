@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Composition;
+use App\Models\Department;
+use App\Models\Material;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompositionController extends Controller
 {
@@ -14,7 +18,8 @@ class CompositionController extends Controller
      */
     public function index()
     {
-        //
+        $data = Composition::all();
+        return view('cpanel.composition.index', compact('data'));
     }
 
     /**
@@ -24,7 +29,9 @@ class CompositionController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::all();
+        return view('cpanel.composition.create', compact('departments'));
+
     }
 
     /**
@@ -81,5 +88,25 @@ class CompositionController extends Controller
     public function destroy(Composition $composition)
     {
         //
+    }
+
+    public function getCompositionsCode(){
+        $product =  DB::table('compositions')->latest('created_at')->first();
+        if($product){
+            $id = $product -> id +1 ;
+        } else {
+            $id = 1;
+        }
+        $code = 'CP-' .  str_pad($id, 6, '0', STR_PAD_LEFT);
+        echo json_encode($code) ;
+        exit();
+    }
+
+    public function materialAutoComplete($name){
+        return Material::query()
+            -> where("name_ar" , "LIKE" , "%{$name}%")
+            -> orWhere("name_en" , "LIKE" , "%{$name}%")
+            -> take(10)
+            -> get();
     }
 }

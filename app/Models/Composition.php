@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Composition extends Model
 {
     use HasFactory;
+    protected $fillable = [
+      'id',
+      'name_ar',
+      'name_en',
+      'department_id',
+      'category_id',
+      'cost',
+      'additional_cost',
+      'total_cost',
+      'formula_equation',
+      'description_ar',
+      'description_en',
+        'user_ins',
+        'user_upd'
+    ];
 }

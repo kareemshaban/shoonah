@@ -141,7 +141,19 @@ return [
     'item' => 'Item',
     'search_item' => 'Search For Item',
     'price' => 'Price',
-    'quantity' => 'Quantity'
+    'quantity' => 'Quantity',
+    'priceOfHundred' => 'Price per 100 units',
+    'unit' => 'Unit',
+    'unit0' => 'milli',
+    'unit1' => 'gram',
+    'cost' => 'Cost',
+    'composition_create' => 'Create a Composition',
+    'formula_equation' => 'Formula Equation',
+    'material' => 'Material',
+    'search_material' => 'Search in Materials',
+    'total_cost' => 'Total Cost',
+    'additional_cost' => 'Additional Cost',
+
 
 
 ];

@@ -187,20 +187,25 @@
         </li>
 
         <!-- Extended components -->
-        <li class="menu-item">
+        <li class="menu-item @if($slag == 5)  active @endif">
             <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div data-i18n="Extended UI">{{__('main.material_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 51)  active @endif">
                     <a href="{{route('materials')}}" class="menu-link">
                         <div data-i18n="Perfect Scrollbar">{{__('main.materials')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 52)  active @endif">
                     <a href="{{route('compositions')}}" class="menu-link">
                         <div data-i18n="Text Divider">{{__('main.compositions')}}</div>
+                    </a>
+                </li>
+                <li class="menu-item @if($subSlag == 53)  active @endif">
+                    <a href="{{route('create-compositions')}}" class="menu-link">
+                        <div data-i18n="Text Divider">{{__('main.composition_create')}}</div>
                     </a>
                 </li>
             </ul>

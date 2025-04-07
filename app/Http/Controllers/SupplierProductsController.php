@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SupplierProducts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierProductsController extends Controller
 {
@@ -44,9 +45,18 @@ class SupplierProductsController extends Controller
      * @param  \App\Models\SupplierProducts  $supplierProducts
      * @return \Illuminate\Http\Response
      */
-    public function show(SupplierProducts $supplierProducts)
+    public function show($id)
     {
-        //
+        $product = DB::table('supplier_products')
+            -> join('products' , 'products.id', '=', 'supplier_products.product_id')
+            -> join('suppliers' , 'suppliers.id', '=', 'supplier_products.supplier_id')
+            -> select('supplier_products.*' , 'products.name_ar' , 'products.name_en' ,
+                'products.mainImg' ,'suppliers.name as supplier_name' )
+            -> where ('supplier_products.id' , '=' , $id)
+            -> get() -> first();
+
+        echo  json_encode($product);
+        exit();
     }
 
     /**
@@ -78,8 +88,13 @@ class SupplierProductsController extends Controller
      * @param  \App\Models\SupplierProducts  $supplierProducts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SupplierProducts $supplierProducts)
+    public function destroy($id)
     {
-        //
+        $product = SupplierProducts::find($id);
+        if($product){
+            $product -> delete();
+            return redirect()->route('add_product_to_supplier')->with('success', __('main.deleted'));
+
+        }
     }
 }

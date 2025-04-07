@@ -146,7 +146,19 @@ return [
     'item' => 'الصنف',
     'search_item' => 'أبحث عن صنف',
     'price' => 'السعر',
-    'quantity' => 'الكمية'
+    'quantity' => 'الكمية',
+    'priceOfHundred' => 'سعر ال 100 وحدة',
+    'unit' => 'الوحدة',
+    'unit0' => 'مللي',
+    'unit1' => 'جرام',
+    'cost' => 'التكلفة',
+    'composition_create' => 'إنشاء تركيبة',
+    'formula_equation' => 'معادلة التركيب',
+    'material' => 'المادة الخام',
+    'search_material' => 'البحث في المواد الخام',
+    'total_cost' => 'إجمالي التكلفة',
+    'additional_cost' => 'تكاليف إضافية'
+
 
 
 
