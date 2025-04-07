@@ -40,6 +40,7 @@
                     <!-- Responsive Table -->
                     <div class="card">
                         <h5 class="card-header">{{__('main.product_list')}}</h5>
+                        @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>

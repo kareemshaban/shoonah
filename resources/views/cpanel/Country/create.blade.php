@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_ar') }}  </label>
+                                    <label>{{ __('main.name_ar') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
                                     <input type="text" name="name_ar" id="name_ar"
                                            class="form-control @error('name_ar') is-invalid @enderror"
                                            placeholder="{{ __('main.name_ar') }}" autofocus  required/>
@@ -35,10 +35,10 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_en') }}</label>
+                                    <label>{{ __('main.name_en') }} <span style="font-size: 14px ; color: red"> * </span> </label>
                                     <input type="text" name="name_en" id="name_en"
                                            class="form-control @error('name_en') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_en') }}" autofocus />
+                                           placeholder="{{ __('main.name_en') }}" autofocus  required/>
                                     @error('name_en')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div >
-                            <label for="img" class="col-form-label">{{ __('main.flag') }}:</label>
+                            <label for="img" class="col-form-label">{{ __('main.flag') }} <span style="font-size: 14px ; color: red"> * </span> </label>
                             <div class="row" style="display: flex; align-items: center;">
                                 <div class="col-6">
                                     <div class="custom-file">
@@ -94,6 +94,7 @@
                         $("#flag").change(function () {
                             readURL(this);
                         });
+
                     </script>
 
                 </div>

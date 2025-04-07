@@ -66,7 +66,7 @@
 
 
     .modelTitle {
-        color: #696cff ;
+        color: #B57E10 ;
         font-size: 20px;
     }
 

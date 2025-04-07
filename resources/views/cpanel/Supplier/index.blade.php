@@ -40,6 +40,7 @@
                     <!-- Responsive Table -->
                     <div class="card">
                         <h5 class="card-header">{{__('main.suppliers')}}</h5>
+                        @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -61,7 +62,7 @@
                                         <td class="text-center">{{$supplier -> name}}</td>
                                         <td class="text-center">{{$supplier -> company}}</td>
                                         <td class="text-center">
-                                            <div style="display: flex ; gap: 10px ; align-items: center; justify-content: center">
+                                            <div style="display: flex ; gap: 10px ; align-items: center; justify-content: start">
                                                 <img
                                                     src="{{ asset('images/country/' . $supplier->flag) }}" width="40"
                                                     height="40" style="border-radius: 50%" />
@@ -78,7 +79,7 @@
                                         <td class="text-center">{{$supplier -> mobile}}</td>
                                         <td class="text-center">
                                             @if($supplier -> type == 0)
-                                                <span class="badge bg-primary">{{__('main.supplier')}}</span>
+                                                <span class="badge bg-secondary">{{__('main.supplier')}}</span>
                                                 @else
                                                 <span class="badge bg-warning">{{__('main.factory')}}</span>
 
@@ -93,7 +94,7 @@
                                                 <i class='bx bxs-trash text-danger deleteBtn'   data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
                                                    id="{{$supplier -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                                 @if($supplier -> hasAccount == 0)
-                                                <i class='bx bxs-user-plus text-primary accountBtn'
+                                                <i class='bx bxs-user-plus text-info accountBtn'
                                                    data-toggle="tooltip" data-placement="top" title="{{__('main.create_Account')}}"
                                                    id="{{$supplier -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                                     @else

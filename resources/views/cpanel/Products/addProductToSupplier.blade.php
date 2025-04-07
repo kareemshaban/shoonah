@@ -42,6 +42,7 @@
                     <!-- Responsive Table -->
                     <div class="card">
                         <h5 class="card-header">{{__('main.add_product_to_supplier')}}</h5>
+                         @include('flash-message')
                         <form class="center" method="POST" action="{{ route('store_product_to_supplier') }}"
                               enctype="multipart/form-data" id="product-form">
                             @csrf
@@ -280,7 +281,7 @@
                                   </a>
                                 </li>`;
                         } else {
-                            html += `<li style="width: 100%">
+                            html += `<li style="width: 100%" id=${value.id} class="product-item">
                                       <a href="#" class="dropdown-item" style="display: flex; align-items: center;">
                                         <!-- Image -->
                                         <img src="${img}"  alt="image" style="width: 30px;  margin-right: 10px; margin-left: 10px">

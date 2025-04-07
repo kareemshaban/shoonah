@@ -20,7 +20,7 @@
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('main.department') }}  </label>
+                                    <label>{{ __('main.department') }} <span style="font-size: 14px ; color: red"> * </span> </label>
                                     <select type="text" name="department_id" id="department_id"
                                            class="form-control @error('department_id') is-invalid @enderror" autofocus  required>
                                         @foreach($departments as $department)
@@ -50,7 +50,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_ar') }}  </label>
+                                    <label>{{ __('main.name_ar') }}  <span style="font-size: 14px ; color: red"> * </span> </label>
                                     <input type="text" name="name_ar" id="name_ar"
                                            class="form-control @error('name_ar') is-invalid @enderror"
                                            placeholder="{{ __('main.name_ar') }}" autofocus  required/>
@@ -65,10 +65,10 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_en') }}</label>
+                                    <label>{{ __('main.name_en') }} <span style="font-size: 14px ; color: red"> * </span> </label>
                                     <input type="text" name="name_en" id="name_en"
                                            class="form-control @error('name_en') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_en') }}" autofocus />
+                                           placeholder="{{ __('main.name_en') }}" autofocus  required/>
                                     @error('name_en')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

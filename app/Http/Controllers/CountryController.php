@@ -44,8 +44,13 @@ class CountryController extends Controller
     {
         if($request -> id == 0){
 
-            $flag = time() . '.' . $request->flag->getClientOriginalExtension();
-            $request->flag->move(('images/country'), $flag);
+            if($request->flag){
+                $flag = time() . '.' . $request->flag->getClientOriginalExtension();
+                $request->flag->move(('images/country'), $flag);
+            } else {
+                $flag = 'default_flag.png' ;
+            }
+
 
             Country::create([
                 'name_ar' => $request -> name_ar ,

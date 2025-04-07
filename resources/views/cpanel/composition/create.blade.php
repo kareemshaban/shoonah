@@ -510,7 +510,7 @@
                             }
                             html += `<td class="text-center"> ${response.priceOfHundred} </td>`;
                             html += `<td class="text-center">
-                                 <input id="quantity"  name="quantity" type="number" step="any" class="form-control" required/>
+                                 <input id="quantity"  name="quantity"  type="number" step="any" class="form-control quantity" required/>
                              </td>`;
                             html += `<td class="text-center">
                                  <input id="materialCost"  name="materialCost" type="text" class="form-control" required readonly/>
@@ -534,7 +534,7 @@
                             }
                             html += `<td class="text-center"> ${response.priceOfHundred} </td>`;
                             html += `<td class="text-center">
-                                 <input id="quantity"  name="quantity" type="number" step="any"  class="form-control" required />
+                                 <input id="quantity"  name="quantity" type="number" step="any"  class="form-control quantity" required />
                              </td>`;
                             html += `<td class="text-center">
                                  <input id="materialCost"  name="materialCost" type="text"  class="form-control" required readonly/>
@@ -556,6 +556,20 @@
         });
 
     });
+
+    $(".quantity").change(function () {
+        let qnt = $(this).val();
+        calculateRowTotal(qnt);
+    });
+
+    $('.quantity').keyup(function (){
+        let qnt = $(this).val();
+        calculateRowTotal(qnt);
+    });
+
+    function calculateRowTotal(qnt){
+
+    }
 </script>
 </body>
 </html>

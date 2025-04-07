@@ -12,7 +12,7 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-               <h2 style="margin-bottom: 0 ;" class="text-primary"> SHOONAH - شونـة  </h2>
+               <img  src="{{asset('assets/img/shoonah_trans.png')}}" style="height: 80px" />
             </div>
         </div>
         <!-- /Search -->
