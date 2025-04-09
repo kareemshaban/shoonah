@@ -12,7 +12,7 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-               <img  src="{{asset('assets/img/shoonah_trans.png')}}" style="height: 80px" />
+               <img  src="{{asset('assets/img/shoonah_trans.png')}}" style="height: 40px" />
             </div>
         </div>
         <!-- /Search -->

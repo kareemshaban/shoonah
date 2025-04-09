@@ -157,7 +157,21 @@ return [
     'material' => 'المادة الخام',
     'search_material' => 'البحث في المواد الخام',
     'total_cost' => 'إجمالي التكلفة',
-    'additional_cost' => 'تكاليف إضافية'
+    'additional_cost' => 'تكاليف إضافية',
+    'notes' => 'ملاحظات',
+    'file' => 'ملف',
+    'must_enter_items' => 'يجب إضافة مادة خامة واحدة علي الأقل حتي تتمكن من إنشاء تركيبة',
+    'composition_edit' => 'تعديل بيانات تركيبة',
+    'newRequest' => 'طلب جديد',
+    'replied' => 'قيد التنفيذ',
+    'completed' => 'طلب مكتمل',
+    'canceled' => 'طلب ملغي',
+    'ref_no' => 'الرقم المرجعي',
+    'orderState' => 'حالة الطلب',
+    'request_ref_no' => 'رقم الطلب',
+    'notReplied' => 'في الانتظار',
+    'accepted' => 'مقبول',
+    'refused' => 'مرفوض'
 
 
 

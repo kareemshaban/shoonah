@@ -54,6 +54,7 @@
                                     <th class="text-center">{{__('main.department')}}</th>
                                     <th class="text-center">{{__('main.category')}}</th>
                                     <th class="text-center">{{__('main.cost')}}</th>
+                                    <th class="text-center">{{__('main.file')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
@@ -65,19 +66,28 @@
                                         <td class="text-center">{{$item -> name_en}}</td>
                                         <td class="text-center">
                                             @if(Config::get('app.locale')=='ar' )
-                                                {{$product -> department_ar}}
+                                                {{$item -> department_ar}}
                                             @else
-                                                {{$product -> department_en}}
+                                                {{$item -> department_en}}
                                             @endif
                                         </td>
                                         <td class="text-center">
                                             @if(Config::get('app.locale')=='ar' )
-                                                {{$product -> category_ar}}
+                                                {{$item -> category_ar}}
                                             @else
-                                                {{$product -> category_en}}
+                                                {{$item -> category_en}}
                                             @endif
                                         </td>
-                                        <td class="text-center">{{$item -> cost}}</td>
+                                        <td class="text-center">{{$item -> total_cost}}</td>
+                                        <td class="text-center">
+                                            @if($item -> file != "")
+                                           <a href="{{ asset('images/compositions/' . $item->file) }}" target="_blank">
+                                               <img src="{{asset('assets/img/pdf.png')}}" width="50" />
+                                           </a>
+                                                @else
+                                                <span>NO_FILE</span>
+                                            @endif
+                                        </td>
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <a href="{{route('edit-compositions' , $item -> id)}}">

@@ -111,6 +111,7 @@ Route::group(
         Route::post('/update-compositions', [App\Http\Controllers\CompositionController::class, 'update'])->name('update-compositions');
         Route::get('/getCompositionsCode', [App\Http\Controllers\CompositionController::class, 'getCompositionsCode'])->name('getCompositionsCode');
         Route::get('/materialAutoComplete/{name}', [App\Http\Controllers\CompositionController::class, 'materialAutoComplete'])->name('materialAutoComplete');
+        Route::get('/getCompositionsItems/{id}', [App\Http\Controllers\CompositionController::class, 'getCompositionsItems'])->name('getCompositionsItems');
 
 
 

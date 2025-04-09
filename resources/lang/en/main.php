@@ -153,7 +153,17 @@ return [
     'search_material' => 'Search in Materials',
     'total_cost' => 'Total Cost',
     'additional_cost' => 'Additional Cost',
-
+    'notes' => 'Notes',
+    'file' => 'File',
+    'must_enter_items' => 'At least one raw material must be added in order to create a formula.',
+    'composition_edit' => '‘Update Composition',
+    'newRequest' => 'New Request',
+    'replied' => 'InProgress',
+    'completed' => 'Completed',
+    'canceled' => 'Canceled',
+    'ref_no' => 'Ref. No.',
+    'orderState' => 'Request State',
+    'request_ref_no' => 'Request Ref. No.',
 
 
 ];

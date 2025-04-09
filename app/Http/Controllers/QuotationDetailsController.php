@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuotationRequest;
+use App\Models\QuotationDetails;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class QuotationRequestController extends Controller
+class QuotationDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +14,7 @@ class QuotationRequestController extends Controller
      */
     public function index()
     {
-       $quotationRequests = DB::table('quotation_requests')
-           -> join('clients' , 'clients.id' , '=' , 'quotation_requests.client_id')
-           -> join('suppliers' , 'suppliers.id' , '=' , 'quotation_requests.supplier_id')
-           -> select('quotation_requests.*' , 'clients.name as client' , 'suppliers.name as supplier')
-           -> get();
-       return view('cpanel.Requests.index', compact('quotationRequests'));
+        //
     }
 
     /**
@@ -47,10 +41,10 @@ class QuotationRequestController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\QuotationRequest  $quotationRequest
+     * @param  \App\Models\QuotationDetails  $quotationDetails
      * @return \Illuminate\Http\Response
      */
-    public function show(QuotationRequest $quotationRequest)
+    public function show(QuotationDetails $quotationDetails)
     {
         //
     }
@@ -58,10 +52,10 @@ class QuotationRequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\QuotationRequest  $quotationRequest
+     * @param  \App\Models\QuotationDetails  $quotationDetails
      * @return \Illuminate\Http\Response
      */
-    public function edit(QuotationRequest $quotationRequest)
+    public function edit(QuotationDetails $quotationDetails)
     {
         //
     }
@@ -70,10 +64,10 @@ class QuotationRequestController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QuotationRequest  $quotationRequest
+     * @param  \App\Models\QuotationDetails  $quotationDetails
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuotationRequest $quotationRequest)
+    public function update(Request $request, QuotationDetails $quotationDetails)
     {
         //
     }
@@ -81,10 +75,10 @@ class QuotationRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\QuotationRequest  $quotationRequest
+     * @param  \App\Models\QuotationDetails  $quotationDetails
      * @return \Illuminate\Http\Response
      */
-    public function destroy(QuotationRequest $quotationRequest)
+    public function destroy(QuotationDetails $quotationDetails)
     {
         //
     }

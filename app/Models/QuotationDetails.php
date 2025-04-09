@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Quotation extends Model
+class QuotationDetails extends Model
 {
     use HasFactory;
 
     protected $fillable = [
       'id',
-      'request_id',
-      'ref_no',
-      'supplier_id',
-      'client_id',
-      'date',
+      'quotation_id',
+      'item_id',
+      'quantity',
+      'price',
       'total',
-      'discount',
-      'net',
       'notes'
     ];
 }

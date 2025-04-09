@@ -10,6 +10,7 @@ class Composition extends Model
     use HasFactory;
     protected $fillable = [
       'id',
+      'code',
       'name_ar',
       'name_en',
       'department_id',
@@ -20,6 +21,8 @@ class Composition extends Model
       'formula_equation',
       'description_ar',
       'description_en',
+        'notes',
+        'file',
         'user_ins',
         'user_upd'
     ];

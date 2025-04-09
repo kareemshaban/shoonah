@@ -20,7 +20,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 2 , 'subSlag' => 22])
+        @include('layouts.sidebar' , ['slag' => 7 , 'subSlag' => 71])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -38,7 +38,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.factory_department')}} /</span> {{__('main.supplier_rate')}}
+                            <span class="text-muted fw-light">{{__('main.quotations_list')}} /</span> {{__('main.quotations')}}
                         </h4>
                     </div>
 
@@ -46,42 +46,47 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.supplier_rate')}}</h5>
+                        <h5 class="card-header">{{__('main.quotations')}}</h5>
                         @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
+                                    <th class="text-center"> {{__('main.ref_no')}}</th>
+                                    <th class="text-center"> {{__('main.request_ref_no')}}</th>
+                                    <th class="text-center"> {{__('main.date')}}</th>
                                     <th class="text-center"> {{__('main.client')}}</th>
                                     <th class="text-center">{{__('main.supplier')}}</th>
-                                    <th class="text-center">{{__('main.review')}}</th>
-                                    <th class="text-center">{{__('main.comment')}}</th>
-                                    <th class="text-center">{{__('main.date')}}</th>
+                                    <th class="text-center">{{__('main.orderState')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($reviews as $review)
+                                @foreach($quotations as $request)
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
-                                        <td class="text-center">{{$review -> client}}</td>
-                                        <td class="text-center">{{$review -> supplier}}</td>
-                                        <td class="text-center"> {{$review -> review}} </td>
+                                        <td class="text-center">{{$request -> ref_no}}</td>
+                                        <td class="text-center">{{$request -> request_ref_no}}</td>
+                                        <td class="text-center">{{\Carbon\Carbon::parse($request -> date) ->format('Y-m-d')}} </td>
+                                        <td class="text-center"> {{$request -> client}} </td>
+                                        <td class="text-center"> {{$request -> supplier}} </td>
                                         <td class="text-center">
-                                            <div class="wrapper">
-                                                <p class="demo-1">{{$review -> comment}}</p>
-                                            </div>
+                                            @if($request -> state == 0)
+                                                <span class="badge bg-warning">{{__('main.notReplied')}}</span>
+                                            @elseif($request -> state == 1)
+                                                <span class="badge bg-success">{{__('main.accepted')}}</span>
+                                            @elseif($request -> state == 2)
+                                                <span class="badge bg-danger">{{__('main.refused')}}</span>
+                                            @endif
                                         </td>
-                                        <td class="text-center"> {{\Carbon\Carbon::parse($review -> created_at) ->format('Y-m-d')}} </td>
 
 
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <i class='bx bx-show text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.view_action')}}"
-                                                   id="{{$review -> id}}" style="font-size: 25px ; cursor: pointer"></i>
-                                                <i class='bx bxs-trash text-danger deleteBtn'   data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
-                                                   id="{{$review -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                   id="{{$request -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+
 
                                             </div>
                                         </td>
@@ -111,8 +116,7 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.Review.view')
-@include('cpanel.Review.deleteModal')
+@include('cpanel.Requests.view')
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;

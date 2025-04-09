@@ -164,26 +164,26 @@
         <!-- Forms & Tables -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">{{__('main.quotations_department')}}</span></li>
         <!-- Forms -->
-        <li class="menu-item">
+        <li class="menu-item @if($slag == 6)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Elements">{{__('main.quotations_request_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if($slag == 61)  active @endif">
                     <a href="{{route('quotationRequests')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_requests')}}</div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item @if($slag == 7)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Layouts">{{__('main.quotations_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if($slag == 71)  active @endif">
                     <a href="{{route('quotations')}}" class="menu-link">
                         <div data-i18n="Vertical Form">{{__('main.quotations')}}</div>
                     </a>

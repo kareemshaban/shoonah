@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Composition;
+use App\Models\CompositionDetails;
 use App\Models\Department;
 use App\Models\Material;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CompositionController extends Controller
@@ -18,7 +21,15 @@ class CompositionController extends Controller
      */
     public function index()
     {
-        $data = Composition::all();
+        $data = DB::table("compositions")
+            -> join('categories' , 'categories.id', '=', 'compositions.category_id')
+            -> join('departments' , 'departments.id', '=', 'compositions.department_id')
+            -> select('compositions.*' ,
+                'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
+                'departments.name_ar as department_ar' , 'departments.name_en as department_en')
+            ->get();
+
+
         return view('cpanel.composition.index', compact('data'));
     }
 
@@ -42,7 +53,50 @@ class CompositionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+     //   return $request ;
+        if($request->file) {
+            $pdf = time() . 'pdf' . '.' . $request->file->getClientOriginalExtension();
+            $request->file->move(('images/compositions'), $pdf);
+        } else {
+            $pdf   = "" ;
+        }
+
+       $id =  Composition::create([
+            'code' => $request -> code ,
+            'name_ar' => $request -> name_ar,
+            'name_en' => $request -> name_en,
+            'department_id' => $request -> department_id,
+            'category_id' => $request -> category_id,
+            'cost' => $request -> cost,
+            'additional_cost' => $request -> additional_cost ?? 0,
+            'total_cost' => $request -> total_cost,
+            'formula_equation' => $request -> formula_equation ?? "",
+            'description_ar' => $request -> description_ar ?? "" ,
+            'description_en' => $request -> description_en ?? "" ,
+            'notes' => $request -> notes ?? "" ,
+            'file' => $pdf,
+            'user_ins' => Auth::user() -> id
+        ]) -> id;
+
+        $this -> storeDetails($request , $id);
+
+        return redirect()->route('compositions')->with('success', __('main.saved'));
+    }
+
+    public function storeDetails(Request $request , $id){
+        $details = CompositionDetails::where('composition_id' , '=' , $id) -> get();
+        foreach ($details as $detail){
+            $detail -> delete();
+        }
+        for ($i = 0 ; $i < count($request -> material_id ) ; $i++){
+            CompositionDetails::create([
+                'composition_id' => $id,
+                'material_id' => $request -> material_id[$i],
+                'quantity' => $request -> quantity[$i],
+                'cost' => $request -> materialCost[$i]
+            ]);
+
+        }
     }
 
     /**
@@ -62,9 +116,13 @@ class CompositionController extends Controller
      * @param  \App\Models\Composition  $composition
      * @return \Illuminate\Http\Response
      */
-    public function edit(Composition $composition)
+    public function edit($id)
     {
-        //
+        $item = Composition::find($id);
+
+        $departments = Department::all();
+
+        return view('cpanel.composition.edit', compact('departments' , 'item' ));
     }
 
     /**
@@ -74,9 +132,42 @@ class CompositionController extends Controller
      * @param  \App\Models\Composition  $composition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Composition $composition)
+    public function update(Request $request)
     {
-        //
+        $item = Composition::find($request -> id) ;
+        if($item) {
+            if($request->file) {
+                $pdf = time() . 'pdf' . '.' . $request->file->getClientOriginalExtension();
+                $request->file->move(('images/compositions'), $pdf);
+            } else {
+                if($request -> isFileRemoved == 0){
+                    $pdf   =   $item -> file; 
+                } else {
+                    $pdf   =   "" ;
+                }
+
+            }
+            $item -> update([
+                'code' => $request -> code ,
+                'name_ar' => $request -> name_ar,
+                'name_en' => $request -> name_en,
+                'department_id' => $request -> department_id,
+                'category_id' => $request -> category_id,
+                'cost' => $request -> cost,
+                'additional_cost' => $request -> additional_cost ?? 0,
+                'total_cost' => $request -> total_cost,
+                'formula_equation' => $request -> formula_equation ?? "",
+                'description_ar' => $request -> description_ar ?? "" ,
+                'description_en' => $request -> description_en ?? "" ,
+                'notes' => $request -> notes ?? "" ,
+                'file' => $pdf,
+                'user_upd' => Auth::user() -> id
+            ]);
+
+            $this -> storeDetails($request , $request -> id);
+
+            return redirect()->route('compositions')->with('success', __('main.updated'));
+        }
     }
 
     /**
@@ -85,9 +176,19 @@ class CompositionController extends Controller
      * @param  \App\Models\Composition  $composition
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Composition $composition)
+    public function destroy($id)
     {
-        //
+        $item = Composition::find($id);
+        if($item) {
+            $details = CompositionDetails::where('composition_id' , '=' , $id) -> get();
+            foreach ($details as $detail){
+                $detail -> delete();
+            }
+            $item -> delete();
+            return redirect()->route('compositions')->with('success', __('main.deleted'));
+
+
+        }
     }
 
     public function getCompositionsCode(){
@@ -108,5 +209,16 @@ class CompositionController extends Controller
             -> orWhere("name_en" , "LIKE" , "%{$name}%")
             -> take(10)
             -> get();
+    }
+
+    public function getCompositionsItems($id)
+    {
+        $details = DB::table('compositionsdetails')
+            -> join('materials' , 'materials.id', '=', 'compositionsdetails.material_id')
+            -> select('compositionsdetails.*' , 'materials.name_ar as material_name_ar' ,
+                'materials.name_en as material_name_en' , 'materials.unit_id' , 'materials.priceOfHundred')
+            -> where('compositionsdetails.composition_id' , '=' , $id) -> get();
+        echo json_encode($details);
+        exit();
     }
 }

@@ -32,7 +32,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-2 me-2">
-                            <span class="text-muted fw-light">{{__('main.material_list')}} /</span> {{__('main.composition_create')}}
+                            <span class="text-muted fw-light">{{__('main.material_list')}} /</span> {{__('main.composition_edit')}}
                         </h4>
                         <button type="button" class="btn btn-primary mb-2 ms-2"  id="saveButton"
                                 style="height: 45px" onclick="valdiateForm()">
@@ -45,16 +45,17 @@
                     <!-- Responsive Table -->
                     <div class="card">
                         <h5 class="card-header">{{__('main.composition_create')}}</h5>
-                        <form class="center" method="POST" action="{{ route('store-composition') }}"
+                        <form class="center" method="POST" action="{{ route('update-compositions') }}"
                               enctype="multipart/form-data" id="product-form">
                         @csrf
                             <div class="container-fluid" style="padding-bottom: 30px;">
+                                <input type="hidden" name="id" id="id"  value="{{$item -> id}}" />
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
                                     <div class="form-group">
                                         <label> {{__('main.code')}}  <span style="color: red ; font-size: 14px" > * </span></label>
                                         <input name="code" id="code" class="form-control @error('code') is-invalid @enderror"
-                                               autofocus  required  placeholder="{{ __('main.code') }}" readonly/>
+                                               autofocus  required  placeholder="{{ __('main.code') }}" readonly value="{{$item -> code}}"/>
                                         @error('code')
                                             <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -69,7 +70,8 @@
                                         <select type="text" name="department_id" id="department_id"
                                                 class="form-control @error('department_id') is-invalid @enderror" autofocus  required>
                                             @foreach($departments as $department)
-                                                <option value="{{$department -> id}}">
+                                                <option value="{{$department -> id}}"
+                                                @if($department -> id == $item -> department_id ) selected @endif>
                                                     @if(Config::get('app.locale')=='ar' )
                                                         {{$department -> name_ar}}
                                                     @else
@@ -91,6 +93,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
                                     <div class="form-group">
+                                        <input type="hidden"  name="cat_id" id="cat_id" value="{{$item -> category_id}}" />
                                         <label>{{ __('main.category') }}  <span style="color: red ; font-size: 14px" > * </span> </label>
                                         <select type="text" name="category_id" id="category_id"
                                                 class="form-control @error('category_id') is-invalid @enderror" autofocus  required>
@@ -110,7 +113,7 @@
                                     <div class="form-group">
                                         <label>{{ __('main.name_ar') }} <span style="color: red ; font-size: 14px" > * </span> </label>
                                         <input  name="name_ar" id="name_ar" class="form-control @error('name_ar') is-invalid @enderror"
-                                                autofocus  required  placeholder="{{ __('main.name_ar') }}"/>
+                                                autofocus  required  placeholder="{{ __('main.name_ar') }}" value="{{$item -> name_ar}}"/>
                                         @error('name_ar')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -124,7 +127,7 @@
                                     <div class="form-group">
                                         <label>{{ __('main.name_en') }} <span style="color: red ; font-size: 14px" > * </span>  </label>
                                         <input  name="name_en" id="name_en" class="form-control @error('name_en') is-invalid @enderror"
-                                                autofocus  required  placeholder="{{ __('main.name_en') }}"/>
+                                                autofocus  required  placeholder="{{ __('main.name_en') }}"  value="{{$item -> name_en}}"/>
                                         @error('name_en')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -138,7 +141,7 @@
                                     <div class="form-group">
                                         <label>{{ __('main.description_ar') }}  </label>
                                         <textarea  name="description_ar" id="description_ar" class="form-control @error('description_ar') is-invalid @enderror"
-                                                   autofocus    rows="3" placeholder="{{ __('main.description_ar') }}"> </textarea>
+                                                   autofocus    rows="3" placeholder="{{ __('main.description_ar') }}"> {{$item ->description_ar }} </textarea>
                                         @error('description_ar')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -152,7 +155,7 @@
                                     <div class="form-group">
                                         <label>{{ __('main.description_en') }}  </label>
                                         <textarea  name="description_en" id="description_en" class="form-control @error('description_en') is-invalid @enderror"
-                                                   autofocus    rows="3" placeholder="{{ __('main.description_en') }}"> </textarea>
+                                                   autofocus    rows="3" placeholder="{{ __('main.description_en') }}"> {{$item ->description_en }} </textarea>
                                         @error('description_en')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -166,7 +169,7 @@
                                     <div class="form-group">
                                         <label>{{ __('main.formula_equation') }}  </label>
                                         <textarea  name="formula_equation" id="formula_equation" class="form-control @error('formula_equation') is-invalid @enderror"
-                                                   autofocus    rows="3" placeholder="{{ __('main.formula_equation') }}"> </textarea>
+                                                   autofocus    rows="3" placeholder="{{ __('main.formula_equation') }}"> {{$item ->formula_equation }} </textarea>
                                         @error('formula_equation')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -183,9 +186,12 @@
                                             <img src="{{asset('assets/img/pdf.png')}}" class="pickerImg" id="mainImg_img"
                                                  onclick="pickImg()">
                                         </div>
-                                        <div style="display: none ; gap: 10px ; align-items: center ;" id="path-delete">
-                                            <label id="path" style="font-size: 12px ; color: grey ;text-align: center;"></label>
+                                        <div style="@if($item -> file == '') display: none ; @else display: flex ; @endif  gap: 10px ; align-items: center ;" id="path-delete">
+                                            <label id="path" style="font-size: 12px ; color: grey ;text-align: center;">
+                                            <a href="{{ asset('images/compositions/' . $item->file) }}" target="_blank"> {{$item -> file}} </a>
+                                            </label>
                                             <i class='bx bxs-trash text-danger' onclick="deleteFile()" style="font-size: 20px ; cursor: pointer"></i>
+                                            <input type="hidden" id="isFileRemoved" name="isFileRemoved" value="0">
                                         </div>
 
                                         <input class="form-control" hidden="hidden" type="file" id="file" name="file"
@@ -251,7 +257,7 @@
                                     <div class="form-group">
                                         <label> {{__('main.cost')}}  <span style="color: red ; font-size: 14px" > * </span></label>
                                         <input name="cost" id="cost" class="form-control @error('cost') is-invalid @enderror"
-                                               autofocus  required  placeholder="{{ __('main.code') }}" readonly/>
+                                               autofocus  required  placeholder="{{ __('main.code') }}" readonly value="{{$item -> cost}}"/>
                                         @error('cost')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -265,7 +271,7 @@
                                         <label>{{ __('main.additional_cost') }} <span style="color: red ; font-size: 14px" > * </span> </label>
                                         <input type="number" step="any" name="additional_cost" id="additional_cost"
                                                 class="form-control @error('additional_cost') is-invalid @enderror"
-                                               autofocus  required />
+                                               autofocus  required value="{{$item -> additional_cost}}"/>
 
                                         @error('additional_cost')
                                         <span class="invalid-feedback" role="alert">
@@ -281,7 +287,7 @@
                                         <label>{{ __('main.total_cost') }} <span style="color: red ; font-size: 14px" > * </span> </label>
                                         <input type="number" step="any" name="total_cost" id="total_cost"
                                                class="form-control @error('total_cost') is-invalid @enderror"
-                                               autofocus  required readonly />
+                                               autofocus  required readonly value="{{$item -> total_cost}}"/>
 
                                         @error('total_cost')
                                         <span class="invalid-feedback" role="alert">
@@ -299,7 +305,7 @@
                                             <label>{{ __('main.notes') }}  </label>
                                             <textarea type="text"  name="notes" id="notes" rows="3"
                                                    class="form-control @error('notes') is-invalid @enderror"
-                                                   autofocus  > </textarea>
+                                                   autofocus  > {{$item -> notes}} </textarea>
 
                                             @error('notes')
                                             <span class="invalid-feedback" role="alert">
@@ -343,22 +349,34 @@
     var items = [] ;
     var deleted_index = -1 ;
     $( document ).ready(function() {
+
+        // ajax request to get items !
         $.ajax({
             type:'get',
-            url:'/getCompositionsCode',
+            url:'/getCompositionsItems' + '/' + $('#id').val(),
             dataType: 'json',
             success:function(response){
                 console.log(response);
-                if(response){
-                    $('#code').val(response);
+                var item = {} ;
+                for(let i = 0 ; i < response.length ; i++){
+                     item = {
+                        'material_id': response[i].material_id,
+                        'name': lang == 'ar' ? response[i].material_name_ar : response[i].material_name_en,
+                        'unit_id': response[i].unit_id ,
+                        'priceOfHundred': response[i].priceOfHundred ,
+                        'quantity': response[i].quantity ,
+                        'materialCost': response[i].cost ,
+                    }
+                    items.push(item);
                 }
+                setItems(1);
+                console.log(items);
 
             }
         });
 
-        $('#cost').val(0);
-        $('#additional_cost').val(0);
-        $('#total_cost').val(0);
+
+
         $('#item').val("");
         $('#product-list').html("");
         $("#additional_cost").change(function () {
@@ -377,7 +395,7 @@
         getDepartmentCategories($('#department_id').val());
 
         $("#department_id").change(function () {
-            console.log(this.value);
+
             getDepartmentCategories(this.value);
         });
 
@@ -461,12 +479,20 @@
             success:function(response){
                 console.log(response);
                 $('#category_id').empty();
+                let cat_id = $('#cat_id').val();
                 var translatedText = "{{ __('main.choose') }}";
-                $('<option/>').val("").html(translatedText).appendTo('#category_id');
+
+                $('<option />').val("").html(translatedText).appendTo('#category_id');
 
                 if(response){
                     for (var i=0;i<response.length;i++){
-                        $('<option/>').val(response[i].id).html(response[i].name_ar).appendTo('#category_id');
+                        if(cat_id == response[i].id){
+                            $('<option selected/>').val(response[i].id).html(response[i].name_ar).appendTo('#category_id');
+
+                        } else {
+                            $('<option />').val(response[i].id).html(response[i].name_ar).appendTo('#category_id');
+
+                        }
                     }
 
 
@@ -682,9 +708,11 @@
             const file = this.files[0];
             $('#path').html(file.name);
             document.getElementById('path-delete').style.display = 'flex';
+            $("#isFileRemoved").val(0);
          } else {
             $('#path').html('');
             document.getElementById('path-delete').style.display = 'none';
+            $("#isFileRemoved").val(1);
         }
     });
 
@@ -692,7 +720,10 @@
         document.getElementById('file').value = '';
         $('#path').html('');
         document.getElementById('path-delete').style.display = 'none';
+        $("#isFileRemoved").val(1);
     }
+
+
 
 </script>
 </body>

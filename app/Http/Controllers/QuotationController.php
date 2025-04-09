@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuotationController extends Controller
 {
@@ -14,7 +15,14 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        //
+        $quotations = DB::table('quotations')
+            -> join('quotation_requests' , 'quotation_requests.id' , '=' , 'quotations.request_id')
+            -> join('clients' , 'clients.id' , '=' , 'quotations.client_id')
+            -> join('suppliers' , 'suppliers.id' , '=' , 'quotations.supplier_id')
+            -> select('quotations.*' , 'clients.name as client' , 'suppliers.name as supplier' ,
+                'quotation_requests.reference_no as request_ref_no')
+            -> get();
+        return view('cpanel.Quotations.index', compact('quotations'));
     }
 
     /**
