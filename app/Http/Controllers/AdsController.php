@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ads;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdsController extends Controller
 {
@@ -14,7 +15,8 @@ class AdsController extends Controller
      */
     public function index()
     {
-        //
+        $ads = Ads::all();
+        return view('cpanel.Ads.index' , compact('ads'));
     }
 
     /**
@@ -35,7 +37,26 @@ class AdsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request -> id == 0){
+            if($request->banner){
+                $bnanner = time() . '.' . $request->banner->getClientOriginalExtension();
+                $request->banner->move(('images/banner'), $request);
+            } else {
+                $bnanner = '' ;
+            }
+            Ads::create([
+                'banner' => $bnanner,
+                'type' => $request -> type,
+                'order' => $request -> order,
+                'url' => $request -> url,
+                'item_id' => $request -> item_id,
+                'isVisible' => $request -> isVisible,
+                'user_ins' => Auth::user() -> id,
+            ]);
+            return redirect()->route('ads')->with('success', __('main.saved'));
+        } else {
+            return $this -> update($request);
+        }
     }
 
     /**
@@ -44,9 +65,11 @@ class AdsController extends Controller
      * @param  \App\Models\Ads  $ads
      * @return \Illuminate\Http\Response
      */
-    public function show(Ads $ads)
+    public function show($id)
     {
-        //
+        $ad = Ads::find($id);
+        echo json_encode($ad);
+        exit();
     }
 
     /**
@@ -67,9 +90,28 @@ class AdsController extends Controller
      * @param  \App\Models\Ads  $ads
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ads $ads)
+    public function update(Request $request)
     {
-        //
+        $ad = Ads::find($request -> id);
+        if($ad){
+            if($request->banner){
+                $bnanner = time() . '.' . $request->banner->getClientOriginalExtension();
+                $request->flag->move(('images/banner'), $bnanner);
+            } else {
+                $bnanner  =  $country -> banner ;
+            }
+
+            $ad -> update([
+                'banner' => $bnanner,
+                'type' => $request -> type,
+                'order' => $request -> order,
+                'url' => $request -> url,
+                'item_id' => $request -> item_id,
+                'isVisible' => $request -> isVisible,
+                'user_upd' => Auth::user() -> id,
+            ]);
+            return redirect()->route('ads')->with('success', __('main.updated'));
+        }
     }
 
     /**
@@ -78,8 +120,12 @@ class AdsController extends Controller
      * @param  \App\Models\Ads  $ads
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ads $ads)
+    public function destroy($id)
     {
-        //
+        $ad = Ads::find($id);
+        if($ad){
+            $ad -> delete();
+            return redirect()->route('ads')->with('success', __('main.deleted'));
+        }
     }
 }

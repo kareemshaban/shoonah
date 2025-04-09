@@ -127,9 +127,21 @@ Route::group(
 
         Route::get('/rates', [App\Http\Controllers\SupplierController::class, 'rates'])->name('rates');
 
-        Route::get('/globalNews', [App\Http\Controllers\NewsController::class, 'index'])->name('globalNews');
+        Route::get('/gi', [App\Http\Controllers\NewsController::class, 'index'])->name('globalNews');
+        Route::post('/store-New', [App\Http\Controllers\NewsController::class, 'store'])->name('store-New');
+        Route::get('/deleteNew/{id}', [App\Http\Controllers\NewsController::class, 'destroy'])->name('deleteNew');
+        Route::get('/edit-New/{id}', [App\Http\Controllers\NewsController::class, 'edit'])->name('edit-New');
+        Route::get('/create-New', [App\Http\Controllers\NewsController::class, 'create'])->name('create-New');
+        Route::post('/update-New', [App\Http\Controllers\NewsController::class, 'update'])->name('update-New');
+
 
         Route::get('/ads', [App\Http\Controllers\AdsController::class, 'index'])->name('ads');
+        Route::post('/store-ad', [App\Http\Controllers\AdsController::class, 'store'])->name('store-ad');
+        Route::get('/getAd/{id}', [App\Http\Controllers\AdsController::class, 'show'])->name('getAd');
+        Route::get('/deleteAd/{id}', [App\Http\Controllers\AdsController::class, 'destroy'])->name('deleteAd');
+
+
+
 
         Route::get('/visit_reports', [App\Http\Controllers\RewardController::class, 'visit_reports'])->name('visit_reports');
 

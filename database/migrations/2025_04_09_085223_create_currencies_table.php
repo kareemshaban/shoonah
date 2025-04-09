@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdsTable extends Migration
+class CreateCurrenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateAdsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ads', function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table -> string('banner');
-            $table -> integer('type');
-            $table -> integer('order');
-            $table -> string('url');
-            $table -> integer('item_id');
-            $table -> integer('isVisible');
+            $table -> string('name_ar');
+            $table -> string('name_en');
+            $table -> string('symbol');
+            $table -> integer('isDefault');
             $table -> integer('user_ins') -> default(0);
             $table -> integer('user_upd') -> default(0);
             $table->timestamps();
@@ -34,6 +32,6 @@ class CreateAdsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads');
+        Schema::dropIfExists('currencies');
     }
 }
