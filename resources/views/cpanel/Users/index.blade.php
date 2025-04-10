@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 1 , 'subSlag' => 12])
+        @include('layouts.sidebar' , ['slag' => 11 , 'subSlag' => 111])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,7 +27,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.basicData')}} /</span> {{__('main.cities')}}
+                            <span class="text-muted fw-light">{{__('main.users_list')}} /</span> {{__('main.users')}}
                         </h4>
                         <button type="button" class="btn btn-primary"  id="createButton" style="height: 45px">
                             {{__('main.add_new')}}  <span class="tf-icons bx bx-plus"></span>&nbsp;
@@ -39,35 +39,35 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.countries')}}</h5>
+                        <h5 class="card-header">{{__('main.users')}}</h5>
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> {{__('main.name_ar')}}</th>
-                                    <th class="text-center">{{__('main.name_en')}}</th>
-                                    <th class="text-center">{{__('main.country_ar')}}</th>
-                                    <th class="text-center">{{__('main.country_en')}}</th>
+                                    <th class="text-center"> {{__('main.name')}}</th>
+                                    <th class="text-center">{{__('main.role')}}</th>
+                                    <th class="text-center">{{__('main.email')}}</th>
+                                    <th class="text-center">{{__('main.type')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($cities as $city)
+                                @foreach($users as $user)
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
-                                        <td class="text-center">{{$city -> name_ar}}</td>
-                                        <td class="text-center">{{$city -> name_en}}</td>
-                                        <td class="text-center">{{$city -> country_name_ar}}</td>
-                                        <td class="text-center">{{$city -> country_name_en}}</td>
+                                        <td class="text-center">{{$user -> name}}</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">{{$user -> email}}</td>
+                                        <td class="text-center">{{$user -> type}}</td>
 
 
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <i class='bx bxs-edit-alt text-success editBtn'  data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
-                                                   id="{{$city -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                   id="{{$user -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                                 <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
-                                                   id="{{$city -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                   id="{{$user -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                             </div>
                                         </td>
                                     </tr>
@@ -96,8 +96,8 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.City.create')
-@include('cpanel.City.deleteModal')
+@include('cpanel.Users.create')
+@include('cpanel.Users.deleteModal')
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;

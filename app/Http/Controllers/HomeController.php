@@ -35,7 +35,8 @@ class HomeController extends Controller
 
     public function users()
     {
-
+         $users = User::all();
+         return view('cpanel.Users.index' , compact('users'));
     }
     public function storeUser(Request $request)
     {
