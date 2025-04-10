@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ads;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,8 @@ class AdsController extends Controller
     public function index()
     {
         $ads = Ads::all();
-        return view('cpanel.Ads.index' , compact('ads'));
+        $items = Product::all();
+        return view('cpanel.Ads.index' , compact('ads' , 'items'));
     }
 
     /**
@@ -40,7 +42,7 @@ class AdsController extends Controller
         if($request -> id == 0){
             if($request->banner){
                 $bnanner = time() . '.' . $request->banner->getClientOriginalExtension();
-                $request->banner->move(('images/banner'), $request);
+                $request->banner->move(('images/banner'), $bnanner);
             } else {
                 $bnanner = '' ;
             }
@@ -48,8 +50,8 @@ class AdsController extends Controller
                 'banner' => $bnanner,
                 'type' => $request -> type,
                 'order' => $request -> order,
-                'url' => $request -> url,
-                'item_id' => $request -> item_id,
+                'url' => $request -> url ?? "",
+                'item_id' => $request -> item_id ?? 0,
                 'isVisible' => $request -> isVisible,
                 'user_ins' => Auth::user() -> id,
             ]);
@@ -98,15 +100,15 @@ class AdsController extends Controller
                 $bnanner = time() . '.' . $request->banner->getClientOriginalExtension();
                 $request->flag->move(('images/banner'), $bnanner);
             } else {
-                $bnanner  =  $country -> banner ;
+                $bnanner  =  $ad -> banner ;
             }
 
             $ad -> update([
                 'banner' => $bnanner,
                 'type' => $request -> type,
                 'order' => $request -> order,
-                'url' => $request -> url,
-                'item_id' => $request -> item_id,
+                'url' => $request -> url ?? "",
+                'item_id' => $request -> item_id ?? 0,
                 'isVisible' => $request -> isVisible,
                 'user_upd' => Auth::user() -> id,
             ]);

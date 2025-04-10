@@ -43,6 +43,11 @@
                         <div data-i18n="Without navbar">{{__('main.cities')}}</div>
                     </a>
                 </li>
+                <li class="menu-item @if($subSlag == 13)  active @endif">
+                    <a href="{{route('currencies')}}" class="menu-link">
+                        <div data-i18n="Without navbar">{{__('main.currencies')}}</div>
+                    </a>
+                </li>
 
             </ul>
         </li>
@@ -170,7 +175,7 @@
                 <div data-i18n="Form Elements">{{__('main.quotations_request_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if($slag == 61)  active @endif">
+                <li class="menu-item @if($subSlag == 61)  active @endif">
                     <a href="{{route('quotationRequests')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_requests')}}</div>
                     </a>
@@ -183,7 +188,7 @@
                 <div data-i18n="Form Layouts">{{__('main.quotations_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if($slag == 71)  active @endif">
+                <li class="menu-item @if($subSlag == 71)  active @endif">
                     <a href="{{route('quotations')}}" class="menu-link">
                         <div data-i18n="Vertical Form">{{__('main.quotations')}}</div>
                     </a>
@@ -194,26 +199,31 @@
 
         <li class="menu-header small text-uppercase"><span class="menu-header-text">{{__('main.news_ads_department')}}</span></li>
         <!-- Forms -->
-        <li class="menu-item">
+        <li class="menu-item @if($slag == 8)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Elements">{{__('main.news_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item  @if($subSlag == 81)  active @endif">
                     <a href="{{route('globalNews')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.news')}}</div>
                     </a>
                 </li>
+                <li class="menu-item  @if($subSlag == 82)  active @endif">
+                    <a href="{{route('create-New')}}" class="menu-link">
+                        <div data-i18n="Basic Inputs">{{__('main.add_new')}}</div>
+                    </a>
+                </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item  @if($slag == 9)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Layouts">{{__('main.ads_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 91)  active @endif">
                     <a href="{{route('ads')}}" class="menu-link">
                         <div data-i18n="Vertical Form">{{__('main.ads')}}</div>
                     </a>
@@ -224,38 +234,38 @@
 
         <li class="menu-header small text-uppercase"><span class="menu-header-text">{{__('main.reports_department')}}</span></li>
         <!-- Forms -->
-        <li class="menu-item">
+        <li class="menu-item @if($slag == 10)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Elements">{{__('main.report_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 101)  active @endif">
                     <a href="{{route('visit_reports')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.visit_reports')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 102)  active @endif">
                     <a href="{{route('quotations_request_report')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_request_report')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 103)  active @endif">
                     <a href="{{route('quotations_report')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_report')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 104)  active @endif">
                     <a href="{{route('quotations_request_report_by_company')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_request_report_by_company')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 105)  active @endif">
                     <a href="{{route('quotations_request_report_by_product')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_request_report_by_product')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 106)  active @endif">
                     <a href="{{route('quotations_request_report_by_supplier')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.quotations_request_report_by_supplier')}}</div>
                     </a>
@@ -265,24 +275,24 @@
 
         <!-- Misc -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">{{__('main.users_and_auth_department')}}</span></li>
-        <li class="menu-item">
+        <li class="menu-item @if($slag == 11)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Elements">{{__('main.users_list')}}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 111)  active @endif">
                     <a href="{{route('users')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.users')}}</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if($subSlag == 112)  active @endif">
                     <a href="{{route('roles')}}" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.roles')}}</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{route('auth')}}" class="menu-link">
+                    <a href="{{route('auth')}} @if($subSlag == 113)  active @endif" class="menu-link">
                         <div data-i18n="Basic Inputs">{{__('main.auth')}}</div>
                     </a>
                 </li>

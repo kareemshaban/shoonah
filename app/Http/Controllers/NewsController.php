@@ -41,28 +41,28 @@ class NewsController extends Controller
 
         if($request->mainImg){
             $mainImg = time() . 'mainImg' . '.' . $request->mainImg->getClientOriginalExtension();
-            $request->mainImg->move(('images/news'), $request);
+            $request->mainImg->move(('images/news'), $mainImg);
         } else {
             $mainImg = '' ;
         }
 
         if($request->img1){
             $img1 = time() . 'img1' . '.' . $request->img1->getClientOriginalExtension();
-            $request->img1->move(('images/news'), $request);
+            $request->img1->move(('images/news'), $img1);
         } else {
             $img1 = '' ;
         }
 
         if($request->img2){
             $img2 = time() . 'img2' . '.' . $request->img2->getClientOriginalExtension();
-            $request->img2->move(('images/news'), $request);
+            $request->img2->move(('images/news'), $img2);
         } else {
             $img2 = '' ;
         }
 
         if($request->img3){
             $img3 = time() . 'img3' . '.' . $request->img3->getClientOriginalExtension();
-            $request->img3->move(('images/news'), $request);
+            $request->img3->move(('images/news'), $img3);
         } else {
             $img3 = '' ;
         }
@@ -71,16 +71,16 @@ class NewsController extends Controller
         News::create([
             'title_ar' => $request -> title_ar ,
             'title_en' => $request -> title_en,
-            'publisher' = $request -> publisher ,
+            'publisher' => $request -> publisher ,
             'date' => Carbon::parse($request -> date) ,
             'mainImg' => $mainImg,
-            'details_ar' => $request -> details_ar,
-            'details_en' => $request -> details_en,
+            'details_ar' => $request -> details_ar ?? "",
+            'details_en' => $request -> details_en ?? "",
             'img1' => $img1,
             'img2' => $img2,
             'img3' => $img3,
             'isVisible' => $request -> isVisible,
-            'user_ins' Auth::user() -> id
+            'user_ins' => Auth::user() -> id
         ]);
       return redirect()->route('globalNews')->with('success', __('main.saved'));
     }
@@ -121,36 +121,49 @@ class NewsController extends Controller
         if($new){
             if($request->mainImg){
                 $mainImg = time() . 'mainImg' . '.' . $request->mainImg->getClientOriginalExtension();
-                $request->mainImg->move(('images/news'), $request);
+                $request->mainImg->move(('images/news'), $mainImg);
             } else {
                 $mainImg = $new ->  mainImg;
             }
 
             if($request->img1){
                 $img1 = time() . 'img1' . '.' . $request->img1->getClientOriginalExtension();
-                $request->img1->move(('images/news'), $request);
+                $request->img1->move(('images/news'), $img1);
             } else {
-                $mainImg = $new ->  img1;
+                if($request -> img1Removed == 0){
+                    $img1 = $new ->  img1;
+                } else {
+                    $img1 = '' ;
+                }
+
             }
 
             if($request->img2){
                 $img2 = time() . 'img2' . '.' . $request->img2->getClientOriginalExtension();
-                $request->img2->move(('images/news'), $request);
+                $request->img2->move(('images/news'), $img2);
             } else {
-                $mainImg = $new ->  img2;
+                if($request -> img2Removed == 0){
+                    $img2 = $new ->  img2;
+                } else {
+                    $img2 = '' ;
+                }
             }
 
             if($request->img3){
                 $img3 = time() . 'img3' . '.' . $request->img3->getClientOriginalExtension();
-                $request->img3->move(('images/news'), $request);
+                $request->img3->move(('images/news'), $img3);
             } else {
-                $mainImg = $new ->  img3;
+                if($request -> img3Removed == 0){
+                    $img3 = $new ->  img3;
+                } else {
+                    $img3 = '' ;
+                }
             }
 
             $new -> update([
                 'title_ar' => $request -> title_ar ,
                 'title_en' => $request -> title_en,
-                'publisher' = $request -> publisher ,
+                'publisher' => $request -> publisher ,
                 'date' => Carbon::parse($request -> date) ,
                 'mainImg' => $mainImg,
                 'details_ar' => $request -> details_ar,
@@ -159,7 +172,7 @@ class NewsController extends Controller
                 'img2' => $img2,
                 'img3' => $img3,
                 'isVisible' => $request -> isVisible,
-                'user_upd' Auth::user() -> id
+                'user_upd' => Auth::user() -> id
             ]);
               return redirect()->route('globalNews')->with('success', __('main.updated'));
         }

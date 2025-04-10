@@ -380,7 +380,7 @@
             // return the result
             success: function(result) {
                 $('#alertModal').modal("show");
-                $(" #msg").html( msg );
+                $(" #msg").html( msg.replace(/\n/g, "<br>") );
             },
             complete: function() {
                 $('#loader').hide();

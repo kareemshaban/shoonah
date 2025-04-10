@@ -34,6 +34,12 @@ Route::group(
         Route::get('/getCity/{id}', [App\Http\Controllers\CityController::class, 'show'])->name('getCity');
         Route::get('/deleteCity/{id}', [App\Http\Controllers\CityController::class, 'destroy'])->name('deleteCity');
 
+        Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'index'])->name('currencies');
+        Route::post('/store-currency', [App\Http\Controllers\CurrencyController::class, 'store'])->name('store-currency');
+        Route::get('/getCurrency/{id}', [App\Http\Controllers\CurrencyController::class, 'show'])->name('getCurrency');
+        Route::get('/deleteCurrency/{id}', [App\Http\Controllers\CurrencyController::class, 'destroy'])->name('deleteCurrency');
+
+
         Route::get('/suppliers', [App\Http\Controllers\SupplierController::class, 'index'])->name('suppliers');
         Route::post('/store-supplier', [App\Http\Controllers\SupplierController::class, 'store'])->name('store-supplier');
         Route::get('/getSupplier/{id}', [App\Http\Controllers\SupplierController::class, 'show'])->name('getSupplier');
@@ -122,12 +128,17 @@ Route::group(
         Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
 
         Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
+        Route::post('/store-role', [App\Http\Controllers\RolesController::class, 'store'])->name('store-role');
+        Route::get('/getRole/{id}', [App\Http\Controllers\RolesController::class, 'show'])->name('getRole');
+        Route::get('/deleteRole/{id}', [App\Http\Controllers\RolesController::class, 'destroy'])->name('deleteRole');
+
+
 
         Route::get('/auth', [App\Http\Controllers\AuthenticationController::class, 'index'])->name('auth');
 
         Route::get('/rates', [App\Http\Controllers\SupplierController::class, 'rates'])->name('rates');
 
-        Route::get('/gi', [App\Http\Controllers\NewsController::class, 'index'])->name('globalNews');
+        Route::get('/globalNews', [App\Http\Controllers\NewsController::class, 'index'])->name('globalNews');
         Route::post('/store-New', [App\Http\Controllers\NewsController::class, 'store'])->name('store-New');
         Route::get('/deleteNew/{id}', [App\Http\Controllers\NewsController::class, 'destroy'])->name('deleteNew');
         Route::get('/edit-New/{id}', [App\Http\Controllers\NewsController::class, 'edit'])->name('edit-New');

@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 9 , 'subSlag' => 91])
+        @include('layouts.sidebar' , ['slag' => 1 , 'subSlag' => 13])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,7 +27,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.ads_list')}} /</span> {{__('main.ads')}}
+                            <span class="text-muted fw-light">{{__('main.basicData')}} /</span> {{__('main.currencies')}}
                         </h4>
                         <button type="button" class="btn btn-primary"  id="createButton" style="height: 45px">
                             {{__('main.add_new')}}  <span class="tf-icons bx bx-plus"></span>&nbsp;
@@ -39,53 +39,40 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.ads')}}</h5>
+                        <h5 class="card-header">{{__('main.currencies')}}</h5>
                         @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> {{__('main.banner')}}</th>
-                                    <th class="text-center">{{__('main.adType')}}</th>
-                                    <th class="text-center">{{__('main.isVisible')}}</th>
+                                    <th class="text-center"> {{__('main.name_ar')}}</th>
+                                    <th class="text-center">{{__('main.name_en')}}</th>
+                                    <th class="text-center">{{__('main.symbol')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($ads as $ad)
+                                @foreach($currencies as $currency)
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
+                                        <td class="text-center">{{$currency -> name_ar}}</td>
+                                        <td class="text-center">{{$currency -> name_en}}</td>
+                                        <td class="text-center">{{$currency -> symbol}}</td>
                                         <td class="text-center">
-                                            <a  href="{{ asset('images/banner/' . $ad->banner) }}" target="_blank">
-                                                <img
-                                                    src="{{ asset('images/banner/' . $ad->banner) }}" width="50"
-                                                    height="40" />
-                                            </a>
-
-                                        </td>
-                                        <td class="text-center">
-                                            @if($ad -> type == 0)
-                                                <span class="badge bg-primary">{{__('main.adType0')}}</span>
-                                                @elseif($ad -> type == 1)
-                                                <span class="badge bg-info">{{__('main.adType1')}}</span>
+                                            @if($currency -> isDefault == 0)
+                                                <span class="badge bg-info">{{__('main.isDefault0')}}</span>
+                                                @else
+                                                <span class="badge bg-success">{{__('main.isDefault1')}}</span>
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            @if($ad -> isVisible == 0)
-                                                <span class="badge bg-danger">{{__('main.isVisible0')}}</span>
-                                            @elseif($ad -> isVisible == 1)
-                                                <span class="badge bg-success">{{__('main.isVisible1')}}</span>
-                                            @endif
-                                        </td>
-
 
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
-                                                   id="{{$ad -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                   id="{{$currency -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                                 <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
-                                                   id="{{$ad -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                   id="{{$currency -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                             </div>
                                         </td>
                                     </tr>
@@ -114,8 +101,8 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.Ads.create')
-@include('cpanel.Ads.deleteModal')
+@include('cpanel.Currency.create')
+@include('cpanel.Currency.deleteModal')
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;
@@ -133,20 +120,12 @@
             success: function (result) {
                 $('#createModal').modal("show");
                 $(".modal-body #id").val(0);
-                $(".modal-body #type").val("0");
-                $(".modal-body #order").val("");
-                $(".modal-body #banner").val("");
-                $(".modal-body #item_id").val("");
-                $(".modal-body #url").val("");
-                $(".modal-body #isVisible").val("1");
-                $(".modal-body #flag-img").attr('src', '{{ asset('assets/img/picture.png') }}');
+                $(".modal-body #name_ar").val("");
+                $(".modal-body #name_en").val("");
+                $(".modal-body #symbol").val("");
+                $(".modal-body #isDefault").val(0);
                 var translatedText = "{{ __('main.newData') }}";
                 $(".modelTitle").html(translatedText);
-                AdTypeChange(0);
-                $('.modal-body #type').on('change', function() {
-                    let value = $(this).val();
-                    AdTypeChange(value);
-                });
 
 
             },
@@ -161,20 +140,6 @@
             timeout: 8000
         })
     });
-
-    function AdTypeChange(val){
-        if(val == 0){
-            $(".modal-body #itemStar").hide();
-            $(".modal-body #url_star").show();
-            $(".modal-body #item_id").attr('required', false);
-            $(".modal-body #url").attr('required', true);
-        } else {
-            $(".modal-body #itemStar").show();
-            $(".modal-body #url_star").hide();
-            $(".modal-body #item_id").attr('required', true);
-            $(".modal-body #url").attr('required', false);
-        }
-    }
     $(document).on('click', '.editBtn', function(event) {
         let id = event.currentTarget.id ;
         console.log(id);
@@ -182,7 +147,7 @@
         let href = $(this).attr('data-attr');
         $.ajax({
             type:'get',
-            url:'/getAd' + '/' + id,
+            url:'/getCurrency' + '/' + id,
             dataType: 'json',
 
             success:function(response){
@@ -197,22 +162,13 @@
                         // return the result
                         success: function(result) {
                             $('#createModal').modal("show");
-                            var img =  '/../images/banner/' + response.banner ;
-                            $(".modal-body #flag-img").attr('src' , img );
-                            $(".modal-body #type").val(response.type);
-                            $(".modal-body #order").val(response.order);
-                            $(".modal-body #item_id").val(response.item_id);
-                            $(".modal-body #url").val(response.url);
-                            $(".modal-body #isVisible").val(response.isVisible);
+                            $(".modal-body #name_ar").val( response.name_ar );
+                            $(".modal-body #name_en").val( response.name_en );
+                            $(".modal-body #symbol").val( response.symbol );
+                            $(".modal-body #isDefault").val( response.isDefault );
                             $(".modal-body #id").val(response.id);
                             var translatedText = "{{ __('main.editData') }}";
                             $(".modelTitle").html(translatedText);
-
-                            AdTypeChange(response.type);
-                            $('.modal-body #type').on('change', function() {
-                                let value = $(this).val();
-                                AdTypeChange(value);
-                            });
 
                         },
                         complete: function() {
@@ -267,7 +223,7 @@
     });
 
     function confirmDelete(id){
-        let url = "{{ route('deleteAd', ':id') }}";
+        let url = "{{ route('deleteCurrency', ':id') }}";
         url = url.replace(':id', id);
         document.location.href=url;
     }

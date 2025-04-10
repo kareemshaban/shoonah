@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Roles;
+use Couchbase\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RolesController extends Controller
 {
@@ -14,7 +16,8 @@ class RolesController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Roles::all();
+        return view('cpanel.Roles.index', compact('roles'));
     }
 
     /**
@@ -35,7 +38,16 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request -> id == 0){
+             Roles::create([
+                 'name_ar' => $request -> name_ar,
+                 'name_en' => $request -> name_en,
+                 'user_ins' => Auth::user()->id,
+             ]);
+            return redirect()->route('roles')->with('success', __('main.saved'));
+        } else {
+            return $this -> update($request);
+        }
     }
 
     /**
@@ -44,9 +56,11 @@ class RolesController extends Controller
      * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function show(Roles $roles)
+    public function show($id)
     {
-        //
+        $role = Roles::find($id);
+        echo json_encode($role);
+        exit();
     }
 
     /**
@@ -67,9 +81,17 @@ class RolesController extends Controller
      * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Roles $roles)
+    public function update(Request $request)
     {
-        //
+        $role = Roles::find($request -> id);
+        if($role){
+            $role -> update([
+                'name_ar' => $request -> name_ar,
+                'name_en' => $request -> name_en,
+                'user_upd' => Auth::user()->id,
+            ]);
+            return redirect()->route('roles')->with('success', __('main.updated'));
+        }
     }
 
     /**
@@ -78,8 +100,12 @@ class RolesController extends Controller
      * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Roles $roles)
+    public function destroy($id)
     {
-        //
+        $role = Roles::find($id);
+        if($role){
+            $role -> delete();
+            return redirect()->route('roles')->with('success', __('main.deleted'));
+        }
     }
 }

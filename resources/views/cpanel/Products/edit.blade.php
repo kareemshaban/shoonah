@@ -188,7 +188,7 @@
                                 <div class="col-12" style="margin-top: 10px;">
                                     <div class="form-group">
                                         <label>{{ __('main.description_ar') }}  </label>
-                                        <textarea  name="description_ar" id="description_ar" class="form-control @error('description_ar') is-invalid @enderror"
+                                        <textarea  name="description_ar" id="description_ar" class="form-control editor @error('description_ar') is-invalid @enderror"
                                                    autofocus    rows="3" placeholder="{{ __('main.description_ar') }}"> {{$product -> description_ar}} </textarea>
                                         @error('description_ar')
                                         <span class="invalid-feedback" role="alert">
@@ -202,7 +202,7 @@
                                 <div class="col-12" style="margin-top: 10px;">
                                     <div class="form-group">
                                         <label>{{ __('main.description_en') }}  </label>
-                                        <textarea  name="description_en" id="description_en" class="form-control @error('description_en') is-invalid @enderror"
+                                        <textarea  name="description_en" id="description_en" class="form-control editor @error('description_en') is-invalid @enderror"
                                                    autofocus    rows="3" placeholder="{{ __('main.description_en') }}"> {{$product -> description_en}}  </textarea>
                                         @error('description_en')
                                         <span class="invalid-feedback" role="alert">
@@ -267,13 +267,23 @@
                                     <div class="form-group">
                                         <label> {{__('main.mainImg')}}  <span style="font-size: 14px ; color: red"> * </span></label>
                                         <div class="imgDiv">
-                                            <img src="{{asset('images/products/' . $product->mainImg)}}" class="pickerImg" id="mainImg_img"
+                                            <img src="{{asset('assets/img/image.png')}}" class="pickerImg" id="mainImg_img"
                                                  onclick="pickImg(0)">
 
                                         </div>
                                         <input class="form-control" hidden="hidden" type="file" id="mainImg" name="mainImg"
                                                accept="*">
                                     </div>
+                                    <div style="margin-top: 5px ; display: flex ; justify-content: center ; gap: 10px">
+                                        <a href="{{ asset('images/products/' . $product->mainImg) }}" target="_blank">
+                                            <i class='bx bxs-show text-info view'   data-toggle="tooltip" data-placement="top" title="{{__('main.view')}}"
+                                               style="font-size: 25px ; cursor: pointer"></i>
+                                        </a>
+
+
+
+                                    </div>
+
 
 
                                 </div>
@@ -281,35 +291,47 @@
                                     <div class="form-group">
                                         <label> {{__('main.img')}} 1 </label>
                                         <div class="imgDiv">
-                                            <img @if($product -> img1 == "")
-                                                     src="{{asset('assets/img/image.png')}}"
-                                                 @else
-                                                     src="{{asset('images/products/' . $product->img1)}}"
-                                                 @endif
-                                                 class="pickerImg" id="img1_img"
+                                            <img  src="{{asset('assets/img/image.png')}}"  class="pickerImg" id="img1_img"
                                                  onclick="pickImg(1)">
 
                                         </div>
                                         <input class="form-control" hidden="hidden" type="file" id="img1" name="img1"
                                                accept="*">
                                     </div>
+                                    <div style="margin-top: 5px ; display: flex ; justify-content: center ; gap: 10px ; @if($product->img1 == '') display: none @endif"
+                                         id="img1Container">
+                                        <a href="{{ asset('images/products/' . $product->img1) }}" target="_blank" >
+                                            <i class='bx bxs-show text-info view'   data-toggle="tooltip" data-placement="top" title="{{__('main.view')}}"
+                                               style="font-size: 25px ; cursor: pointer"></i>
+                                        </a>
 
+                                        <i class='bx bxs-trash text-danger delete '   data-toggle="tooltip" data-placement="top" title="{{__('main.delete_img')}}"
+                                           style="font-size: 25px ; cursor: pointer" onclick="removeFile(1)"></i>
+                                        <input type="hidden" id="img1Removed" name="img1Removed" value="0"/>
+                                    </div>
 
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                     <div class="form-group">
                                         <label> {{__('main.img')}} 2 </label>
                                         <div class="imgDiv">
-                                            <img @if($product -> img2 == "")
-                                                     src="{{asset('assets/img/image.png')}}"
-                                                 @else
-                                                     src="{{asset('images/products/' . $product->img2)}}"
-                                                 @endif class="pickerImg" id="img2_img"
+                                            <img  src="{{asset('assets/img/image.png')}}"  class="pickerImg" id="img2_img"
                                                  onclick="pickImg(2)">
 
                                         </div>
                                         <input class="form-control" hidden="hidden" type="file" id="img2" name="img2"
                                                accept="*">
+                                    </div>
+                                    <div style="margin-top: 5px ; display: flex ; justify-content: center ; gap: 10px ; @if($product->img2 == '') display: none @endif"
+                                         id="img2Container">
+                                        <a href="{{ asset('images/products/' . $product->img2) }}" target="_blank" >
+                                            <i class='bx bxs-show text-info view'   data-toggle="tooltip" data-placement="top" title="{{__('main.view')}}"
+                                               style="font-size: 25px ; cursor: pointer"></i>
+                                        </a>
+
+                                        <i class='bx bxs-trash text-danger delete '   data-toggle="tooltip" data-placement="top" title="{{__('main.delete_img')}}"
+                                           style="font-size: 25px ; cursor: pointer" onclick="removeFile(2)"></i>
+                                        <input type="hidden" id="img2Removed" name="img2Removed" value="0"/>
                                     </div>
 
 
@@ -318,16 +340,23 @@
                                     <div class="form-group">
                                         <label> {{__('main.img')}} 3 </label>
                                         <div class="imgDiv">
-                                            <img @if($product -> img3 == "")
-                                                     src="{{asset('assets/img/image.png')}}"
-                                                 @else
-                                                     src="{{asset('images/products/' . $product->img3)}}"
-                                                 @endif class="pickerImg" id="img3_img"
+                                            <img src="{{asset('assets/img/image.png')}}" class="pickerImg" id="img3_img"
                                                  onclick="pickImg(3)">
 
                                         </div>
                                         <input class="form-control" hidden="hidden" type="file" id="img3" name="img3"
                                                accept="*">
+                                    </div>
+                                    <div style="margin-top: 5px ; display: flex ; justify-content: center ; gap: 10px ; @if($product->img3 == '') display: none @endif"
+                                         id="img2Container">
+                                        <a href="{{ asset('images/products/' . $product->img3) }}" target="_blank" >
+                                            <i class='bx bxs-show text-info view'   data-toggle="tooltip" data-placement="top" title="{{__('main.view')}}"
+                                               style="font-size: 25px ; cursor: pointer"></i>
+                                        </a>
+
+                                        <i class='bx bxs-trash text-danger delete '   data-toggle="tooltip" data-placement="top" title="{{__('main.delete_img')}}"
+                                           style="font-size: 25px ; cursor: pointer" onclick="removeFile(3)"></i>
+                                        <input type="hidden" id="img3Removed" name="img3Removed" value="0"/>
                                     </div>
 
 
@@ -384,6 +413,14 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $( document ).ready(function() {
+        $('.editor').each(function(index) {
+            // Ensure the element has a unique ID (required by CKEditor)
+            if (!this.id) {
+                this.id = 'editor_' + index;
+            }
+
+            CKEDITOR.replace(this.id , { versionCheck: false}); // Pass the ID, not the element or class
+        });
 
         getDepartmentCategories($('#department_id').val());
 
@@ -421,6 +458,9 @@
 
             }
         }
+
+
+
         $("#mainImg").change(function () {
             readURL(this , 0);
         });
@@ -440,6 +480,23 @@
 
 
     });
+    function removeFile(which){
+        if(which == 1){
+            $('#img1').val("");
+            $('#img1Container').hide();
+            $('#img1Removed').val(1);
+
+        } else if(which == 2){
+            $('#img2').val("")
+            $('#img2Container').hide();
+            $('#img2Removed').val(1);
+
+        } else if(which == 3){
+            $('#img3').val("");
+            $('#img3Container').hide();
+            $('#img3Removed').val(1);
+        }
+    }
     function pickImg(which){
         if(which == 0){
             $("#mainImg").trigger("click");
@@ -505,7 +562,7 @@
             // return the result
             success: function(result) {
                 $('#alertModal').modal("show");
-                $(" #msg").html( msg );
+                $(" #msg").html( msg.replace(/\n/g, "<br>") );
             },
             complete: function() {
                 $('#loader').hide();

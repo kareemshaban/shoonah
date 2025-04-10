@@ -164,19 +164,32 @@ class ProductController extends Controller
                 $img1 = time() . 'img1' .  '.' . $request->img1->getClientOriginalExtension();
                 $request->img1->move(('images/products'), $img1);
             } else {
-                $img1   = $product -> img1 ;
+                if($request -> img1Removed == 1){
+                    $img1   = "" ;
+                } else {
+                    $img1   = $product -> img1 ;
+                }
+
             }
             if($request->img2){
                 $img2 = time() . 'img2' .  '.' . $request->img2->getClientOriginalExtension();
                 $request->img2->move(('images/products'), $img2);
             } else {
-                $img2   = $product -> img2 ;
+                if($request -> img2Removed == 1){
+                    $img2   = "" ;
+                } else {
+                    $img2   = $product -> img2 ;
+                }
             }
             if($request->img3){
                 $img3 = time() . 'img3' .  '.' . $request->img3->getClientOriginalExtension();
                 $request->img3->move(('images/products'), $img3);
             } else {
-                $img3   = $product -> img3 ;
+                if($request -> img3Removed == 1){
+                    $img3   = "" ;
+                } else {
+                    $img3   = $product -> img3 ;
+                }
             }
             if($request->img4){
                 $img4 = time() . 'img4' .  '.' . $request->img4->getClientOriginalExtension();

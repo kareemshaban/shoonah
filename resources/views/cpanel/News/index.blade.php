@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 5 , 'subSlag' => 52])
+        @include('layouts.sidebar' , ['slag' => 8 , 'subSlag' => 81])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,9 +27,9 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.material_list')}} /</span> {{__('main.compositions')}}
+                            <span class="text-muted fw-light">{{__('main.news_list')}} /</span> {{__('main.news')}}
                         </h4>
-                        <a href="{{route('create-compositions')}}">
+                        <a href="{{route('create-New')}}">
                             <button type="button" class="btn btn-primary"  id="createButton" style="height: 45px">
                                 {{__('main.add_new')}}  <span class="tf-icons bx bx-plus"></span>&nbsp;
                             </button>
@@ -42,55 +42,46 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.compositions')}}</h5>
+                        <h5 class="card-header">{{__('main.news')}}</h5>
                         @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> {{__('main.name_ar')}}</th>
-                                    <th class="text-center">{{__('main.name_en')}}</th>
-                                    <th class="text-center">{{__('main.department')}}</th>
-                                    <th class="text-center">{{__('main.category')}}</th>
-                                    <th class="text-center">{{__('main.cost')}}</th>
-                                    <th class="text-center">{{__('main.file')}}</th>
+                                    <th class="text-center"> {{__('main.publisher')}}</th>
+                                    <th class="text-center">{{__('main.title')}}</th>
+                                    <th class="text-center">{{__('main.date')}}</th>
+                                    <th class="text-center">{{__('main.isVisibleNew')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($data as $item)
+                                @foreach($news as $item)
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
-                                        <td class="text-center">{{$item -> name_ar}}</td>
-                                        <td class="text-center">{{$item -> name_en}}</td>
+                                        <td class="text-center"> {{$item -> publisher}} </td>
                                         <td class="text-center">
                                             @if(Config::get('app.locale')=='ar' )
-                                                {{$item -> department_ar}}
+                                                {{$item -> title_ar}}
                                             @else
-                                                {{$item -> department_en}}
+                                                {{$item -> title_en}}
                                             @endif
                                         </td>
+                                        <td class="text-center">{{\Carbon\Carbon::parse($item -> date) ->format('Y-m-d') }}</td>
                                         <td class="text-center">
-                                            @if(Config::get('app.locale')=='ar' )
-                                                {{$item -> category_ar}}
-                                            @else
-                                                {{$item -> category_en}}
+                                            @if($item -> isVisible == 0)
+                                                <span class="badge bg-danger">{{__('main.isVisible0')}}</span>
+                                            @elseif($item -> isVisible == 1)
+                                                <span class="badge bg-success">{{__('main.isVisible1')}}</span>
                                             @endif
                                         </td>
-                                        <td class="text-center">{{$item -> total_cost}}</td>
-                                        <td class="text-center">
-                                            @if($item -> file != "")
-                                           <a href="{{ asset('images/compositions/' . $item->file) }}" target="_blank">
-                                               <img src="{{asset('assets/img/pdf.png')}}" width="50" />
-                                           </a>
-                                                @else
-                                                <span>NO_FILE</span>
-                                            @endif
-                                        </td>
+
+
+
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
-                                                <a href="{{route('edit-compositions' , $item -> id)}}">
+                                                <a href="{{route('edit-New' , $item -> id)}}">
                                                     <i class='bx bxs-edit-alt text-success' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
                                                        style="font-size: 25px ; cursor: pointer"></i>
                                                 </a>
@@ -125,7 +116,7 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.composition.deleteModal')
+@include('cpanel.News.deleteModal')
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;
@@ -165,7 +156,7 @@
     });
 
     function confirmDelete(id){
-        let url = "{{ route('deleteCompositions', ':id') }}";
+        let url = "{{ route('deleteNew', ':id') }}";
         url = url.replace(':id', id);
         document.location.href=url;
     }

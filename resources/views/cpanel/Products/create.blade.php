@@ -186,7 +186,7 @@
                                 <div class="col-12" style="margin-top: 10px;">
                                     <div class="form-group">
                                         <label>{{ __('main.description_ar') }}  </label>
-                                        <textarea  name="description_ar" id="description_ar" class="form-control @error('description_ar') is-invalid @enderror"
+                                        <textarea  name="description_ar" id="description_ar" class="form-control editor @error('description_ar') is-invalid @enderror"
                                                    autofocus    rows="3" placeholder="{{ __('main.description_ar') }}"> </textarea>
                                         @error('description_ar')
                                         <span class="invalid-feedback" role="alert">
@@ -200,7 +200,7 @@
                                 <div class="col-12" style="margin-top: 10px;">
                                     <div class="form-group">
                                         <label>{{ __('main.description_en') }}  </label>
-                                        <textarea  name="description_en" id="description_en" class="form-control @error('description_en') is-invalid @enderror"
+                                        <textarea  name="description_en" id="description_en" class="form-control editor @error('description_en') is-invalid @enderror"
                                                    autofocus    rows="3" placeholder="{{ __('main.description_en') }}"> </textarea>
                                         @error('description_en')
                                         <span class="invalid-feedback" role="alert">
@@ -365,6 +365,14 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $( document ).ready(function() {
+        $('.editor').each(function(index) {
+            // Ensure the element has a unique ID (required by CKEditor)
+            if (!this.id) {
+                this.id = 'editor_' + index;
+            }
+
+            CKEDITOR.replace(this.id , { versionCheck: false}); // Pass the ID, not the element or class
+        });
         $.ajax({
             type:'get',
             url:'/getProductCode',
@@ -497,7 +505,7 @@
             // return the result
             success: function(result) {
                 $('#alertModal').modal("show");
-                $(" #msg").html( msg );
+                $(" #msg").html( msg.replace(/\n/g, "<br>") );
             },
             complete: function() {
                 $('#loader').hide();

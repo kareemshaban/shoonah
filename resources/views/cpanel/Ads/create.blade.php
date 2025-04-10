@@ -14,17 +14,18 @@
 
                 <div class="container-fluid">
 
-                    <form class="center" method="POST" action="{{ route('store-country') }}"
+                    <form class="center" method="POST" action="{{ route('store-ad') }}"
                           enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_ar') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
-                                    <input type="text" name="name_ar" id="name_ar"
-                                           class="form-control @error('name_ar') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_ar') }}" autofocus  required/>
-                                    @error('name_ar')
+                                    <label>{{ __('main.adType') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
+                                    <select id="type" name="type" class="form-control @error('type') is-invalid @enderror" required>
+                                        <option value="0">{{__('main.adType0')}}</option>
+                                        <option value="1">{{__('main.adType1')}}</option>
+                                    </select>
+                                    @error('type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -35,11 +36,11 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_en') }} <span style="font-size: 14px ; color: red"> * </span> </label>
-                                    <input type="text" name="name_en" id="name_en"
-                                           class="form-control @error('name_en') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_en') }}" autofocus  required/>
-                                    @error('name_en')
+                                    <label>{{ __('main.order') }} <span style="font-size: 14px ; color: red"> * </span> </label>
+                                    <input type="number" name="order" id="order"
+                                           class="form-control @error('order') is-invalid @enderror"
+                                           placeholder="{{ __('main.order') }}" autofocus  required/>
+                                    @error('order')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -48,13 +49,60 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label > {{__('main.item')}} <span style="color: red ; font-size: 14px" id="itemStar"> * </span> </label>
+                                    <select id="item_id" name="item_id" class="form-control @error('item_id') is-invalid @enderror">
+                                        <option value=""> {{__('main.choose')}} </option>
+                                        @foreach($items as $item)
+                                            <option value="{{$item -> id}}">
+                                                @if(Config::get('app.locale')=='ar' )
+                                                    {{$item -> name_ar}}
+                                                @else
+                                                    {{$item -> name_en}}
+                                                @endif
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{__('main.url')}} <span style="font-size: 14px ;color: red" id="url_star"> *</span> </label>
+                                    <input class="form-control @error('url') is-invalid @enderror" id="url" name="url"
+                                    type="text">
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                           <div class="col-6">
+                               <div class="form-group">
+                                   <label>{{ __('main.isVisible') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
+                                   <select id="isVisible" name="isVisible" class="form-control @error('isVisible') is-invalid @enderror" required>
+                                       <option value="0">{{__('main.isVisible0')}}</option>
+                                       <option value="1">{{__('main.isVisible1')}}</option>
+                                   </select>
+                                   @error('isVisible')
+                                   <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                   @enderror
+                               </div>
+
+                           </div>
+                        </div>
                         <div >
-                            <label for="img" class="col-form-label">{{ __('main.flag') }} <span style="font-size: 14px ; color: red"> * </span> </label>
+                            <label for="img" class="col-form-label">{{ __('main.banner') }} <span style="font-size: 14px ; color: red"> * </span> </label>
                             <div class="row" style="display: flex; align-items: center;">
                                 <div class="col-6">
                                     <div class="custom-file">
 
-                                        <input class="form-control" type="file" id="flag" name="flag"
+                                        <input class="form-control" type="file" id="banner" name="banner"
                                                accept="*">
                                     </div>
                                 </div>
@@ -91,7 +139,7 @@
 
                             }
                         }
-                        $("#flag").change(function () {
+                        $("#banner").change(function () {
                             readURL(this);
                         });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CurrencyController extends Controller
 {
@@ -14,7 +15,8 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = Currency::all();
+        return view('cpanel.Currency.index', compact('currencies'));
     }
 
     /**
@@ -35,7 +37,18 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request -> id == 0){
+            Currency::create([
+                'name_ar' => $request -> name_ar,
+                'name_en' => $request -> name_en,
+                'symbol' => $request -> symbol,
+                'isDefault' => $request -> isDefault,
+                'user_ins' => Auth::user()->id,
+            ]);
+            return redirect()->route('currencies')->with('success', __('main.saved'));
+        } else {
+            return  $this -> update($request);
+        }
     }
 
     /**
@@ -44,9 +57,11 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function show(Currency $currency)
+    public function show($id)
     {
-        //
+        $currency = Currency::find($id);
+        echo json_encode($currency);
+        exit();
     }
 
     /**
@@ -67,9 +82,20 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currency $currency)
+    public function update(Request $request)
     {
-        //
+        $currency = Currency::find($request -> id);
+        if($currency){
+            $currency -> update([
+                'name_ar' => $request -> name_ar,
+                'name_en' => $request -> name_en,
+                'symbol' => $request -> symbol,
+                'isDefault' => $request -> isDefault,
+                'user_upd' => Auth::user()->id,
+            ]);
+            return redirect()->route('currencies')->with('success', __('main.updated'));
+
+        }
     }
 
     /**
@@ -78,8 +104,13 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Currency $currency)
+    public function destroy($id)
     {
-        //
+        $currency = Currency::find($id);
+        if($currency){
+            $currency -> delete();
+            return redirect()->route('currencies')->with('success', __('main.deleted'));
+
+        }
     }
 }
