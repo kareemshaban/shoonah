@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CurrencyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +47,7 @@ class CurrencyController extends Controller
                 'name_en' => $request -> name_en,
                 'symbol' => $request -> symbol,
                 'isDefault' => $request -> isDefault,
+                'rate' => $request -> rate ,
                 'user_ins' => Auth::user()->id,
             ]);
             return redirect()->route('currencies')->with('success', __('main.saved'));
@@ -91,6 +96,7 @@ class CurrencyController extends Controller
                 'name_en' => $request -> name_en,
                 'symbol' => $request -> symbol,
                 'isDefault' => $request -> isDefault,
+                'rate' => $request -> rate ,
                 'user_upd' => Auth::user()->id,
             ]);
             return redirect()->route('currencies')->with('success', __('main.updated'));

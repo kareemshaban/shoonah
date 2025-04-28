@@ -13,6 +13,7 @@ class Brand extends Model
        'id',
        'name_ar',
        'name_en',
+        'prefix',
         'user_ins',
         'user_upd'
     ];

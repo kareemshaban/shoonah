@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AdsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,6 +57,7 @@ class AdsController extends Controller
                 'url' => $request -> url ?? "",
                 'item_id' => $request -> item_id ?? 0,
                 'isVisible' => $request -> isVisible,
+                'duration' => $request -> duration,
                 'user_ins' => Auth::user() -> id,
             ]);
             return redirect()->route('ads')->with('success', __('main.saved'));
@@ -110,6 +115,7 @@ class AdsController extends Controller
                 'url' => $request -> url ?? "",
                 'item_id' => $request -> item_id ?? 0,
                 'isVisible' => $request -> isVisible,
+                'duration' => $request -> duration,
                 'user_upd' => Auth::user() -> id,
             ]);
             return redirect()->route('ads')->with('success', __('main.updated'));

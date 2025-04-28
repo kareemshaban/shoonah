@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Country;
+use App\Models\Roles;
 use App\Models\Supplier;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
@@ -30,7 +31,8 @@ class SupplierController extends Controller
                 'cities.name_en as city_en')
             ->get();
         $countries = Country::all();
-        return view('cpanel.Supplier.index', compact('countries' , 'suppliers'));
+        $roles = Roles::all();
+        return view('cpanel.Supplier.index', compact('countries' , 'suppliers','roles'));
 
     }
 

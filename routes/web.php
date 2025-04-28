@@ -53,15 +53,11 @@ Route::group(
         Route::get('/getReview/{id}', [App\Http\Controllers\ReviewController::class, 'show'])->name('getReview');
 
 
-        Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
-        Route::post('/store-user', [App\Http\Controllers\HomeController::class, 'storeUser'])->name('store-user');
-        Route::get('/getUser/{id}', [App\Http\Controllers\HomeController::class, 'showUser'])->name('getUser');
-        Route::get('/deleteUser/{id}', [App\Http\Controllers\HomeController::class, 'destroyUser'])->name('deleteUser');
-
         Route::get('/clients', [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
         Route::get('/getUserByClient/{id}', [App\Http\Controllers\ClientController::class, 'getUserByClient'])->name('getUserByClient');
         Route::get('/blockClient/{id}', [App\Http\Controllers\ClientController::class, 'blockClient'])->name('blockClient');
         Route::get('/unblockClient/{id}', [App\Http\Controllers\ClientController::class, 'unblockClient'])->name('unblockClient');
+        Route::get('/update-client/{id}', [App\Http\Controllers\ClientController::class, 'update'])->name('updateClient');
 
 
         Route::get('/brands', [App\Http\Controllers\BrandController::class, 'index'])->name('brands');
@@ -126,6 +122,13 @@ Route::group(
         Route::get('/quotations', [App\Http\Controllers\QuotationController::class, 'index'])->name('quotations');
 
         Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
+        Route::post('/store-user', [App\Http\Controllers\HomeController::class, 'storeUser'])->name('store-user');
+        Route::get('/getUser/{id}', [App\Http\Controllers\HomeController::class, 'showUser'])->name('getUser');
+        Route::get('/deleteUser/{id}', [App\Http\Controllers\HomeController::class, 'destroyUser'])->name('deleteUser');
+        Route::get('/getUserProfile/{id}', [App\Http\Controllers\HomeController::class, 'getUserProfile'])->name('getUserProfile');
+        Route::post('/reset-password', [App\Http\Controllers\HomeController::class, 'resetPassword'])->name('reset-password');
+
+
 
         Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
         Route::post('/store-role', [App\Http\Controllers\RolesController::class, 'store'])->name('store-role');
@@ -133,8 +136,14 @@ Route::group(
         Route::get('/deleteRole/{id}', [App\Http\Controllers\RolesController::class, 'destroy'])->name('deleteRole');
 
 
-
         Route::get('/auth', [App\Http\Controllers\AuthenticationController::class, 'index'])->name('auth');
+        Route::post('/store-auth', [App\Http\Controllers\AuthenticationController::class, 'store'])->name('store-auth');
+        Route::get('/getAuth/{id}', [App\Http\Controllers\AuthenticationController::class, 'show'])->name('getAuth');
+        Route::get('/deleteAuth/{id}', [App\Http\Controllers\AuthenticationController::class, 'destroy'])->name('deleteAuth');
+        Route::get('/auth-create', [App\Http\Controllers\AuthenticationController::class, 'create'])->name('authCreate');
+        Route::get('/getRoleAuthForms/{id}', [App\Http\Controllers\AuthenticationController::class, 'getRoleAuthForms'])->name('getRoleAuthForms');
+
+
 
         Route::get('/rates', [App\Http\Controllers\SupplierController::class, 'rates'])->name('rates');
 

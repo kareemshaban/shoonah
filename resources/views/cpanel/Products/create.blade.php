@@ -63,6 +63,7 @@
                                         <label>{{ __('main.brand') }} <span style="color: red ; font-size: 14px" > * </span> </label>
                                         <select type="text" name="brand_id" id="brand_id"
                                                 class="form-control @error('brand_id') is-invalid @enderror" autofocus  required>
+                                           <option value="">{{__('main.choose')}}</option>
                                             @foreach($brands as $brand)
                                                 <option value="{{$brand -> id}}">
                                                     @if(Config::get('app.locale')=='ar' )
@@ -89,6 +90,7 @@
                                         <label>{{ __('main.department') }} <span style="color: red ; font-size: 14px" > * </span> </label>
                                         <select type="text" name="department_id" id="department_id"
                                                 class="form-control @error('department_id') is-invalid @enderror" autofocus  required>
+                                            <option value="">{{__('main.choose')}}</option>
                                             @foreach($departments as $department)
                                                 <option value="{{$department -> id}}">
                                                     @if(Config::get('app.locale')=='ar' )
@@ -364,7 +366,14 @@
 @include('layouts.footer')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
+    var itemCode = "" ;
+    var brandPrefix = "" ;
+    var departmentPrefix = "" ;
+    var categoryPrefix = "" ;
     $( document ).ready(function() {
+        $('#brand_id').val("");
+        $('#department_id').val("");
+        $('#category_id').val("");
         $('.editor').each(function(index) {
             // Ensure the element has a unique ID (required by CKEditor)
             if (!this.id) {
@@ -380,17 +389,76 @@
             success:function(response){
                 console.log(response);
                 if(response){
+                    itemCode = response ;
                     $('#code').val(response);
                 }
 
+            } ,
+            error: function (err){
+                itemCode = "" ;
+                $('#code').val('');
             }
         });
 
         getDepartmentCategories($('#department_id').val());
 
         $("#department_id").change(function () {
-            console.log(this.value);
             getDepartmentCategories(this.value);
+            $.ajax({
+                type:'get',
+                url:'/getDepartment' + '/' + this.value,
+                dataType: 'json',
+
+                success:function(response){
+                     departmentPrefix = response.prefix ;
+                     let code = brandPrefix + departmentPrefix + categoryPrefix + itemCode ;
+                     $('#code').val(code);
+
+                } ,
+                error: function (err){
+                    departmentPrefix = '' ;
+                    let code = brandPrefix + departmentPrefix + categoryPrefix + itemCode ;
+                    $('#code').val(code);
+                }
+            });
+
+        });
+        $("#brand_id").change(function () {
+            $.ajax({
+                type:'get',
+                url:'/getBrand' + '/' + this.value,
+                dataType: 'json',
+
+                success:function(response){
+                    brandPrefix = response.prefix ;
+                    let code = brandPrefix + departmentPrefix + categoryPrefix + itemCode ;
+                    $('#code').val(code);
+                },
+                error: function (err){
+                    brandPrefix = '' ;
+                    let code = brandPrefix + departmentPrefix + categoryPrefix + itemCode ;
+                    $('#code').val(code);
+                }
+            });
+        });
+        $("#category_id").change(function () {
+            $.ajax({
+                type:'get',
+                url:'/getCategory' + '/' + this.value,
+                dataType: 'json',
+
+                success:function(response){
+                    categoryPrefix = response.prefix ;
+                    let code = brandPrefix + departmentPrefix + categoryPrefix + itemCode ;
+                    $('#code').val(code);
+                },
+                error: function (err){
+                    categoryPrefix = '' ;
+                    let code = brandPrefix + departmentPrefix + categoryPrefix + itemCode ;
+                    $('#code').val(code);
+                }
+            });
+
         });
 
 

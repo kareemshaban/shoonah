@@ -17,6 +17,7 @@ class Ads extends Model
       'url',
       'item_id',
       'isVisible',
+        'duration',
         'user_ins',
         'user_upd'
     ];

@@ -14,6 +14,10 @@ use App\Models\SupplierProducts;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -247,7 +251,7 @@ class ProductController extends Controller
         } else {
             $id = 1;
         }
-     $code = 'PR-' .  str_pad($id, 6, '0', STR_PAD_LEFT);
+     $code = str_pad($id, 6, '0', STR_PAD_LEFT);
         echo json_encode($code) ;
         exit();
 

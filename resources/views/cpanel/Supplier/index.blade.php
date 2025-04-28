@@ -278,7 +278,10 @@
                             $(".modal-body #password2").val("");
                             $(".modal-body #id").val(0);
                             $(".modal-body #supplier_id").val(response.id);
-                            $(".modal-body #type").val(response.type);
+                            $(".modal-body #type").val(1);
+                            $(".modal-body #role_id").val("");
+                            $(".modal-body #roles").hide();
+                            $(".modal-body #role_id").attr('required', fale);
 
                             var translatedText = "{{ __('main.newData') }}";
                             $(".modelTitle").html(translatedText);
@@ -331,6 +334,10 @@
                             $(".modal-body #id").val(response.id);
                             $(".modal-body #supplier_id").val(response.id);
                             $(".modal-body #type").val(response.type);
+                            $(".modal-body #role_id").val("");
+                            $(".modal-body #roles").hide();
+                            $(".modal-body #role_id").attr('required', fale);
+
 
                             var translatedText = "{{ __('main.editData') }}";
                             $(".modelTitle").html(translatedText);

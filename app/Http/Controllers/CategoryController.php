@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -48,6 +52,7 @@ class CategoryController extends Controller
                 'department_id' => $request -> department_id ,
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
+                'prefix' => $request -> prefix ?? '' ,
                 'user_ins' => Auth::user() -> id,
                 'user_upd'  => 0
             ]);
@@ -97,6 +102,7 @@ class CategoryController extends Controller
                 'department_id' => $request -> department_id ,
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
+                'prefix' => $request -> prefix ?? "",
                 'user_upd' => Auth::user() -> id
             ]);
             return redirect()->route('categories')->with('success', __('main.updated'));

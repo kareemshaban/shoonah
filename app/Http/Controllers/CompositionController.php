@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class CompositionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -141,7 +145,7 @@ class CompositionController extends Controller
                 $request->file->move(('images/compositions'), $pdf);
             } else {
                 if($request -> isFileRemoved == 0){
-                    $pdf   =   $item -> file; 
+                    $pdf   =   $item -> file;
                 } else {
                     $pdf   =   "" ;
                 }

@@ -81,6 +81,24 @@
                             </div>
                         </div>
 
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.rate') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
+                                    <input type="number" step="any" name="rate" id="rate"
+                                           class="form-control @error('rate') is-invalid @enderror"
+                                           placeholder="{{ __('main.rate') }}" autofocus  required/>
+                                    @error('rate')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+
+                                </div>
+                            </div>
+
+                        </div>
+
                         <div class="row" style="margin-top: 40px">
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-warning">{{ __('main.save_btn') }}</button>

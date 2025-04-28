@@ -113,6 +113,7 @@
                 $(".modal-body #id").val(0);
                 $(".modal-body #name_ar").val("");
                 $(".modal-body #name_en").val("");
+                $(".modal-body #prefix").val("");
                 var translatedText = "{{ __('main.newData') }}";
                 $(".modelTitle").html(translatedText);
 
@@ -153,6 +154,7 @@
                             $('#createModal').modal("show");
                             $(".modal-body #name_ar").val( response.name_ar );
                             $(".modal-body #name_en").val( response.name_en );
+                            $(".modal-body #prefix").val( response.prefix );
                             $(".modal-body #id").val(response.id);
                             var translatedText = "{{ __('main.editData') }}";
                             $(".modelTitle").html(translatedText);

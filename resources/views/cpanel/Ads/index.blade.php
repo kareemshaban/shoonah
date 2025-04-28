@@ -48,6 +48,7 @@
                                     <th class="text-center">#</th>
                                     <th class="text-center"> {{__('main.banner')}}</th>
                                     <th class="text-center">{{__('main.adType')}}</th>
+                                    <th class="text-center">{{__('main.duration')}}</th>
                                     <th class="text-center">{{__('main.isVisible')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
@@ -71,6 +72,7 @@
                                                 <span class="badge bg-info">{{__('main.adType1')}}</span>
                                             @endif
                                         </td>
+                                        <td class="text-center">{{$ad -> duration}}</td>
                                         <td class="text-center">
                                             @if($ad -> isVisible == 0)
                                                 <span class="badge bg-danger">{{__('main.isVisible0')}}</span>
@@ -138,6 +140,7 @@
                 $(".modal-body #banner").val("");
                 $(".modal-body #item_id").val("");
                 $(".modal-body #url").val("");
+                $(".modal-body #duration").val(0);
                 $(".modal-body #isVisible").val("1");
                 $(".modal-body #flag-img").attr('src', '{{ asset('assets/img/picture.png') }}');
                 var translatedText = "{{ __('main.newData') }}";
@@ -205,6 +208,7 @@
                             $(".modal-body #url").val(response.url);
                             $(".modal-body #isVisible").val(response.isVisible);
                             $(".modal-body #id").val(response.id);
+                            $(".modal-body #duration").val(response.duration);
                             var translatedText = "{{ __('main.editData') }}";
                             $(".modelTitle").html(translatedText);
 

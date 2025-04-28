@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Roles;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -35,8 +37,13 @@ class HomeController extends Controller
 
     public function users()
     {
-         $users = User::all();
-         return view('cpanel.Users.index' , compact('users'));
+
+        $users = DB::table('users')
+             -> leftJoin('roles', 'users.role_id', '=', 'roles.id')
+             -> select('users.*', 'roles.name_ar as role_ar' , 'roles.name_en as role_en')
+             -> get() ;
+        $roles = Roles::all();
+         return view('cpanel.Users.index' , compact('users' ,'roles'));
     }
     public function storeUser(Request $request)
     {
@@ -47,7 +54,8 @@ class HomeController extends Controller
                 'email' => $request -> email,
                 'type' => $request -> type ,
                 'supplier_id' => $request -> supplier_id ,
-                'password' => Hash::make($request -> password)
+                'password' => Hash::make($request -> password),
+                'role_id' => $request -> role_id ?? 0
             ]);
             if($request -> supplier_id > 0){
                 $supplier = Supplier::find($request -> supplier_id);
@@ -68,7 +76,8 @@ class HomeController extends Controller
                     'email' => $request -> email,
                     'type' => $request -> type ,
                     'supplier_id' => $request -> supplier_id ,
-                    'password' => Hash::make($request -> password)
+                    'password' => Hash::make($request -> password),
+                    'role_id' => $request -> role_id ?? 0
                 ]);
 
                 if($request -> supplier_id > 0){
@@ -83,11 +92,55 @@ class HomeController extends Controller
 
     public function showUser($id)
     {
-
+       $user = User::find($id);
+       echo json_encode($user);
+       exit();
     }
     public function destroyUser($id)
     {
+        $user = User::find($id);
+        if($user){
+            $user -> delete();
+            return redirect()->route('users')->with('success', __('main.deleted'));
+        }
+    }
+
+    public function getUserProfile($id)
+    {
+        $user = DB::table('users')
+            -> leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            -> select('users.*', 'roles.name_ar as role_ar' , 'roles.name_en as role_en')
+            -> where('users.id', '=', $id)
+            -> get() -> first();
+        if($user){
+
+            $auths = DB::table('authentications')
+                -> join('roles' , 'authentications.role_id', '=', 'roles.id')
+                -> select('authentications.*' ) ->
+                where('authentications.role_id' , $user -> role_id) -> get() ;
+
+            return view('cpanel.Users.profile' , compact('user' , 'auths'));
+
+        }
+
+
+
+
 
     }
 
+    public function resetPassword(Request $request)
+    {
+
+            $user = User::find($request -> id);
+            if($user){
+                $user -> update([
+                    'password' => Hash::make($request -> new_password),
+                ]);
+                return redirect()->route('getUserProfile' , $user -> id)->with('success', __('main.updated'));
+            }
+
+
+
+    }
 }

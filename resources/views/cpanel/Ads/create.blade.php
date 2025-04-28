@@ -95,6 +95,19 @@
                                </div>
 
                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.duration') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
+                                    <input  type="number" step="any" id="duration" name="duration"
+                                            class="form-control @error('duration') is-invalid @enderror" required>
+                                    @error('duration')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+
+                            </div>
                         </div>
                         <div >
                             <label for="img" class="col-form-label">{{ __('main.banner') }} <span style="font-size: 14px ; color: red"> * </span> </label>

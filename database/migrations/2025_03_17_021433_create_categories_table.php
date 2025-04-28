@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table -> integer("department_id");
             $table -> string("name_ar");
             $table -> string("name_en");
+            $table -> string('prefix');
             $table -> integer("user_ins") -> default(0);
             $table -> integer("user_upd") -> default(0);
             $table->timestamps();

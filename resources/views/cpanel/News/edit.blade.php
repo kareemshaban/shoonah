@@ -79,9 +79,9 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px;">
                                         <div class="form-group">
-                                            <label>{{ __('main.description_ar') }} <span style="color: red ; font-size: 14px" > * </span> </label>
+                                            <label>{{ __('main.description_ar') }}  </label>
                                             <textarea name="details_ar" id="details_ar" class="form-control editor @error('details_ar') is-invalid @enderror"
-                                                      autofocus required  placeholder="{{ __('main.description_ar') }}" > {{$news -> details_ar}} </textarea>
+                                                      autofocus   placeholder="{{ __('main.description_ar') }}" > {{$news -> details_ar}} </textarea>
                                             @error('details_ar')
                                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -93,13 +93,27 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px;">
                                         <div class="form-group">
-                                            <label>{{ __('main.description_en') }} <span style="color: red ; font-size: 14px" > * </span> </label>
+                                            <label>{{ __('main.description_en') }} </label>
                                             <textarea name="details_en" id="details_en" class="form-control editor @error('details_en') is-invalid @enderror"
-                                                      autofocus  required  placeholder="{{ __('main.description_en') }}" > {{$news -> details_ar}} </textarea>
+                                                      autofocus    placeholder="{{ __('main.description_en') }}" > {{$news -> details_ar}} </textarea>
                                             @error('details_en')
                                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
+                                            @enderror
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px;">
+                                        <div class="form-group">
+                                            <label>{{ __('main.url') }} <span style="font-size: 14px ; color: red">*</span> </label>
+                                            <input name="url" id="url" class="form-control @error('url') is-invalid @enderror"
+                                                   autofocus    placeholder="{{ __('main.url') }} " value="{{$news -> url}}" >
+                                            @error('url')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                       </span>
                                             @enderror
 
 

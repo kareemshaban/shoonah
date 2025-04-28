@@ -49,6 +49,8 @@
                                     <th class="text-center"> {{__('main.name_ar')}}</th>
                                     <th class="text-center">{{__('main.name_en')}}</th>
                                     <th class="text-center">{{__('main.symbol')}}</th>
+                                    <th class="text-center">{{__('main.rate')}}</th>
+                                    <th class="text-center">{{__('main.isDefault')}}</th>
                                     <th class="text-center">{{__('main.actions')}}</th>
                                 </tr>
                                 </thead>
@@ -59,6 +61,7 @@
                                         <td class="text-center">{{$currency -> name_ar}}</td>
                                         <td class="text-center">{{$currency -> name_en}}</td>
                                         <td class="text-center">{{$currency -> symbol}}</td>
+                                        <td class="text-center">{{$currency -> rate}}</td>
                                         <td class="text-center">
                                             @if($currency -> isDefault == 0)
                                                 <span class="badge bg-info">{{__('main.isDefault0')}}</span>
@@ -123,6 +126,7 @@
                 $(".modal-body #name_ar").val("");
                 $(".modal-body #name_en").val("");
                 $(".modal-body #symbol").val("");
+                $(".modal-body #rate").val("0");
                 $(".modal-body #isDefault").val(0);
                 var translatedText = "{{ __('main.newData') }}";
                 $(".modelTitle").html(translatedText);
@@ -167,6 +171,7 @@
                             $(".modal-body #symbol").val( response.symbol );
                             $(".modal-body #isDefault").val( response.isDefault );
                             $(".modal-body #id").val(response.id);
+                            $(".modal-body #rate").val(response.rate);
                             var translatedText = "{{ __('main.editData') }}";
                             $(".modelTitle").html(translatedText);
 

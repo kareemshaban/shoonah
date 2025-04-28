@@ -9,6 +9,12 @@ use Carbon\Carbon;
 
 class NewsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -79,6 +85,7 @@ class NewsController extends Controller
             'img1' => $img1,
             'img2' => $img2,
             'img3' => $img3,
+            'url' => $request -> url ?? "",
             'isVisible' => $request -> isVisible,
             'user_ins' => Auth::user() -> id
         ]);
@@ -166,11 +173,12 @@ class NewsController extends Controller
                 'publisher' => $request -> publisher ,
                 'date' => Carbon::parse($request -> date) ,
                 'mainImg' => $mainImg,
-                'details_ar' => $request -> details_ar,
-                'details_en' => $request -> details_en,
+                'details_ar' => $request -> details_ar ?? "",
+                'details_en' => $request -> details_en ?? "",
                 'img1' => $img1,
                 'img2' => $img2,
                 'img3' => $img3,
+                'url' => $request -> url ?? "",
                 'isVisible' => $request -> isVisible,
                 'user_upd' => Auth::user() -> id
             ]);

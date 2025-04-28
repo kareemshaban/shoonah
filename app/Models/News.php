@@ -22,6 +22,7 @@ class News extends Model
         'img2',
         'img3',
         'isVisible',
+        'url',
         'user_ins',
         'user_upd'
     ];

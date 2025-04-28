@@ -48,6 +48,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.prefix') }} </label>
+                                    <input type="text" name="prefix" id="prefix"
+                                           class="form-control @error('prefix') is-invalid @enderror"
+                                           placeholder="XX" autofocus maxlength="2"/>
+                                    @error('prefix')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="row" style="margin-top: 40px">

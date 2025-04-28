@@ -21,6 +21,7 @@ class CreateAdsTable extends Migration
             $table -> string('url');
             $table -> integer('item_id');
             $table -> integer('isVisible');
+            $table -> integer('duration');
             $table -> integer('user_ins') -> default(0);
             $table -> integer('user_upd') -> default(0);
             $table->timestamps();

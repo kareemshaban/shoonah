@@ -17,6 +17,7 @@ class CreateBrandsTable extends Migration
             $table->id();
             $table -> string("name_ar");
             $table -> string("name_en");
+            $table -> string('prefix');
             $table -> integer("user_ins");
             $table -> integer("user_upd");
             $table->timestamps();

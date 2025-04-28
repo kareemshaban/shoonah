@@ -48,6 +48,7 @@ class DepartmentController extends Controller
             Department::create([
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
+                'prefix' => $request -> prefix  ?? "",
                 'user_ins' => Auth::user() -> id,
                 'user_upd'  => 0
             ]);
@@ -96,6 +97,7 @@ class DepartmentController extends Controller
             $department -> update([
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
+                'prefix' => $request -> prefix  ?? "",
                 'user_upd' => Auth::user() -> id
             ]);
             return redirect()->route('departments')->with('success', __('main.updated'));

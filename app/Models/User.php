@@ -22,7 +22,8 @@ class User extends Authenticatable
         'password',
         'type',
         'supplier_id',
-        'block'
+        'block',
+        'role_id'
     ];
 
     /**

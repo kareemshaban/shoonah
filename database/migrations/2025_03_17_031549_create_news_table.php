@@ -26,6 +26,7 @@ class CreateNewsTable extends Migration
             $table -> string('img2');
             $table -> string('img3');
             $table -> integer('isVisible');
+            $table -> string('url');
             $table -> integer('user_ins') -> default(0);
             $table -> integer('user_upd') -> default(0);
             $table->timestamps();

@@ -38,21 +38,33 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{asset('assets/img/avatars/1.png')}}" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{asset('assets/img/avatar.png')}}" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                 </a>
-                <ul class="dropdown-menu @if(Config::get('app.locale')=='ar' ) dropdown-menu-start  @else  dropdown-menu-end @endif ">
+                <ul class="dropdown-menu @if(Config::get('app.locale')=='ar' ) dropdown-menu-start  @else  dropdown-menu-end @endif "
+                @if(Config::get('app.locale')=='ar' ) style="direction: rtl" @endif>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="#" >
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{asset('assets/img/avatars/1.png')}}" alt class="w-px-40 h-auto rounded-circle" />
+                                        <img src="{{asset('assets/img/avatar.png')}}" alt class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
                                     <span class="fw-semibold d-block">{{auth()->user()->name }}</span>
-                                    <small class="text-muted">Admin</small>
+                                    <small class="text-muted">
+
+                                            @if(auth()->user() -> type == 0)
+                                                <span class="badge bg-success">{{__('main.user0')}}</span>
+                                            @elseif(auth()->user() -> type == 1)
+                                                <span class="badge bg-info">{{__('main.user1')}}</span>
+                                            @elseif(auth()->user() -> type == 2)
+                                                <span class="badge bg-primary">{{__('main.user2')}}</span>
+                                            @endif
+
+
+                                    </small>
                                 </div>
                             </div>
                         </a>
@@ -61,15 +73,9 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" @if(Config::get('app.locale')=='ar' ) style="text-align: right" @endif href="{{route('getUserProfile' , auth() -> user() -> id)}}">
                             <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Settings</span>
+                            <span class="align-middle">{{__('main.profile' )}}</span>
                         </a>
                     </li>
 
@@ -77,9 +83,10 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="auth-login-basic.html">
-                            <i class="bx bx-power-off me-2"></i>
-                            <span class="align-middle">Log Out</span>
+                        <a class="dropdown-item" onclick="openLogOutModal()"
+                           @if(Config::get('app.locale')=='ar' ) style="text-align: right" @endif href="#">
+                            <i class="bx bx-power-off me-2 text-danger"></i>
+                            <span class="align-middle text-danger">{{__('main.logOut')}}</span>
                         </a>
                     </li>
                 </ul>
@@ -88,3 +95,35 @@
         </ul>
     </div>
 </nav>
+@include('layouts.logOutModal')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function openLogOutModal(){
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href,
+            beforeSend: function() {
+                $('#loader').show();
+            },
+            // return the result
+            success: function(result) {
+                $('#alertModal').modal("show");
+            },
+            complete: function() {
+                $('#loader').hide();
+            },
+            error: function(jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            },
+            timeout: 8000
+        })
+    }
+
+    $(document).on('click', '.logout_btn', function(event) {
+        console.log('clicked');
+        $('#alertModal').modal("hide");
+        document.getElementById('logout-form').submit();
+    });
+</script>

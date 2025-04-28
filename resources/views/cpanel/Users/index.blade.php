@@ -40,6 +40,7 @@
                     <!-- Responsive Table -->
                     <div class="card">
                         <h5 class="card-header">{{__('main.users')}}</h5>
+                        @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -57,17 +58,36 @@
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
                                         <td class="text-center">{{$user -> name}}</td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">
+                                            @if(Config::get('app.locale')=='ar' )
+                                                {{$user -> role_ar ?? ''}}
+                                            @else
+                                                {{$user -> role_en ?? ""}}
+                                            @endif
+                                        </td>
                                         <td class="text-center">{{$user -> email}}</td>
-                                        <td class="text-center">{{$user -> type}}</td>
+                                        <td class="text-center">
+                                        @if($user -> type == 0)
+                                                <span class="badge bg-success">{{__('main.user0')}}</span>
+                                            @elseif($user -> type == 1)
+                                                <span class="badge bg-info">{{__('main.user1')}}</span>
+                                            @elseif($user -> type == 2)
+                                                <span class="badge bg-primary">{{__('main.user2')}}</span>
+                                            @endif
+                                        </td>
 
 
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <i class='bx bxs-edit-alt text-success editBtn'  data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
                                                    id="{{$user -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                @if($user -> type == 0)
                                                 <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
                                                    id="{{$user -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                @else
+                                                    <i class='bx bxs-trash '
+                                                       id="{{$user -> id}}" style="font-size: 25px ; color: transparent"></i>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -113,11 +133,17 @@
             },
             // return the result
             success: function (result) {
-                $('#createModal').modal("show");
+                $('#createAccountModal').modal("show");
                 $(".modal-body #id").val(0);
-                $(".modal-body #name_ar").val("");
-                $(".modal-body #name_en").val("");
-                $(".modal-body #country_id").val("");
+                $(".modal-body #supplier_id").val(0);
+                $(".modal-body #type").val(0);
+                $(".modal-body #name").val("");
+                $(".modal-body #email").val("");
+                $(".modal-body #password").val("");
+                $(".modal-body #password2").val("");
+                $(".modal-body #role_id").val("");
+                $(".modal-body #roles").show();
+                $(".modal-body #role_id").attr('required', true);
                 var translatedText = "{{ __('main.newData') }}";
                 $(".modelTitle").html(translatedText);
 
@@ -141,7 +167,7 @@
         let href = $(this).attr('data-attr');
         $.ajax({
             type:'get',
-            url:'/getCity' + '/' + id,
+            url:'/getUser' + '/' + id,
             dataType: 'json',
 
             success:function(response){
@@ -155,12 +181,24 @@
                         },
                         // return the result
                         success: function(result) {
-                            $('#createModal').modal("show");
+                            $('#createAccountModal').modal("show");
 
-                            $(".modal-body #name_ar").val( response.name_ar );
-                            $(".modal-body #name_en").val( response.name_en );
-                            $(".modal-body #country_id").val( response.country_id );
                             $(".modal-body #id").val(response.id);
+                            $(".modal-body #supplier_id").val(response.supplier_id);
+                            $(".modal-body #type").val(response.type);
+                            $(".modal-body #name").val(response.name);
+                            $(".modal-body #email").val(response.email);
+                            $(".modal-body #password").val("*******");
+                            $(".modal-body #password2").val("*******");
+                            $(".modal-body #role_id").val(response.role_id);
+                            if(response.type == 0){
+                                $(".modal-body #roles").show();
+                                $(".modal-body #role_id").attr('required', true);
+                            } else {
+                                $(".modal-body #roles").hide();
+                                $(".modal-body #role_id").attr('required', false);
+                            }
+
                             var translatedText = "{{ __('main.editData') }}";
                             $(".modelTitle").html(translatedText);
 
@@ -217,7 +255,7 @@
     });
 
     function confirmDelete(id){
-        let url = "{{ route('deleteCity', ':id') }}";
+        let url = "{{ route('deleteUser', ':id') }}";
         url = url.replace(':id', id);
         document.location.href=url;
     }

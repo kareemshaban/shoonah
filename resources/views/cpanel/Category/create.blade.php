@@ -18,7 +18,7 @@
                           enctype="multipart/form-data">
                         @csrf
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.department') }} <span style="font-size: 14px ; color: red"> * </span> </label>
                                     <select type="text" name="department_id" id="department_id"
@@ -44,6 +44,20 @@
 
                                 </div>
 
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.prefix') }} </label>
+                                    <input type="text" name="prefix" id="prefix"
+                                           class="form-control @error('prefix') is-invalid @enderror"
+                                           placeholder="XX" autofocus maxlength="2"/>
+                                    @error('prefix')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+
+                                </div>
                             </div>
 
                         </div>

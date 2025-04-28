@@ -15,6 +15,7 @@ class Currency extends Model
        'name_en',
        'symbol',
        'isDefault',
+        'rate',
         'user_ins',
         'user_upd'
 

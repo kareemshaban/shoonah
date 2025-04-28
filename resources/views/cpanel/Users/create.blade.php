@@ -17,7 +17,27 @@
                     <form class="center" method="POST" action="{{ route('store-user') }}"
                           enctype="multipart/form-data">
                         @csrf
+                        <div class="row" style="margin-bottom: 10px" id="roles">
+                             <div class="col-12">
+                                 <div class="form-group">
+                                     <label> {{__('main.role')}} <span style="color:red ; font-size: 14px"> * </span> </label>
+                                       <select id="role_id" name="role_id" class="form-control" >
+                                           <option value="0"> {{__('main.choose')}} </option>
+                                           @foreach($roles as $role)
+                                               <option value="{{$role -> id}}">
+                                                   @if(Config::get('app.locale')=='ar' )
+                                                       {{$role -> name_ar}}
+                                                   @else
+                                                       {{$role -> name_en}}
+                                                   @endif
+                                               </option>
 
+                                           @endforeach
+                                       </select>
+                                 </div>
+
+                             </div>
+                        </div>
                         <div class="row" style="margin-bottom: 10px">
                             <div class="col-6">
                                 <div class="form-group">
