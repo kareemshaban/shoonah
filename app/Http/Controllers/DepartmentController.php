@@ -13,7 +13,7 @@ class DepartmentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'check.type']);
     }
     /**
      * Display a listing of the resource.
@@ -120,9 +120,5 @@ class DepartmentController extends Controller
         }
     }
 
-    public function getCats($department){
-        $cats = Category::where('department_id', $department) -> get();
-        echo json_encode($cats);
-        exit();
-    }
+
 }

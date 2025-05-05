@@ -24,8 +24,21 @@
                 <div data-i18n="Analytics">{{__('main.dashboard')}}</div>
             </a>
         </li>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">{{__('main.reviews_department')}}</span>
+        </li>
 
+        @if(auth() -> user() -> type == 1)
+            <li class="menu-item @if($subSlag == 22)  active @endif">
+                <a href="{{route('reviews')}}"  class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-star"></i>
+                    <div data-i18n="Rates">{{__('main.my_reviews')}}</div>
+                </a>
+            </li>
+
+        @endif
         <!-- Layouts -->
+        @if(auth() -> user() -> type == 0)
         <li class="menu-item @if($slag == 1)  active @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -93,7 +106,7 @@
 
             </ul>
         </li>
-
+        @endif
         <!-- Components -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">{{__('main.product_department')}}</span></li>
         <!-- Cards -->
@@ -110,6 +123,7 @@
                         <div data-i18n="Accordion">{{__('main.brands')}}</div>
                     </a>
                 </li>
+                @if(auth() -> user() -> type == 0)
                 <li class="menu-item @if($subSlag == 42)  active @endif">
                     <a href="{{route('departments')}}" class="menu-link">
                         <div data-i18n="Alerts">{{__('main.departments')}}</div>
@@ -120,6 +134,8 @@
                         <div data-i18n="Badges">{{__('main.categories')}}</div>
                     </a>
                 </li>
+                @endif
+
                 <li class="menu-item @if($subSlag == 44)  active @endif">
                     <a href="{{route('products')}}" class="menu-link">
                         <div data-i18n="Buttons">{{__('main.products')}}</div>
@@ -127,14 +143,31 @@
                 </li>
                 <li class="menu-item @if($subSlag == 45)  active @endif">
                     <a href="{{route('create-product')}}" class="menu-link">
-                        <div data-i18n="Buttons">{{__('main.create_product')}}</div>
+                        <div data-i18n="Buttons">
+                        @if(auth() -> user() -> type == 0)
+                                {{__('main.create_product')}}
+                            @else
+                                {{__('main.create_private_product')}}
+
+                        @endif
+
+                        </div>
                     </a>
                 </li>
-                <li class="menu-item @if($subSlag == 46)  active @endif">
-                    <a href="{{route('add_product_to_supplier')}}" class="menu-link">
-                        <div data-i18n="Buttons">{{__('main.add_product_to_supplier')}}</div>
-                    </a>
-                </li>
+                @if(auth() -> user() -> type == 0)
+                    <li class="menu-item @if($subSlag == 46)  active @endif">
+                        <a href="{{route('add_product_to_supplier')}}" class="menu-link">
+                            <div data-i18n="Buttons">{{__('main.add_product_to_supplier')}}</div>
+                        </a>
+                    </li>
+                    @else
+                    <li class="menu-item @if($subSlag == 46)  active @endif">
+                        <a href="{{route('add_product_to_supplier')}}" class="menu-link">
+                            <div data-i18n="Buttons">{{__('main.selectProduct')}}</div>
+                        </a>
+                    </li>
+
+                @endif
 
             </ul>
         </li>
@@ -197,6 +230,7 @@
             </ul>
         </li>
 
+        @if(auth() -> user() -> type == 0)
         <li class="menu-header small text-uppercase"><span class="menu-header-text">{{__('main.news_ads_department')}}</span></li>
         <!-- Forms -->
         <li class="menu-item @if($slag == 8)  active @endif">
@@ -298,5 +332,6 @@
                 </li>
             </ul>
         </li>
+        @endif
     </ul>
 </aside>

@@ -281,7 +281,7 @@
                             $(".modal-body #type").val(1);
                             $(".modal-body #role_id").val("");
                             $(".modal-body #roles").hide();
-                            $(".modal-body #role_id").attr('required', fale);
+                            $(".modal-body #role_id").attr('required', false);
 
                             var translatedText = "{{ __('main.newData') }}";
                             $(".modelTitle").html(translatedText);
@@ -329,14 +329,14 @@
                             $('#createAccountModal').modal("show");
                             $(".modal-body #name").val(response.name);
                             $(".modal-body #email").val(response.email);
-                            $(".modal-body #password").val('********');
-                            $(".modal-body #password2").val('********');
+                            $(".modal-body #password").val(response.default_password);
+                            $(".modal-body #password2").val(response.default_password);
                             $(".modal-body #id").val(response.id);
-                            $(".modal-body #supplier_id").val(response.id);
+                            $(".modal-body #supplier_id").val(response.supplier_id);
                             $(".modal-body #type").val(response.type);
                             $(".modal-body #role_id").val("");
                             $(".modal-body #roles").hide();
-                            $(".modal-body #role_id").attr('required', fale);
+                            $(".modal-body #role_id").attr('required', false);
 
 
                             var translatedText = "{{ __('main.editData') }}";

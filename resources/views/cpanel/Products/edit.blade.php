@@ -226,7 +226,9 @@
 
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
+                                <input type="hidden" id="userType" name="userType" value="{{auth()-> user() -> type}}"/>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;" id="isPrivateEle">
                                     <div class="form-group">
                                         <label> {{__('main.productType')}} <span style="color: red ; font-size: 14px" > * </span></label>
                                         <select name="isPrivate" id="isPrivate" class="form-control @error('isPrivate') is-invalid @enderror"
@@ -260,6 +262,38 @@
 
                                     </div>
                                 </div>
+
+                                @if(auth() -> user() -> type == 1)
+                                    <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
+                                        <div class="form-group">
+                                            <label> {{__('main.quantity')}}  </label>
+                                            <input type="number"  step="any" name="quantity" id="quantity"
+                                                   class="form-control @error('quantity') is-invalid @enderror"
+                                                   placeholder="{{ __('main.quantity') }}" autofocus  required value="{{$supplierProduct -> quantity}}"/>
+                                            @error('quantity')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
+                                        <div class="form-group">
+                                            <label> {{__('main.price')}} <span style="color: red ; font-size: 14px"> * </span>  </label>
+                                            <input type="number" step="any" name="price" id="price"
+                                                   class="form-control @error('price') is-invalid @enderror"
+                                                   placeholder="{{ __('main.price') }}" autofocus  required value="{{$supplierProduct -> price}}"/>
+                                            @error('price')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+
+                                        </div>
+                                    </div>
+                                   <input type="hidden" id="sId" name="sId" value="{{$supplierProduct -> id}}" />
+                                @endif
 
                             </div>
                             <div class="row" style="margin-top: 20px">
@@ -413,6 +447,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $( document ).ready(function() {
+        if($('#userType').val() == 1){
+            $('#isPrivate').val("1");
+            $('#isPrivateEle').hide();
+        } else {
+            $('#isPrivate').val("0");
+            $('#isPrivateEle').show();
+        }
         $('.editor').each(function(index) {
             // Ensure the element has a unique ID (required by CKEditor)
             if (!this.id) {

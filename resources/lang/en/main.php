@@ -217,6 +217,24 @@ return [
     're_enter_password' => 'Re-enter New Password',
     'password_missmatch' => 'Sorry Password Miss match',
     'update_auth' => 'Add and Update Auth',
+    'reset_password_to_verify' => 'Please change your account password so you can activate your account and continue using the Shoonah platform.',
+    'lang' => 'Language',
+    'verify_account_btn' => 'Reset Password & Verify Account',
+    'make_your_info_updates' => 'Keep your Info Updated',
+    'day' => 'Day',
+    'you_here_since' => 'Your part of our family since',
+    'welcome' => 'Welcome Back',
+    '403message' => "Access to this page is restricted",
+    '403message2' => 'Please check with the site admin if you believe this is a mistake.',
+    'reviews_department' => 'Customer Reviews Section',
+    'create_private_product' => 'Create Private Product',
+    'isReviewed' => 'Reviewed ?',
+    'isReviewed0' => 'Reviewing',
+    'isReviewed1' => 'Accepted',
+    'isReviewed2' => 'Declined',
+    'selectProduct' => 'Select Product',
+    'manage_action' => 'Manage Product in my Store',
+    'delete_btn' => 'i do not need this item in my store ! delete Now '
 
 
 ];

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Roles;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -47,6 +49,7 @@ class HomeController extends Controller
     }
     public function storeUser(Request $request)
     {
+
         if($request -> id == 0){
 
             User::create([
@@ -55,7 +58,9 @@ class HomeController extends Controller
                 'type' => $request -> type ,
                 'supplier_id' => $request -> supplier_id ,
                 'password' => Hash::make($request -> password),
-                'role_id' => $request -> role_id ?? 0
+                'role_id' => $request -> role_id ?? 0,
+                'default_password' => $request -> password,
+                'verified' => $request -> supplier_id > 0 ? 0 : 1
             ]);
             if($request -> supplier_id > 0){
                 $supplier = Supplier::find($request -> supplier_id);
@@ -77,7 +82,8 @@ class HomeController extends Controller
                     'type' => $request -> type ,
                     'supplier_id' => $request -> supplier_id ,
                     'password' => Hash::make($request -> password),
-                    'role_id' => $request -> role_id ?? 0
+                    'role_id' => $request -> role_id ?? 0 ,
+                    'default_password' => $request -> password,
                 ]);
 
                 if($request -> supplier_id > 0){
@@ -114,12 +120,16 @@ class HomeController extends Controller
             -> get() -> first();
         if($user){
 
+            $countries = Country::all();
+
+            $supplier = Supplier::find($user -> supplier_id);
+
             $auths = DB::table('authentications')
                 -> join('roles' , 'authentications.role_id', '=', 'roles.id')
                 -> select('authentications.*' ) ->
                 where('authentications.role_id' , $user -> role_id) -> get() ;
 
-            return view('cpanel.Users.profile' , compact('user' , 'auths'));
+            return view('cpanel.Users.profile' , compact('user' , 'auths' , 'countries' , 'supplier'));
 
         }
 
@@ -139,8 +149,57 @@ class HomeController extends Controller
                 ]);
                 return redirect()->route('getUserProfile' , $user -> id)->with('success', __('main.updated'));
             }
+    }
 
+    public function updatePassword($id)
+    {
+        $user = User::find($id);
 
+        return view ('cpanel.Users.updatePassword' , compact('user'));
 
+    }
+
+    public function verifyAccount(Request $request)
+    {
+        $user = User::find($request -> id);
+        if($user){
+            $user -> update([
+                'password' => Hash::make($request -> new_password),
+                'default_password' => Hash::make($request -> new_password),
+                'verified' => 1
+            ]);
+            return redirect()->route('index' );
+
+        }
+    }
+
+    public function updateSupplier(Request $request)
+    {
+        $supplier = Supplier::find($request->id);
+        if ($supplier) {
+            $user = User::where('supplier_id', $supplier->id)->first();
+
+            if ($request->logo) {
+                $logo = time() . '.' . $request->logo->getClientOriginalExtension();
+                $request->logo->move(('images/Supplier'), $logo);
+            } else {
+                $logo = $supplier->logo;
+            }
+            $supplier->update([
+                'name' => $request->name,
+                'company' => $request->company,
+                'logo' => $logo,
+                'country_id' => $request->country_id,
+                'city_id' => $request->city_id,
+                'address' => $request->address ?? "",
+                'phone' => $request->phone ?? "",
+                'email' => $request->email ?? "",
+                'mobile' => $request->mobile ?? "",
+                'vatNumber' => $request->vatNumber ?? "",
+                'registrationNumber' => $request->registrationNumber ?? "",
+                'user_upd' => Auth::user()->id,
+            ]);
+            return redirect()->route('getUserProfile', $user->id)->with('success', __('main.updated'));
+        }
     }
 }

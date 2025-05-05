@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReviewController extends Controller
@@ -19,10 +20,21 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = DB::table('reviews') ->
-        join('suppliers' , 'suppliers.id' , '=' , 'reviews.supplier_id') ->
-        join('clients' , 'clients.id' , '=' , 'reviews.client_id') ->
-        select('reviews.*' , 'suppliers.name as supplier' , 'clients.name as client') -> get() ;
+        $user = Auth::user();
+
+        if($user -> type == 0){
+            $reviews = DB::table('reviews') ->
+            join('suppliers' , 'suppliers.id' , '=' , 'reviews.supplier_id') ->
+            join('clients' , 'clients.id' , '=' , 'reviews.client_id') ->
+            select('reviews.*' , 'suppliers.name as supplier' , 'clients.name as client') -> get() ;
+        } else {
+            $reviews = DB::table('reviews') ->
+            join('suppliers' , 'suppliers.id' , '=' , 'reviews.supplier_id') ->
+            join('clients' , 'clients.id' , '=' , 'reviews.client_id') ->
+            select('reviews.*' , 'suppliers.name as supplier' , 'clients.name as client')
+                -> where('reviews.supplier_id' , '=' , $user -> supplier_id) -> get() ;
+        }
+
 
         return view('cpanel.Review.index', compact('reviews' ));
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SupplierProducts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SupplierProductsController extends Controller
@@ -63,6 +64,21 @@ class SupplierProductsController extends Controller
         exit();
     }
 
+    public function showWithProductIdAndSupplierID($product_id , $supplier_id)
+    {
+        $product = DB::table('supplier_products')
+            -> join('products' , 'products.id', '=', 'supplier_products.product_id')
+            -> join('suppliers' , 'suppliers.id', '=', 'supplier_products.supplier_id')
+            -> select('supplier_products.*' , 'products.name_ar' , 'products.name_en' ,
+                'products.mainImg' ,'suppliers.name as supplier_name' )
+            -> where ('supplier_products.product_id' , '=' , $product_id )
+            -> where ('supplier_products.supplier_id' , '=' , $supplier_id )
+            -> get() -> first();
+
+        echo  json_encode($product);
+        exit();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -97,7 +113,13 @@ class SupplierProductsController extends Controller
         $product = SupplierProducts::find($id);
         if($product){
             $product -> delete();
-            return redirect()->route('add_product_to_supplier')->with('success', __('main.deleted'));
+            if(Auth::user() -> type == 0){
+                return redirect()->route('add_product_to_supplier')->with('success', __('main.deleted'));
+
+            } else {
+                return redirect()->route('products')->with('success', __('main.deleted'));
+
+            }
 
         }
     }

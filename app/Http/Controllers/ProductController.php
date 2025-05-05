@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Department;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -25,15 +26,33 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = DB::table("products")
-            -> join('brands' , 'brands.id', '=', 'products.brand_id')
-            -> join('categories' , 'categories.id', '=', 'products.category_id')
-            -> join('departments' , 'departments.id', '=', 'products.department_id')
-            -> select('products.*' , 'brands.name_ar as brand_ar' , 'brands.name_en as brand_en' ,
-            'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
-            'departments.name_ar as department_ar' , 'departments.name_en as department_en')
-            ->get();
-        return view('cpanel.Products.index', compact('products' ));
+        $suppliers = Supplier::all();
+        if (Auth::user() -> type == 0){
+            $products = DB::table("products")
+                -> join('brands' , 'brands.id', '=', 'products.brand_id')
+                -> join('categories' , 'categories.id', '=', 'products.category_id')
+                -> join('departments' , 'departments.id', '=', 'products.department_id')
+                -> select('products.*' , 'brands.name_ar as brand_ar' , 'brands.name_en as brand_en' ,
+                    'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
+                    'departments.name_ar as department_ar' , 'departments.name_en as department_en')
+                ->get();
+        } else {
+            $products = DB::table('products')
+                -> join('supplier_products' , 'products.id', '=', 'supplier_products.product_id')
+                -> join('brands' , 'brands.id', '=', 'products.brand_id')
+                -> join('categories' , 'categories.id', '=', 'products.category_id')
+                -> join('departments' , 'departments.id', '=', 'products.department_id')
+                -> select('supplier_products.price' , 'supplier_products.quantity' ,
+                    'products.user_ins' , 'products.id' , 'products.name_ar' , 'products.name_en' ,
+                    'products.mainImg' , 'products.isReviewed',
+                    'products.isPrivate' , 'products.isAvailable' ,'brands.name_ar as brand_ar' , 'brands.name_en as brand_en' ,
+                    'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
+                    'departments.name_ar as department_ar' , 'departments.name_en as department_en')
+                -> where ('supplier_products.supplier_id' , '=' , Auth::user() -> supplier_id)
+                -> get();
+        }
+
+        return view('cpanel.Products.index', compact('products' , 'suppliers'));
     }
 
     /**
@@ -85,7 +104,7 @@ class ProductController extends Controller
             $img4 = "" ;
         }
 
-        Product::create([
+        $id = Product::create([
             'brand_id' => $request -> brand_id	,
             'department_id' => $request -> department_id,
             'category_id' => $request -> category_id,
@@ -105,9 +124,26 @@ class ProductController extends Controller
             'img2' => $img2,
             'img3' => $img3,
             'img4' => $img4,
+            'isReviewed' => Auth::user() -> supplier_id == 0 ? 1 : 0 ,
             'user_ins' => Auth::user() -> id,
             'user_upd' => 0
-        ]);
+        ]) -> id;
+
+        if(Auth::user() -> supplier_id> 0){
+            // so we should register the product into
+            SupplierProducts::create([
+                'supplier_id' => Auth::user() -> supplier_id,
+                'product_id' => $id,
+                'price' => $request -> price ?? 0,
+                'quantity' => $request -> quantity ?? 0,
+                'discount' => 0,
+                'finalPrice' => $request -> price ?? 0,
+                'user_ins' => Auth::user() -> id,
+                'user_upd' => 0
+            ]);
+        }
+
+
         return redirect()->route('products')->with('success', __('main.saved'));
     }
 
@@ -143,7 +179,15 @@ class ProductController extends Controller
         $product = Product::find($id);
         $brands = Brand::all();
         $departments = Department::all();
-        return view('cpanel.Products.edit', compact('brands' , 'departments' , 'product' ));
+        if($product -> isPrivate == 1 && Auth::user() -> type == 1){
+            $supplierProduct = SupplierProducts::where('product_id', $id)
+                -> where('supplier_id' , '=' , Auth::user() -> supplier_id)
+                ->get() -> first();
+        } else {
+            $supplierProduct = null ;
+        }
+
+        return view('cpanel.Products.edit', compact('brands' , 'departments' , 'product' , 'supplierProduct' ));
     }
 
     /**
@@ -225,6 +269,24 @@ class ProductController extends Controller
                 'user_ins' => Auth::user() -> id,
                 'user_upd' => 0
             ]);
+
+            if(Auth::user() -> supplier_id> 0){
+                // so we should register the product into
+                $supplierProduct = SupplierProducts::find($request -> sId);
+                if($supplierProduct){
+                    $supplierProduct -> update([
+                        'supplier_id' => Auth::user() -> supplier_id,
+                        'product_id' => $product -> id,
+                        'price' => $request -> price ?? 0,
+                        'quantity' => $request -> quantity ?? 0,
+                        'discount' => 0,
+                        'finalPrice' => $request -> price ?? 0,
+                        'user_upd' => Auth::user() -> id
+                    ]);
+                }
+
+            }
+
             return redirect()->route('products')->with('success', __('main.updated'));
         }
     }
@@ -240,6 +302,15 @@ class ProductController extends Controller
         $product = Product::find($id);
         if($product){
             $product -> delete();
+            if($product -> isPrivate == 1){
+                if($product -> user_ins == Auth::user() -> id){
+                    $sProduct = SupplierProducts::where('product_id', $id)
+                        -> where('supplier_id' , '=' , Auth::user() -> supplier_id) -> get() -> first();
+                    if($sProduct){
+                        $sProduct -> delete();
+                    }
+                }
+            }
             return redirect()->route('products')->with('success', __('main.deleted'));
         }
     }
@@ -269,7 +340,17 @@ class ProductController extends Controller
                 'departments.name_ar as department_ar' , 'departments.name_en as department_en')
             -> where('products.isPrivate' , 0)
             ->get();
-        return view('cpanel.Products.addProductToSupplier', compact('products' , 'suppliers' ));
+
+
+        if(Auth::user() -> type == 0){
+
+            return view('cpanel.Products.addProductToSupplier', compact('products' , 'suppliers' ));
+
+        } else{
+            $supplier = Supplier::find(Auth::user() -> supplier_id);
+            return view('cpanel.Products.selectProductToSupplier', compact('products' , 'supplier' , 'suppliers'));
+
+        }
     }
 
     public function store_product_to_supplier(Request $request){
@@ -282,7 +363,7 @@ class ProductController extends Controller
                 'discount' => 0,
                 'finalPrice' => $request -> price ?? 0,
                 'user_ins' => Auth::user() -> id,
-                'user_upd'
+                'user_upd' => 0
             ]);
             return redirect()->route('add_product_to_supplier')->with('success', __('main.saved'));
         } else {
@@ -298,7 +379,13 @@ class ProductController extends Controller
                     'user_upd' => Auth::user() -> id
                 ]);
             }
-            return redirect()->route('add_product_to_supplier')->with('success', __('main.updated'));
+            if(Auth::user() -> type == 0){
+                return redirect()->route('add_product_to_supplier')->with('success', __('main.updated'));
+
+            } else {
+                return redirect()->route('products')->with('success', __('main.updated'));
+
+            }
         }
     }
 
@@ -338,6 +425,27 @@ class ProductController extends Controller
                 -> where ('supplier_products.supplier_id' , '=' , $supplier_id)
                 -> get();
        echo json_encode($products);
+        exit();
+    }
+
+
+    public function getCats($department){
+        $cats = Category::where('department_id', $department) -> get();
+        echo json_encode($cats);
+        exit();
+    }
+
+    public function getCategorySupplier($id)
+    {
+        $category = Category::find($id);
+        echo json_encode($category);
+        exit();
+    }
+
+    public function getDepartmentSupplier($id)
+    {
+        $department = Department::find($id);
+        echo json_encode($department);
         exit();
     }
 }

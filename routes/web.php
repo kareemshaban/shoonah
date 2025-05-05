@@ -69,13 +69,16 @@ Route::group(
         Route::post('/store-department', [App\Http\Controllers\DepartmentController::class, 'store'])->name('store-department');
         Route::get('/getDepartment/{id}', [App\Http\Controllers\DepartmentController::class, 'show'])->name('getDepartment');
         Route::get('/deleteDepartment/{id}', [App\Http\Controllers\DepartmentController::class, 'destroy'])->name('deleteDepartment');
-        Route::get('/getDepartmentCategories/{id}', [App\Http\Controllers\DepartmentController::class, 'getCats'])->name('getDepartmentCategories');
+        Route::get('/getDepartmentCategories/{id}', [App\Http\Controllers\ProductController::class, 'getCats'])->name('getDepartmentCategories');
+        Route::get('/getDepartmentSupplier/{id}', [App\Http\Controllers\ProductController::class, 'getDepartmentSupplier'])->name('getDepartmentSupplier');
 
 
         Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
         Route::post('/store-category', [App\Http\Controllers\CategoryController::class, 'store'])->name('store-category');
         Route::get('/getCategory/{id}', [App\Http\Controllers\CategoryController::class, 'show'])->name('getCategory');
         Route::get('/deleteCategory/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('deleteCategory');
+        Route::get('/getCategorySupplier/{id}', [App\Http\Controllers\ProductController::class, 'getCategorySupplier'])->name('getCategorySupplier');
+
 
         Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products');
         Route::post('/store-product', [App\Http\Controllers\ProductController::class, 'store'])->name('store-product');
@@ -92,6 +95,7 @@ Route::group(
         Route::get('/getSupplierProducts/{id}', [App\Http\Controllers\ProductController::class, 'getSupplierProducts'])->name('getSupplierProducts');
         Route::get('/deleteSupplierProduct/{id}', [App\Http\Controllers\SupplierProductsController::class, 'destroy'])->name('deleteSupplierProduct');
         Route::get('/getSupplierProduct/{id}', [App\Http\Controllers\SupplierProductsController::class, 'show'])->name('getSupplierProduct');
+        Route::get('/showWithProductIdAndSupplierID/{product_id}/{supplier_id}', [App\Http\Controllers\SupplierProductsController::class, 'showWithProductIdAndSupplierID'])->name('showWithProductIdAndSupplierID');
 
 
 
@@ -127,6 +131,7 @@ Route::group(
         Route::get('/deleteUser/{id}', [App\Http\Controllers\HomeController::class, 'destroyUser'])->name('deleteUser');
         Route::get('/getUserProfile/{id}', [App\Http\Controllers\HomeController::class, 'getUserProfile'])->name('getUserProfile');
         Route::post('/reset-password', [App\Http\Controllers\HomeController::class, 'resetPassword'])->name('reset-password');
+        Route::post('/update-supplier', [App\Http\Controllers\HomeController::class, 'updateSupplier'])->name('update-supplier');
 
 
 
@@ -174,6 +179,15 @@ Route::group(
         Route::get('/quotations_request_report_by_product', [App\Http\Controllers\RewardController::class, 'quotations_request_report_by_product'])->name('quotations_request_report_by_product');
 
         Route::get('/quotations_request_report_by_supplier', [App\Http\Controllers\RewardController::class, 'quotations_request_report_by_supplier'])->name('quotations_request_report_by_supplier');
+
+
+
+
+
+        ///////////////////////////////////////////////////////////////////////////
+        Route::get('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update-password');
+        Route::post('/verify-account', [App\Http\Controllers\HomeController::class, 'verifyAccount'])->name('verify-account');
+
 
 
 

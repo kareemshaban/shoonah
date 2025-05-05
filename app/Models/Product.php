@@ -30,6 +30,7 @@ class Product extends Model
       'img2',
       'img3',
       'img4',
+      'isReviewed',
        'user_ins',
        'user_upd'
     ];

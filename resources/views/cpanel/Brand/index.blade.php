@@ -59,12 +59,24 @@
                                         <td class="text-center">{{$brand -> name_en}}</td>
 
                                         <td class="text-center">
+                                            @if(auth() -> user() -> type == 0)
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
                                                    id="{{$brand -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                                 <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
                                                    id="{{$brand -> id}}" style="font-size: 25px ; cursor: pointer"></i>
                                             </div>
+                                                @else
+                                                @if(auth() -> user() -> id == $brand -> user_ins)
+                                                    <div style="display: flex ; gap: 10px ; justify-content: center ">
+                                                        <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}"
+                                                           id="{{$brand -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                        <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
+                                                           id="{{$brand -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                    </div>
+                                                @endif
+
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

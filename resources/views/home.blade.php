@@ -30,13 +30,13 @@
                                 <div class="d-flex align-items-end row">
                                     <div class="col-sm-7">
                                         <div class="card-body">
-                                            <h5 class="card-title text-primary">Congratulations John! 🎉</h5>
+                                            <h5 class="card-title text-primary">{{__('main.welcome')}} {{auth()->user()->name}} ! 🎉</h5>
                                             <p class="mb-4">
-                                                You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in
-                                                your profile.
+                                                {{__('main.you_here_since')}} <span class="fw-bold">{{\Carbon\Carbon::parse(auth() -> user() -> created_at)->diffInDays(now()) + 1}}</span> {{__('main.day')}}
+
                                             </p>
 
-                                            <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+                                            <a href="{{route('getUserProfile' , auth() -> user() -> id)}}" class="btn btn-sm btn-outline-primary">{{__('main.make_your_info_updates')}}</a>
                                         </div>
                                     </div>
                                     <div class="col-sm-5 text-center text-sm-left">

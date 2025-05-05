@@ -38,7 +38,14 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.factory_department')}} /</span> {{__('main.supplier_rate')}}
+                            @if(auth() -> user() -> type == 0)
+
+                                <span class="text-muted fw-light">{{__('main.factory_department')}} /</span> {{__('main.supplier_rate')}}
+
+                            @else
+                                <span class="text-muted fw-light">{{__('main.reviews_department')}} /</span> {{__('main.my_reviews')}}
+
+                            @endif
                         </h4>
                     </div>
 
@@ -46,7 +53,13 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.supplier_rate')}}</h5>
+                        <h5 class="card-header">
+                            @if(auth() -> user() -> type == 0)
+                            {{__('main.supplier_rate')}}
+                        @else
+                                {{__('main.my_reviews')}}
+                            @endif
+                        </h5>
                         @include('flash-message')
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
@@ -54,7 +67,9 @@
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
                                     <th class="text-center"> {{__('main.client')}}</th>
+                                    @if(auth() -> user() -> type == 0)
                                     <th class="text-center">{{__('main.supplier')}}</th>
+                                    @endif
                                     <th class="text-center">{{__('main.review')}}</th>
                                     <th class="text-center">{{__('main.comment')}}</th>
                                     <th class="text-center">{{__('main.date')}}</th>
@@ -66,7 +81,9 @@
                                     <tr>
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
                                         <td class="text-center">{{$review -> client}}</td>
+                                        @if(auth() -> user() -> type == 0)
                                         <td class="text-center">{{$review -> supplier}}</td>
+                                        @endif
                                         <td class="text-center"> {{$review -> review}} </td>
                                         <td class="text-center">
                                             <div class="wrapper">
@@ -80,8 +97,10 @@
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
                                                 <i class='bx bx-show text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.view_action')}}"
                                                    id="{{$review -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                @if(auth() -> user() -> type == 0)
                                                 <i class='bx bxs-trash text-danger deleteBtn'   data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
                                                    id="{{$review -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                @endif
 
                                             </div>
                                         </td>

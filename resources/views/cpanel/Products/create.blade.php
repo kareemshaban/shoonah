@@ -27,7 +27,12 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-2 me-2">
-                            <span class="text-muted fw-light">{{__('main.product_department')}} /</span> {{__('main.create_product')}}
+                            <span class="text-muted fw-light">{{__('main.product_department')}} /</span>
+                            @if(auth() -> user() -> type == 0)
+                                {{__('main.create_product')}}
+                                @else
+                                {{__('main.create_private_product')}}
+                            @endif
                         </h4>
                         <button type="button" class="btn btn-primary mb-2 ms-2"  id="saveButton"
                                 style="height: 45px" onclick="valdiateForm()">
@@ -39,7 +44,13 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.create_product')}}</h5>
+                        <h5 class="card-header">
+                            @if(auth() -> user() -> type == 0)
+                                {{__('main.create_product')}}
+                            @else
+                                {{__('main.create_private_product')}}
+                            @endif
+                        </h5>
                         <form class="center" method="POST" action="{{ route('store-product') }}"
                               enctype="multipart/form-data" id="product-form">
                         @csrf
@@ -226,13 +237,14 @@
 
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
+                                <input type="hidden" id="userType" name="userType" value="{{auth()-> user() -> type}}"/>
+                                <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;" id="isPrivateEle">
                                     <div class="form-group">
                                         <label> {{__('main.productType')}} <span style="color: red ; font-size: 14px" > * </span></label>
                                         <select name="isPrivate" id="isPrivate" class="form-control @error('isPrivate') is-invalid @enderror"
                                                autofocus  required  >
                                             <option value="0"> {{__('main.productType0')}}</option>
-                                            <option value="1"> {{__('main.productType1')}}</option>
+                                            <option value="1"  selected > {{__('main.productType1')}}</option>
 
                                         </select>
                                         @error('isPrivate')
@@ -261,6 +273,37 @@
                                     </div>
                                 </div>
 
+                                 @if(auth() -> user() -> type == 1)
+                                    <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
+                                        <div class="form-group">
+                                            <label> {{__('main.quantity')}}  </label>
+                                            <input type="number"  step="any" name="quantity" id="quantity"
+                                                   class="form-control @error('quantity') is-invalid @enderror"
+                                                   placeholder="{{ __('main.quantity') }}" autofocus  required/>
+                                            @error('quantity')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12" style="margin-top: 10px;">
+                                        <div class="form-group">
+                                            <label> {{__('main.price')}} <span style="color: red ; font-size: 14px"> * </span>  </label>
+                                            <input type="number" step="any" name="price" id="price"
+                                                   class="form-control @error('price') is-invalid @enderror"
+                                                   placeholder="{{ __('main.price') }}" autofocus  required/>
+                                            @error('price')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+
+                                        </div>
+                                    </div>
+
+                                 @endif
                             </div>
                             <div class="row" style="margin-top: 20px">
                                 <div class="col-lg-3 col-md-4 col-sm-6">
@@ -374,6 +417,13 @@
         $('#brand_id').val("");
         $('#department_id').val("");
         $('#category_id').val("");
+        if($('#userType').val() == 1){
+            $('#isPrivate').val("1");
+            $('#isPrivateEle').hide();
+        } else {
+            $('#isPrivate').val("0");
+            $('#isPrivateEle').show();
+        }
         $('.editor').each(function(index) {
             // Ensure the element has a unique ID (required by CKEditor)
             if (!this.id) {
@@ -406,7 +456,7 @@
             getDepartmentCategories(this.value);
             $.ajax({
                 type:'get',
-                url:'/getDepartment' + '/' + this.value,
+                url: $('#userType').val() == 0 ?  '/getDepartment' + '/' + this.value : '/getDepartmentSupplier' + '/' + this.value,
                 dataType: 'json',
 
                 success:function(response){
@@ -444,7 +494,7 @@
         $("#category_id").change(function () {
             $.ajax({
                 type:'get',
-                url:'/getCategory' + '/' + this.value,
+                url:  $('#userType').val() == 0 ? '/getCategory' + '/' + this.value : '/getCategorySupplier' + '/' + this.value,
                 dataType: 'json',
 
                 success:function(response){
