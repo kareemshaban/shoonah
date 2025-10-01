@@ -3,72 +3,97 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Models\Client;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
+     * Redirect path after registration.
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+        // Fallback — only used if registered() is not defined
+        $redirect = session('redirect_to', RouteServiceProvider::HOME);
+        session()->forget('redirect_to');
+        return $redirect;
+    }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Show the registration form and store redirect path
      */
+    public function showRegistrationForm(Request $request)
+    {
+        if ($request->has('redirect_to')) {
+            session(['redirect_to' => '/' . ltrim($request->input('redirect_to'), '/')]);
+        }
+
+        return view('auth.register');
+    }
+
+    /**
+     * After registration is complete
+     */
+    protected function registered(Request $request, $user)
+    {
+        if (session()->has('redirect_to')) {
+            $redirect = session()->pull('redirect_to');
+            return redirect($redirect);
+        }
+
+        return redirect(RouteServiceProvider::HOME);
+    }
+
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
+        $user = User::create([
+            'name'             => $data['name'],
+            'email'            => $data['email'],
+            'password'         => Hash::make($data['password']),
+            'type'             => 2,
+            'supplier_id'      => 0,
+            'block'            => 0,
+            'role_id'          => 0,
+            'default_password' => '',
+            'verified'         => 1,
         ]);
+
+        Client::create([
+            'name'       => $data['name'],
+            'country_id' => 0,
+            'city_id'    => 0,
+            'address'    => '',
+            'phone'      => '',
+            'email'      => $data['email'],
+            'mobile'     => '',
+            'hasAccount' => $user->id,
+            'gender'     => 0,
+            'block'      => 0,
+            'user_ins'   => $user->id,
+            'user_upd'   => 0,
+        ]);
+
+        return $user;
     }
 }

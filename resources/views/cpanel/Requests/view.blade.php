@@ -1,84 +1,206 @@
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document" style="min-width: 700px">
-        <div class="modal-content">
-            <div class="modal-header" style="background: #F8F8F8 ; border-radius: 8px">
-                <label class="modelTitle"> </label>
+<!DOCTYPE html>
+
+@include('layouts.head')
 
 
-                <i class='bx bxs-x-square text-danger modal-close' data-bs-dismiss="modal" style="font-size: 25px ; cursor: pointer"></i>
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
 
+        @include('layouts.sidebar' , ['slag' => 6 , 'subSlag' => 61])
+        <!-- / Menu -->
 
-            </div>
-            <div class="modal-body" id="smallBody">
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
 
-                <div class="container-fluid">
+            @include('layouts.nav')
 
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.client') }}  </label>
-                                    <input type="text" name="client" id="client"
-                                           class="form-control @error('client') is-invalid @enderror"
-                                           placeholder="{{ __('main.client') }}" autofocus  readonly/>
+            <!-- / Navbar -->
 
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
 
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.supplier') }}</label>
-                                    <input type="text" name="supplier" id="supplier"
-                                           class="form-control @error('supplier') is-invalid @enderror"
-                                           placeholder="{{ __('main.supplier') }}" autofocus  readonly/>
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div style="display: flex ; justify-content: space-between ; align-items: center">
+                        <h4 class="fw-bold py-3 mb-2 me-2">
+                            <span class="text-muted fw-light">{{__('main.quotations_request_list')}} /</span>
 
+                                {{__('main.quotations_requests_view')}}
 
-                                </div>
-                            </div>
-                        </div>
+                        </h4>
+                        @if(auth() -> user() -> type == 1)
+                         <a href="{{route('quotation-create' , $request -> id)}}">
+                             <button type="button" class="btn btn-primary mb-2 ms-2"  id="saveButton"
+                                     style="height: 45px" >
+                                 {{__('main.create_quotation')}}  <span class="tf-icons bx bx-plus"></span>&nbsp;
+                             </button>
+                         </a>
 
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.review') }}  </label>
-                                    <input type="number" step="any" name="review" id="review"
-                                           class="form-control @error('review') is-invalid @enderror"
-                                           placeholder="{{ __('main.review') }}" autofocus  readonly/>
-
-
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.date') }}</label>
-                                    <input type="text" name="date" id="date"
-                                           class="form-control @error('date') is-invalid @enderror"
-                                           placeholder="{{ __('main.date') }}" autofocus  readonly/>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>{{ __('main.comment') }}  </label>
-                                <textarea  name="comment" id="comment"
-                                       class="form-control @error('comment') is-invalid @enderror"
-                                       placeholder="{{ __('main.comment') }}" autofocus  readonly> </textarea>
-
-
-                            </div>
-                        </div>
+                        @endif
 
                     </div>
 
 
 
+                    <!-- Responsive Table -->
+                    <div class="card">
+                        <h5 class="card-header">
 
+                                {{__('main.quotations_requests_view')}}
+
+                        </h5>
+                        <div class="card-content" style="padding-left: 20px ; padding-right: 20px ; padding-bottom: 20px">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label> {{__('main.ref_no')}}  <span style="color: red ; font-size: 14px" > * </span></label>
+                                        <input name="reference_no" id="reference_no" class="form-control @error('code') is-invalid @enderror"
+                                               autofocus  required  placeholder="{{ __('main.reference_no') }}"
+                                               readonly value="{{$request -> reference_no}}"/>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label>{{ __('main.client') }} <span style="color: red ; font-size: 14px" > * </span> </label>
+                                         <input class="form-control" id="client_id" name="client"
+                                                value="{{$request -> client}}" readonly/>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label>{{ __('main.supplier') }} <span style="color: red ; font-size: 14px" > * </span> </label>
+                                        <input class="form-control" id="client_id" name="client"
+                                               value="{{$request -> supplier}}" readonly/>
+
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label>{{ __('main.orderState') }} <span style="color: red ; font-size: 14px" > * </span> </label>
+                                        <input  name="state" id="state" class="form-control @error('name_ar') is-invalid @enderror"
+                                                autofocus  required readonly
+                                        @if($request -> state == 0)
+                                            value="{{__('main.newRequest')}}"
+                                        @elseif($request -> state == 1)
+                                            value="{{__('main.replied')}}"
+                                        @elseif($request -> state == 2)
+                                            value="{{__('main.completed')}}"
+                                        @elseif($request -> state == 3)
+                                            value="{{__('main.canceled')}}"
+
+                                        @endif/>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label>{{ __('main.date') }} <span style="color: red ; font-size: 14px" > * </span>  </label>
+                                        <input  name="date" id="date" class="form-control "
+                                                autofocus  required  readonly
+                                                value="{{\Carbon\Carbon::parse($request -> date) -> format('d-m-Y')}}"/>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label>{{ __('main.phone') }}  </label>
+                                        <input  name="phone" id="phone" class="form-control "
+                                                autofocus   readonly value="{{$request -> phone }}"/>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label>{{ __('main.address') }}  </label>
+                                        <input  name="address" id="address" class="form-control "
+                                                autofocus readonly   value="{{$request -> address }}"/>
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div style=" border-top: solid 3px #eee ; width: 80% ; display: block ;  margin:30px auto">
+
+                            </div>
+                            <h5 class="card-header">
+
+                                {{__('main.quotations_items')}}
+
+                            </h5>
+                            <div class="table-responsive  text-nowrap">
+                                <table class="table table-striped table-hover view_table">
+                                    <thead>
+                                    <tr class="text-nowrap">
+                                        <th class="text-center">#</th>
+                                        <th class="text-center"> {{__('main.product')}}</th>
+                                        <th class="text-center"> </th>
+                                        <th class="text-center"> {{__('main.quantity')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($details as $detail)
+                                        <tr  >
+                                            <th scope="row" class="text-center">{{$loop -> index +1}}</th>
+                                            <td class="text-center">
+                                                <img src="{{ asset('images/products/' . $detail->mainImg) }}" width="50" />
+
+                                            </td>
+                                            <td class="text-center">
+                                                @if(Config::get('app.locale')=='ar' )
+                                                    {{$detail -> product_ar}}
+                                                @else
+                                                    {{$detail -> product_en}}
+                                                @endif
+                                            </td>
+                                            <td class="text-center"> {{$detail -> quantity}} </td>
+
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div>
+                    <!--/ Responsive Table -->
                 </div>
+                <!-- / Content -->
+
+                <!-- Footer -->
+                @include('layouts.footer_design')
+                <!-- / Footer -->
+
+                <div class="content-backdrop fade"></div>
             </div>
+            <!-- Content wrapper -->
         </div>
+        <!-- / Layout page -->
     </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
 </div>
+
+@include('layouts.footer')
+
+</body>
+</html>

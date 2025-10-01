@@ -1,109 +1,84 @@
-
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>RegistrationForm</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="../../assets/images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="../../assets/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="../../assets/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../assets/css/util.css">
-		<!-- LINEARICONS -->
-		<link rel="stylesheet" href="fonts/linearicons/style.css">
-		<script src="https://cdn.linearicons.com/free/1.0.0/svgembedder.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-		<!-- STYLE CSS -->
-		<link rel="stylesheet" href="../../assets/css/register.css">
-        
-	</head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shoonah | Signup</title>
 
-	<body style="background-image: url(../../assets/img/login.jpg);">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{{asset('assets/register/fonts/material-icon/css/material-design-iconic-font.min.css')}}">
 
-		<div class="wrapper">
-			<div class="inner">
-			
-			    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-					<h3>{{__('main.register')}}</h3>
-					<div class="form-holder">
-						<span class="lnr lnr-user"></span>
-	
-				
-                        <input id="name" type="text"  placeholder="{{__('main.ph_username')}}"  class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                    </div>
-					<div class="form-holder">
-						<span class="lnr lnr-phone-handset"></span>
-                        <input id="phone" type="text" placeholder="{{__('main.ph_phone')}}"  class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="email">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{asset('assets/register/css/style.css')}}">
+    <style>
+        @font-face {
+            font-family: 'icomoon';
+            src: url("{{asset('assets/fonts/ArbFONTS-The-Sans-Plain.otf')}}");
+            src: url("{{asset('assets/fonts/ArbFONTS-The-Sans-Plain.otf')}}");
+            font-weight: normal;
+            font-style: normal;
+        }
 
-                        @error('phone')
-                                    <span class="invalid-feedback" role="alert" style="margin-top: 25px;">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-					</div>
-					<div class="form-holder">
-						<span class="lnr lnr-envelope"></span>
-                        <input id="email" type="email" placeholder="{{__('main.ph_email')}}" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+        *:not(.fa) {
+            font-family: 'icomoon' !important;
+        }
+        .createbtn:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
 
-                        @error('email')
-                                    <span class="invalid-feedback" role="alert" style="margin-top: 25px;">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-					</div>
-					<div class="form-holder">
-						<span class="lnr lnr-lock"></span>
-                        <input id="password" placeholder="{{__('main.ph_pass')}}"  type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+<div class="main">
 
-				
-                        @error('password')
-                                    <span class="invalid-feedback" role="alert" style="margin-top: 25px;">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                    </div>
-                    <div class="form-holder">
-						<span class="lnr lnr-lock"></span>
-                        <input id="password-confirm" placeholder="{{__('main.ph_pass')}}" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                    </div>
-                
-                     <button type="submit" class=" btn-primary" >
-                                    {{ __('Register') }}
-                     </button>
-                    <p class="w-100 text-center" style="text-align:center; ; display:block; margin:10px auto;">&mdash; {{__('main.or_login')}} &mdash; <br> 
-                   <a href="{{route('login')}}">  <span style="text-decoration:underline ; color:#0D47A1;">{{__('main.lofin_title2')}}</span></a>
-                   </p>
+    <div class="container">
 
-				</form>
-			
-			</div>
-			
-		</div>
-		
+            <form method="POST" action="{{ route('register') }}" class="appointment-form"
+                  id="appointment-form"  @if(Config::get('app.locale')=='ar' ) style="direction: rtl" @endif>
+                      @csrf
 
-        
-		<script src="js/jquery-3.3.1.min.js"></script>
-		<script src="js/main.js"></script>
-        <script src="https://cdn.linearicons.com/free/1.0.0/svgembedder.min.js"></script>
+            <h2>{{__('main.register_title')}}</h2>
+            <div class="form-group-1">
+                <input type="text" name="name" id="name" placeholder="{{__('main.user_name_placeholder')}}" required autocomplete="off" />
+                <input type="email" name="email" id="email" placeholder="{{__('main.email_placeholder')}}" required  autocomplete="off"/>
+                <input type="password" name="password" id="password" placeholder="{{__('main.password_placeholder')}}" required autocomplete="off" />
+               <input type="password" placeholder="{{__('main.password_renter_placeholder')}}" name="password_confirmation" required  autocomplete="off"/>
 
-     
-	</body>
+
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                <label for="agree-term" class="label-agree-term"><span><span></span></span>{{__('main.agree')}}  <a href="{{route('terms')}}" class="term-service" target="_blank">{{__('main.terms')}}</a></label>
+            </div>
+                <div class="form-check">
+                  <a href="{{route('login')}}"> {{__('main.i_have_account')}} </a>
+                </div>
+            <div class="form-submit" @if(Config::get('app.locale')=='en' ) style="direction: rtl"  @else style="direction: ltr"  @endif>
+                <input type="submit" name="submit" id="submit" class="submit" value="{{__('main.register_btn')}}" />
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="{{asset('assets/register/vendor/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('assets/register/js/main.js')}}"></script>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 

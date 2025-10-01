@@ -18,6 +18,28 @@
                           enctype="multipart/form-data">
                         @csrf
                         <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>{{__('main.adTitle')}}</label>
+                                    <input type="text" name="title" id="title"
+                                           class="form-control @error('title') is-invalid @enderror"
+                                           placeholder="{{ __('main.adTitle') }}" autofocus  required/>
+
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>{{__('main.description')}}</label>
+                                    <input type="text" name="description" id="description"
+                                           class="form-control @error('description') is-invalid @enderror"
+                                           placeholder="{{ __('main.description') }}" autofocus  required/>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.adType') }} <span style="font-size: 14px ; color: red"> * </span>  </label>
@@ -48,7 +70,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div >
                         <div class="row" style="margin-top: 10px">
                             <div class="col-6">
                                 <div class="form-group">

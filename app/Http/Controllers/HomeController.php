@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'prevent.client']) ->except('index' , 'resetPassword');;
     }
 
     /**
@@ -30,7 +30,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(Auth::check()){
+            if(Auth::user() -> type == 2){
+                return redirect() -> route('front');
+            } else {
+                return view('home');
+            }
+        } else  {
+            return redirect() -> route('login');
+        }
+
+
     }
     public function employee()
     {
@@ -147,7 +157,13 @@ class HomeController extends Controller
                 $user -> update([
                     'password' => Hash::make($request -> new_password),
                 ]);
-                return redirect()->route('getUserProfile' , $user -> id)->with('success', __('main.updated'));
+                if($user -> type < 2){
+                    return redirect()->route('getUserProfile' , $user -> id)->with('success', __('main.updated'));
+
+                } else {
+                    return redirect()->route('profile' , $user -> id)->with('success', __('main.updated'));
+
+                }
             }
     }
 

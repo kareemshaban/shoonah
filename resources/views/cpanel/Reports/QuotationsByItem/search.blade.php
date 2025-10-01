@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 104])
+        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 105])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,7 +27,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_request_report_by_company')}}
+                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_request_report_by_product')}}
                         </h4>
                         <button type="button" class="btn btn-primary"  id="searchButton" style="height: 45px">
                             {{__('main.search_btn')}}  <span class="tf-icons bx bx-search"></span>&nbsp;
@@ -42,7 +42,7 @@
                         <h5 class="card-header">{{__('main.filters')}}</h5>
                         @include('flash-message')
                         <div class="card-content" style="padding-left: 20px ; padding-right: 20px ; padding-bottom: 20px">
-                            <form class="center" method="POST" action="{{ route('quotations_request_report_by_company_show') }}"
+                            <form class="center" method="POST" action="{{ route('quotations_request_report_by_product_show') }}"
                                   enctype="multipart/form-data" id="reportform">
                                 @csrf
                                 <div class="row">
@@ -74,15 +74,15 @@
 
                                     <div class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 10px;">
                                         <div class="form-group">
-                                            <label> {{__('main.brand')}} </label>
-                                            <select class="form-control search" id="brand_id" name="brand_id">
+                                            <label> {{__('main.product')}} </label>
+                                            <select class="form-control search" id="product_id" name="product_id">
                                                 <option value=""> {{__('main.all')}} </option>
-                                                @foreach($brands as $brand)
-                                                    <option value="{{$brand -> id}}">
+                                                @foreach($products as $product)
+                                                    <option value="{{$product -> id}}">
                                                         @if(Config::get('app.locale')=='ar' )
-                                                            {{$brand -> name_ar}}
+                                                            {{$product -> name_ar}}
                                                         @else
-                                                            {{$brand -> name_en}}
+                                                            {{$product -> name_en}}
                                                         @endif
                                                     </option>
                                                 @endforeach

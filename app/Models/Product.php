@@ -31,7 +31,9 @@ class Product extends Model
       'img3',
       'img4',
       'isReviewed',
+        'isTop',
        'user_ins',
-       'user_upd'
+       'user_upd',
+        'quantity'
     ];
 }

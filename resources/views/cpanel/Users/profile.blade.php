@@ -40,328 +40,328 @@
                   @include('flash-message')
 
                     <!-- Responsive Table -->
-                    <div class="card">
-                        <h5 class="card-header">{{__('main.my_profile')}}</h5>
-                        <div class="card-body">
-                            <div class="container-fluid">
-                            <form class="center" method="POST" action="{{ route('store-user') }}"
-                                  enctype="multipart/form-data" >
-                                @csrf
-                               <h2 style="color: #B57E10 ; font-size: 18px"> {{__('main.account_info')}} </h2>
-                               <div class="row" style="padding:25px;border:solid 2px #eee;border-radius:15px;">
-                                   <div class="col-lg-6 col-md-6 col-sm-12">
-                                       <div class="form-group">
-                                           <label> {{__('main.name')}} <span style="font-size: 14px ; color: red">*</span></label>
-                                           <input type="text" name="name" id="name"
-                                                  class="form-control @error('name') is-invalid @enderror"
-                                                  placeholder="{{ __('main.name') }}" autofocus
-                                                   value="{{$user -> name}}" required @if($user -> type > 0) readonly @endif/>
-                                           @error('name')
-                                           <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                           @enderror
-
-                                           <input id="id" name="id" type="hidden" value="{{$user -> id}}"/>
-
-                                       </div>
-                                   </div>
-                                  @if($user -> type == 0)
+                        <div class="card">
+                            <h5 class="card-header">{{__('main.my_profile')}}</h5>
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                <form class="center" method="POST" action="{{ route('store-user') }}"
+                                      enctype="multipart/form-data" >
+                                    @csrf
+                                   <h2 style="color: #B57E10 ; font-size: 18px"> {{__('main.account_info')}} </h2>
+                                   <div class="row" style="padding:25px;border:solid 2px #eee;border-radius:15px;">
                                        <div class="col-lg-6 col-md-6 col-sm-12">
                                            <div class="form-group">
-                                               <label> {{__('main.role')}} <span style="font-size: 14px ; color: red">*</span></label>
-                                               <input type="text" name="role" id="role"
-                                                      class="form-control @error('role') is-invalid @enderror"
-                                                      placeholder="{{ __('main.role') }}" autofocus
-                                                      @if(Config::get('app.locale')=='ar' )   value="{{$user -> role_ar}}"
-                                                      @else value="{{$user -> role_en}}" @endif readonly/>
-                                               @error('role')
+                                               <label> {{__('main.name')}} <span style="font-size: 14px ; color: red">*</span></label>
+                                               <input type="text" name="name" id="name"
+                                                      class="form-control @error('name') is-invalid @enderror"
+                                                      placeholder="{{ __('main.name') }}" autofocus
+                                                       value="{{$user -> name}}" required @if($user -> type > 0) readonly @endif/>
+                                               @error('name')
                                                <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                                @enderror
-                                               <input id="role_id" name="role_id" type="hidden" value="{{$user -> role_id}}"/>
-                                           </div>
-                                       </div>
-                                      @else
-                                       <div class="col-lg-6 col-md-6 col-sm-12"></div>
-                                  @endif
 
-
-                                   <div class="col-lg-6 col-md-6 col-sm-12">
-                                       <div class="form-group">
-                                           <label> {{__('main.email')}} <span style="font-size: 14px ; color: red">*</span></label>
-                                           <input type="text" name="email" id="email"
-                                                  class="form-control @error('email') is-invalid @enderror"
-                                                  placeholder="{{ __('main.email') }}" autofocus
-                                                  value="{{$user -> email}}" required @if($user -> type > 0) readonly @endif/>
-                                           @error('email')
-                                           <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                           @enderror
-
-                                       </div>
-                                   </div>
-
-                                   <div class="col-lg-6 col-md-6 col-sm-12">
-                                       <div class="form-group">
-                                           <label> {{__('main.password')}} <span style="font-size: 14px ; color: red">*</span></label>
-                                           <div style="display: flex ; gap: 20px">
-                                               <input type="text" name="password" id="password"
-                                                      class="form-control @error('password') is-invalid @enderror"
-                                                      placeholder="{{ __('main.password') }}" autofocus
-                                                      value="*********" required/>
-                                               <img src="{{asset('assets/img/reset-password.png')}}"  style="cursor: pointer" id="resetPassword"
-                                                    width="40" height="40" data-toggle="tooltip" data-placement="top" title="{{__('main.reset_password')}}">
+                                               <input id="id" name="id" type="hidden" value="{{$user -> id}}"/>
 
                                            </div>
-
-
-
-                                           @error('password')
-                                           <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                           @enderror
-
                                        </div>
+                                      @if($user -> type == 0)
+                                           <div class="col-lg-6 col-md-6 col-sm-12">
+                                               <div class="form-group">
+                                                   <label> {{__('main.role')}} <span style="font-size: 14px ; color: red">*</span></label>
+                                                   <input type="text" name="role" id="role"
+                                                          class="form-control @error('role') is-invalid @enderror"
+                                                          placeholder="{{ __('main.role') }}" autofocus
+                                                          @if(Config::get('app.locale')=='ar' )   value="{{$user -> role_ar}}"
+                                                          @else value="{{$user -> role_en}}" @endif readonly/>
+                                                   @error('role')
+                                                   <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                                   @enderror
+                                                   <input id="role_id" name="role_id" type="hidden" value="{{$user -> role_id}}"/>
+                                               </div>
+                                           </div>
+                                          @else
+                                           <div class="col-lg-6 col-md-6 col-sm-12"></div>
+                                      @endif
+
+
+                                       <div class="col-lg-6 col-md-6 col-sm-12">
+                                           <div class="form-group">
+                                               <label> {{__('main.email')}} <span style="font-size: 14px ; color: red">*</span></label>
+                                               <input type="text" name="email" id="email"
+                                                      class="form-control @error('email') is-invalid @enderror"
+                                                      placeholder="{{ __('main.email') }}" autofocus
+                                                      value="{{$user -> email}}" required @if($user -> type > 0) readonly @endif/>
+                                               @error('email')
+                                               <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                               @enderror
+
+                                           </div>
+                                       </div>
+
+                                       <div class="col-lg-6 col-md-6 col-sm-12">
+                                           <div class="form-group">
+                                               <label> {{__('main.password')}} <span style="font-size: 14px ; color: red">*</span></label>
+                                               <div style="display: flex ; gap: 20px">
+                                                   <input type="text" name="password" id="password"
+                                                          class="form-control @error('password') is-invalid @enderror"
+                                                          placeholder="{{ __('main.password') }}" autofocus
+                                                          value="*********" required/>
+                                                   <img src="{{asset('assets/img/reset-password.png')}}"  style="cursor: pointer" id="resetPassword"
+                                                        width="40" height="40" data-toggle="tooltip" data-placement="top" title="{{__('main.reset_password')}}">
+
+                                               </div>
+
+
+
+                                               @error('password')
+                                               <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                               @enderror
+
+                                           </div>
+                                       </div>
+
                                    </div>
 
-                               </div>
+                                </form>
 
-                            </form>
+                                        @if($user -> type == 1)
+                                        <form class="center" method="POST" action="{{ route('update-supplier') }}"
+                                              enctype="multipart/form-data" >
+                                        @csrf
 
-                                    @if($user -> type == 1)
-                                    <form class="center" method="POST" action="{{ route('update-supplier') }}"
-                                          enctype="multipart/form-data" >
-                                    @csrf
-
-                                        <h2 style="color: #B57E10 ; font-size: 18px ; margin-top: 20px">
-                                            {{__('main.personal_info')}}  <span class="badge bg-info">({{__('main.user1')}}) </span>
-                                        </h2>
-                                     <div style="padding:25px;border:solid 2px #eee;border-radius:15px;">
+                                            <h2 style="color: #B57E10 ; font-size: 18px ; margin-top: 20px">
+                                                {{__('main.personal_info')}}  <span class="badge bg-info">({{__('main.user1')}}) </span>
+                                            </h2>
+                                         <div style="padding:25px;border:solid 2px #eee;border-radius:15px;">
 
 
-                                        <div class="row" style="margin-bottom: 10px;">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.name') }}  <span style="color: red ; font-size: 14px"> * </span> </label>
-                                                    <input type="text" name="name" id="name"
-                                                           class="form-control @error('name') is-invalid @enderror"
-                                                           placeholder="{{ __('main.name') }}" autofocus  required value="{{$supplier -> name}}"/>
-                                                    @error('name')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-                                                    <input  name="id" id="id" type="hidden" value="{{$supplier -> id}}"/>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.company') }} <span style="color: red ; font-size: 14px"> * </span> </label>
-                                                    <input type="text" name="company" id="company"
-                                                           class="form-control @error('company') is-invalid @enderror"
-                                                           placeholder="{{ __('main.company') }}" autofocus  required value="{{$supplier -> company}}"/>
-                                                    @error('company')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" style="margin-bottom: 10px">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{__('main.country')}} <span style="color: red ; font-size: 14px"> * </span></label>
-                                                    <select class="form-control @error('country_id') is-invalid @enderror" id="country_id" name="country_id" required>
-                                                        @foreach($countries as $country)
-                                                            <option value="{{$country -> id}}" @if($supplier -> country_id == $country -> id) selected @endif>
-                                                                @if(Config::get('app.locale')=='ar' )
-                                                                    {{$country -> name_ar}}
-                                                                @else
-                                                                    {{$country -> name_en}}
-                                                                @endif
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('company')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{__('main.city')}} <span style="color: red ; font-size: 14px"> * </span></label>
-                                                  <input id="mcity_id" name="mcity_id" value="{{$supplier -> city_id}}" type="hidden">
-                                                    <select class="form-control @error('city_id') is-invalid @enderror" id="city_id" name="city_id" required>
-
-                                                    </select>
-                                                    @error('company')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="row" style="margin-bottom: 10px;">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.phone') }}  </label>
-                                                    <input type="text" name="phone" id="phone"
-                                                           class="form-control @error('phone') is-invalid @enderror"
-                                                           placeholder="{{ __('main.phone') }}" autofocus value="{{$supplier -> phone}}"  />
-                                                    @error('phone')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.mobile') }} <span style="color: red ; font-size: 14px"> * </span></label>
-                                                    <input type="text" name="mobile" id="mobile"
-                                                           class="form-control @error('mobile') is-invalid @enderror"
-                                                           placeholder="{{ __('main.mobile') }}" autofocus required value="{{$supplier -> mobile}}"/>
-                                                    @error('mobile')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" style="margin-bottom: 10px;">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.email') }}  </label>
-                                                    <input type="text" name="email" id="email"
-                                                           class="form-control @error('email') is-invalid @enderror"
-                                                           placeholder="{{ __('main.email') }}" autofocus  value="{{$supplier -> email}}" />
-                                                    @error('email')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                        <div class="row" style="margin-bottom: 10px;">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.vatNumber') }}  </label>
-                                                    <input type="text" name="vatNumber" id="vatNumber"
-                                                           class="form-control @error('vatNumber') is-invalid @enderror"
-                                                           placeholder="{{ __('main.vatNumber') }}" autofocus value="{{$supplier -> vatNumber}}" />
-                                                    @error('vatNumber')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.registrationNumber') }}</label>
-                                                    <input type="text" name="registrationNumber" id="registrationNumber"
-                                                           class="form-control @error('registrationNumber') is-invalid @enderror"
-                                                           placeholder="{{ __('main.registrationNumber') }}" autofocus value="{{$supplier -> registrationNumber}}"/>
-                                                    @error('registrationNumber')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label>{{ __('main.address') }}</label>
-                                                    <textarea type="text" name="address" id="address"
-                                                              class="form-control @error('address') is-invalid @enderror"
-                                                              placeholder="{{ __('main.address') }}" autofocus > {{$supplier -> address}} </textarea>
-                                                    @error('address')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div >
-                                            <label for="img" class="col-form-label">{{ __('main.logo') }}:</label>
-                                            <div class="row" style="display: flex; align-items: center;">
+                                            <div class="row" style="margin-bottom: 10px;">
                                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                                    <div class="custom-file">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.name') }}  <span style="color: red ; font-size: 14px"> * </span> </label>
+                                                        <input type="text" name="name" id="name"
+                                                               class="form-control @error('name') is-invalid @enderror"
+                                                               placeholder="{{ __('main.name') }}" autofocus  required value="{{$supplier -> name}}"/>
+                                                        @error('name')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                        <input  name="id" id="id" type="hidden" value="{{$supplier -> id}}"/>
 
-                                                        <input class="form-control" type="file" id="logo" name="logo"
-                                                               accept="*">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 text-right">
-                                                    @if($supplier -> logo == "")
-                                                        <img src= "{{ asset('assets/img/picture.png') }}" id="logo-img" width="80px"
-                                                             class="profile-img"/>
-                                                        @else
-                                                        <img src= "{{ asset('images/Supplier/' . $supplier->logo)}}" id="logo-img" width="80px"
-                                                             class="profile-img"/>
-                                                    @endif
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.company') }} <span style="color: red ; font-size: 14px"> * </span> </label>
+                                                        <input type="text" name="company" id="company"
+                                                               class="form-control @error('company') is-invalid @enderror"
+                                                               placeholder="{{ __('main.company') }}" autofocus  required value="{{$supplier -> company}}"/>
+                                                        @error('company')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
 
-
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                         <div class="row" style="margin-top: 40px">
-                                             <div class="col-12 text-center">
-                                                 <button type="submit" class="btn btn-warning">{{ __('main.save_btn') }}</button>
+                                            <div class="row" style="margin-bottom: 10px">
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{__('main.country')}} <span style="color: red ; font-size: 14px"> * </span></label>
+                                                        <select class="form-control @error('country_id') is-invalid @enderror" id="country_id" name="country_id" required>
+                                                            @foreach($countries as $country)
+                                                                <option value="{{$country -> id}}" @if($supplier -> country_id == $country -> id) selected @endif>
+                                                                    @if(Config::get('app.locale')=='ar' )
+                                                                        {{$country -> name_ar}}
+                                                                    @else
+                                                                        {{$country -> name_en}}
+                                                                    @endif
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('company')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{__('main.city')}} <span style="color: red ; font-size: 14px"> * </span></label>
+                                                      <input id="mcity_id" name="mcity_id" value="{{$supplier -> city_id}}" type="hidden">
+                                                        <select class="form-control @error('city_id') is-invalid @enderror" id="city_id" name="city_id" required>
+
+                                                        </select>
+                                                        @error('company')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="margin-bottom: 10px;">
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.phone') }}  </label>
+                                                        <input type="text" name="phone" id="phone"
+                                                               class="form-control @error('phone') is-invalid @enderror"
+                                                               placeholder="{{ __('main.phone') }}" autofocus value="{{$supplier -> phone}}"  />
+                                                        @error('phone')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.mobile') }} <span style="color: red ; font-size: 14px"> * </span></label>
+                                                        <input type="text" name="mobile" id="mobile"
+                                                               class="form-control @error('mobile') is-invalid @enderror"
+                                                               placeholder="{{ __('main.mobile') }}" autofocus required value="{{$supplier -> mobile}}"/>
+                                                        @error('mobile')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 10px;">
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.email') }}  </label>
+                                                        <input type="text" name="email" id="email"
+                                                               class="form-control @error('email') is-invalid @enderror"
+                                                               placeholder="{{ __('main.email') }}" autofocus  value="{{$supplier -> email}}" />
+                                                        @error('email')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row" style="margin-bottom: 10px;">
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.vatNumber') }}  </label>
+                                                        <input type="text" name="vatNumber" id="vatNumber"
+                                                               class="form-control @error('vatNumber') is-invalid @enderror"
+                                                               placeholder="{{ __('main.vatNumber') }}" autofocus value="{{$supplier -> vatNumber}}" />
+                                                        @error('vatNumber')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.registrationNumber') }}</label>
+                                                        <input type="text" name="registrationNumber" id="registrationNumber"
+                                                               class="form-control @error('registrationNumber') is-invalid @enderror"
+                                                               placeholder="{{ __('main.registrationNumber') }}" autofocus value="{{$supplier -> registrationNumber}}"/>
+                                                        @error('registrationNumber')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>{{ __('main.address') }}</label>
+                                                        <textarea type="text" name="address" id="address"
+                                                                  class="form-control @error('address') is-invalid @enderror"
+                                                                  placeholder="{{ __('main.address') }}" autofocus > {{$supplier -> address}} </textarea>
+                                                        @error('address')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div >
+                                                <label for="img" class="col-form-label">{{ __('main.logo') }}:</label>
+                                                <div class="row" style="display: flex; align-items: center;">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="custom-file">
+
+                                                            <input class="form-control" type="file" id="logo" name="logo"
+                                                                   accept="*">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 text-right">
+                                                        @if($supplier -> logo == "")
+                                                            <img src= "{{ asset('assets/img/picture.png') }}" id="logo-img" width="80px"
+                                                                 class="profile-img"/>
+                                                            @else
+                                                            <img src= "{{ asset('images/Supplier/' . $supplier->logo)}}" id="logo-img" width="80px"
+                                                                 class="profile-img"/>
+                                                        @endif
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             <div class="row" style="margin-top: 40px">
+                                                 <div class="col-12 text-center">
+                                                     <button type="submit" class="btn btn-warning">{{ __('main.save_btn') }}</button>
+
+                                                 </div>
 
                                              </div>
-
                                          </div>
-                                     </div>
-                                    </form>
+                                        </form>
 
-                                @elseif($user -> type == 2)
-                                    <form class="center" method="POST" action="{{ route('update-client') }}"
-                                          enctype="multipart/form-data" >
-                                        @csrf
-                                        <h2 style="color: #B57E10 ; font-size: 18px">
-                                            {{__('main.personal_info')}}  <span class="badge bg-primary">({{__('main.user2')}}) </span>
-                                        </h2>
-                                    </form>
-                                @endif
+                                    @elseif($user -> type == 2)
+                                        <form class="center" method="POST" action="{{ route('update-client') }}"
+                                              enctype="multipart/form-data" >
+                                            @csrf
+                                            <h2 style="color: #B57E10 ; font-size: 18px">
+                                                {{__('main.personal_info')}}  <span class="badge bg-primary">({{__('main.user2')}}) </span>
+                                            </h2>
+                                        </form>
+                                    @endif
+                                </div>
+
                             </div>
 
+
                         </div>
-
-
-                    </div>
                     <!--/ Responsive Table -->
                 </div>
                 <!-- / Content -->

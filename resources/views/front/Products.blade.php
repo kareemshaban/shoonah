@@ -6,10 +6,9 @@
 <body class="animsition">
 
 <!-- Header -->
-@include('layouts.nav_front' , ['slag' => 1])
+@include('layouts.nav_front' , ['slag' => -1])
 
-<!-- Cart -->
-@include('layouts.cart_modal')
+
 
 
 <div class="sec-banner bg0 p-t-80 p-b-50">
@@ -18,7 +17,7 @@
 
 
 <!-- Product -->
-@include('layouts.products_section' , ['slag' => 1])
+@include('layouts.products_section' , ['slag' => 6])
 
 
 </div>

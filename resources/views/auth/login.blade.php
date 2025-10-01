@@ -10,8 +10,24 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<link rel="stylesheet" href="{{asset('assets/auth/css/style.css')}}">
+      <style>
+          @font-face {
+              font-family: 'icomoon';
+              src: url("{{asset('assets/fonts/ArbFONTS-The-Sans-Plain.otf')}}");
+              src: url("{{asset('assets/fonts/ArbFONTS-The-Sans-Plain.otf')}}");
+              font-weight: normal;
+              font-style: normal;
+          }
 
+          *:not(.fa) {
+              font-family: 'icomoon' !important;
+          }
+          .createbtn:hover {
+              color: white;
+          }
+      </style>
 	</head>
+
 	<body class="img js-fullheight" style="background-image: url('{{asset("assets/auth/images/bg.jpg")}}');">
 	<section class="ftco-section">
 		<div class="container">
@@ -42,14 +58,24 @@
 	            </div>
 	            <div class="form-group d-md-flex">
 	            	<div class="w-50">
-		            	<label class="checkbox-wrap checkbox-primary">Remember Me
+		            	<label class="checkbox-wrap checkbox-primary">{{__('main.remember')}}
 						<input class="form-check-input" type="checkbox" name="remember"
 						id="remember" checked="">
 									  <span class="checkmark"></span>
-									</label>
-								</div>
+                        </label>
+                    </div>
+                    <div class="w-50" style="text-align: end">
+                        @if(request('redirect_to') != '')
+                        <a href="{{ route('register') }}?redirect_to={{ request('redirect_to') ?? '' }}" class="createbtn"> {{__('main.create_account')}}  </a>
+                         @else
+                            <a href="{{ route('register') }}" class="createbtn"> {{__('main.create_account')}}  </a>
 
-	            </div>
+                        @endif
+                    </div>
+
+
+
+                </div>
 	          </form>
 
 		      </div>

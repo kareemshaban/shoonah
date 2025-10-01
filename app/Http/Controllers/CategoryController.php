@@ -48,11 +48,20 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         if($request -> id == 0){
+
+            if($request->icon){
+                $icon = time()  . $request->icon->getClientOriginalExtension();
+                $request->icon->move(('images/categories'), $icon);
+            } else {
+                $icon   = "default.png"; ;
+            }
+
             Category::create([
                 'department_id' => $request -> department_id ,
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
                 'prefix' => $request -> prefix ?? '' ,
+                'icon' => $icon ,
                 'user_ins' => Auth::user() -> id,
                 'user_upd'  => 0
             ]);
@@ -98,11 +107,21 @@ class CategoryController extends Controller
     {
         $category = Category::find($request -> id);
         if($category){
+
+            if($request->icon) {
+                $icon = time() . $request->icon->getClientOriginalExtension();
+                $request->icon->move(('images/categories'), $icon);
+            } else {
+                $icon   = $category -> icon ;
+            }
+
+
             $category -> update([
                 'department_id' => $request -> department_id ,
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
                 'prefix' => $request -> prefix ?? "",
+                'icon' => $icon ,
                 'user_upd' => Auth::user() -> id
             ]);
             return redirect()->route('categories')->with('success', __('main.updated'));

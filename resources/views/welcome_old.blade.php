@@ -2,60 +2,7 @@
 <html lang="en">
 
 @include('layouts.head_front')
-<style>
-    .horizontal-scroll {
-        display: flex;
-        overflow-x: scroll;
-        gap: 20px;
-        scroll-behavior: smooth;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none;  /* IE 10+ */
-    }
-    .horizontal-scroll::-webkit-scrollbar {
-        display: none; /* Chrome, Safari */
-    }
 
-    .department-item {
-        flex: 0 0 auto;
-        width: 300px;
-        scroll-snap-align: start;
-    }
-
-    .scroll-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
-        width: 40px;
-        height: 40px;
-        background-color: rgba(255, 255, 255, 0.7); /* light background */
-        color: #B57E10; /* dark icon for contrast */
-        font-size: 20px;
-        padding: 0;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s ease;
-    }
-
-    .scroll-btn:hover {
-        background-color: rgba(255, 255, 255, 0.4); /* lighter on hover */
-    }
-
-    .scroll-btn.left {
-        left: -10px;
-    }
-
-    .scroll-btn.right {
-        right: -10px;
-    }
-
-
-</style>
 <body class="animsition">
 
 <!-- Header -->
@@ -121,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="item-slick1" style="background-image: url({{asset('assets/front/images/slide-01.jpg')}});">
+                <div class="item-slick1" style="background-image: url({{asset('assets/front/images/slide-01.jpg')}});">
                 <div class="container h-full">
                     <div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
                         <div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">

@@ -35,6 +35,7 @@ class CreateProductsTable extends Migration
             $table -> string('img3') -> nullable();
             $table -> string('img4') -> nullable();
             $table -> integer('isReviewed');
+            $table -> integer('isTop');
             $table -> integer('user_ins') -> default(0) ;
             $table -> integer('user_upd') -> default(0) ;
             $table->timestamps();

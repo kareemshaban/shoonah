@@ -44,11 +44,22 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+
         if($request -> id == 0){
+
+            if($request->image){
+                $image = time() . '.' . $request->image->getClientOriginalExtension();
+                $request->image->move(('images/department'), $image);
+            } else {
+                $image = 'default_department.png' ;
+            }
+
+
             Department::create([
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
                 'prefix' => $request -> prefix  ?? "",
+                'image' => $image,
                 'user_ins' => Auth::user() -> id,
                 'user_upd'  => 0
             ]);
@@ -94,10 +105,20 @@ class DepartmentController extends Controller
     {
         $department = Department::find($request -> id);
         if($department){
+
+            if($request->image){
+                $image = time() . '.' . $request->image->getClientOriginalExtension();
+                $request->image->move(('images/department'), $image);
+            } else {
+                $image  =  $department -> image ;
+            }
+
+
             $department -> update([
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
                 'prefix' => $request -> prefix  ?? "",
+                'image' => $image,
                 'user_upd' => Auth::user() -> id
             ]);
             return redirect()->route('departments')->with('success', __('main.updated'));

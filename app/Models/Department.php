@@ -13,7 +13,14 @@ class Department extends Model
       'name_ar',
       'name_en',
         'prefix',
+        'image',
       'user_ins',
-      'user_upd'
+      'user_upd',
+        'children'
     ];
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'department_id');
+    }
 }

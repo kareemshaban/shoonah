@@ -47,6 +47,7 @@
                                 <tr class="text-nowrap">
                                     <th class="text-center">#</th>
                                     <th class="text-center"> {{__('main.banner')}}</th>
+                                    <th class="text-center"> {{__('main.adTitle')}}</th>
                                     <th class="text-center">{{__('main.adType')}}</th>
                                     <th class="text-center">{{__('main.duration')}}</th>
                                     <th class="text-center">{{__('main.isVisible')}}</th>
@@ -65,6 +66,7 @@
                                             </a>
 
                                         </td>
+                                        <td class="text-center"> {{$ad -> title}} </td>
                                         <td class="text-center">
                                             @if($ad -> type == 0)
                                                 <span class="badge bg-primary">{{__('main.adType0')}}</span>
@@ -135,6 +137,8 @@
             success: function (result) {
                 $('#createModal').modal("show");
                 $(".modal-body #id").val(0);
+                $(".modal-body #title").val("");
+                $(".modal-body #description").val("");
                 $(".modal-body #type").val("0");
                 $(".modal-body #order").val("");
                 $(".modal-body #banner").val("");
@@ -202,6 +206,8 @@
                             $('#createModal').modal("show");
                             var img =  '/../images/banner/' + response.banner ;
                             $(".modal-body #flag-img").attr('src' , img );
+                            $(".modal-body #title").val(response.title);
+                            $(".modal-body #description").val(response.description);
                             $(".modal-body #type").val(response.type);
                             $(".modal-body #order").val(response.order);
                             $(".modal-body #item_id").val(response.item_id);

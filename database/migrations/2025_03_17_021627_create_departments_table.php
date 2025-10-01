@@ -18,6 +18,7 @@ class CreateDepartmentsTable extends Migration
             $table -> string("name_ar");
             $table -> string("name_en");
             $table -> string('prefix');
+            $table -> string('image') ;
             $table -> integer("user_ins") -> default(0);
             $table -> integer("user_upd") -> default(0);
             $table->timestamps();

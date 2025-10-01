@@ -48,6 +48,24 @@
                     <div class="card">
                         <h5 class="card-header">{{__('main.quotations_requests')}}</h5>
                         @include('flash-message')
+                        <ul class="nav nav-pills mb-3" id="filter-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" data-filter="all">{{ __('main.all') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="0">{{ __('main.newRequest') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="1">{{ __('main.replied') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="2">{{ __('main.completed') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="3">{{ __('main.canceled') }}</a>
+                            </li>
+                        </ul>
+
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -63,7 +81,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($quotationRequests as $request)
-                                    <tr>
+                                    <tr  data-state="{{ $request->state }}">
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
                                         <td class="text-center">{{$request -> reference_no}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::parse($request -> date) ->format('Y-m-d')}} </td>
@@ -84,9 +102,10 @@
 
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
-                                                <i class='bx bx-show text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.view_action')}}"
+                                                <a href="{{route('quotationRequests-view' , $request -> id)}}">
+                                                <i class='bx bx-show text-success' data-toggle="tooltip" data-placement="top" title="{{__('main.view_action')}}"
                                                    id="{{$request -> id}}" style="font-size: 25px ; cursor: pointer"></i>
-
+                                                </a>
 
                                             </div>
                                         </td>
@@ -116,105 +135,33 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.Requests.view')
+
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;
 
-    $(document).on('click', '.editBtn', function(event) {
-        let id = event.currentTarget.id ;
-        console.log(id);
-        event.preventDefault();
-        let href = $(this).attr('data-attr');
-        $.ajax({
-            type:'get',
-            url:'/getReview' + '/' + id,
-            dataType: 'json',
-
-            success:function(response){
-                var date = new Date(response.created_at);
-                var currentDate = date.toISOString().substring(0,10);
-                if(response){
-                    let href = $(this).attr('data-attr');
-                    $.ajax({
-                        url: href,
-                        beforeSend: function() {
-                            $('#loader').show();
-                        },
-                        // return the result
-                        success: function(result) {
-                            $('#createModal').modal("show");
-                            $(".modal-body #client").val(response.client);
-                            $(".modal-body #supplier").val(response.supplier);
-                            $(".modal-body #review").val(response.review);
-                            $(".modal-body #comment").val(response.comment);
-                            $(".modal-body #date").val(currentDate);
-                            var translatedText = "{{ __('main.view_data') }}";
-                            $(".modelTitle").html(translatedText);
 
 
-                        },
-                        complete: function() {
-                            $('#loader').hide();
-                        },
-                        error: function(jqXHR, testStatus, error) {
-                            console.log(error);
-                            alert("Page " + href + " cannot open. Error:" + error);
-                            $('#loader').hide();
-                        },
-                        timeout: 8000
-                    })
+</script>
+<script>
+    $(document).ready(function () {
+        $('#filter-tabs .nav-link').on('click', function (e) {
+            e.preventDefault();
+            $('#filter-tabs .nav-link').removeClass('active');
+            $(this).addClass('active');
+
+            let filter = $(this).data('filter');
+
+            $('table tbody tr').each(function () {
+                let state = $(this).data('state');
+                if (filter === 'all' || filter == state) {
+                    $(this).show();
                 } else {
-
+                    $(this).hide();
                 }
-            }
+            });
         });
     });
-
-
-    $(document).on('click', '.deleteBtn', function(event) {
-        id = event.currentTarget.id ;
-        console.log(id);
-        event.preventDefault();
-        let href = $(this).attr('data-attr');
-        $.ajax({
-            url: href,
-            beforeSend: function() {
-                $('#loader').show();
-            },
-            // return the result
-            success: function(result) {
-                $('#deleteModal').modal("show");
-            },
-            complete: function() {
-                $('#loader').hide();
-            },
-            error: function(jqXHR, testStatus, error) {
-                console.log(error);
-                alert("Page " + href + " cannot open. Error:" + error);
-                $('#loader').hide();
-            },
-            timeout: 8000
-        })
-    });
-    $(document).on('click', '.btnConfirmDelete', function(event) {
-
-        confirmDelete(id);
-    });
-    $(document).on('click', '.cancel-modal', function(event) {
-        $('#deleteModal').modal("hide");
-        console.log()
-        id = 0 ;
-    });
-
-    function confirmDelete(id){
-        let url = "{{ route('deleteReview', ':id') }}";
-        url = url.replace(':id', id);
-        document.location.href=url;
-    }
-
-
-
 </script>
 </body>
 </html>

@@ -50,6 +50,9 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{asset('assets/js/config.js')}}"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 </head>
 <style>
     @font-face {
@@ -81,54 +84,11 @@
         margin: 5px;
     }
 
-    .dt-paging {
-        direction: ltr !important;
+    .dataTables_wrapper {
+        margin: 10px !important;
     }
 
-    .dt-length select {
-        width: 200px !important;
-        -webkit-appearance: auto !important;
-        -moz-appearance: auto !important;
-        appearance: auto !important;
-        direction: ltr !important;
-    }
 
-    .dt-search {
-        margin-bottom: 10px;
-    }
-
-    .dt-search input {
-        width: 200px !important;
-    }
-
-    .dt-length {
-        display: flex;
-        direction: rtl;
-        align-items: center;
-        float: left;
-
-    }
-
-    .dt-length label {
-        margin-left: 5px;
-        margin-right: 5px
-    }
-
-    .dt-search {
-        display: flex;
-        direction: ltr;
-        align-items: center;
-        float: right;
-    }
-
-    .dt-search label {
-        margin-left: 5px;
-        margin-right: 5px
-    }
-
-    .dt-empty {
-        text-align: center !important;
-    }
     .imgDiv {
         width: 100px;
         height: 100px;
@@ -151,6 +111,9 @@
 <style>
     .dt-paging nav {
         float: right !important;
+    }
+    .card {
+        padding: 10px !important;
     }
 
     @media (min-width: 1200px) {

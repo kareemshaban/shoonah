@@ -91,6 +91,25 @@
 
                                 </div>
                             </div>
+
+
+                        </div>
+
+                        <div >
+                            <label for="img" class="col-form-label">{{ __('main.icon') }} <span style="font-size: 14px ; color: red"> * </span> </label>
+                            <div class="row" style="display: flex; align-items: center;">
+                                <div class="col-6">
+                                    <div class="custom-file">
+
+                                        <input class="form-control" type="file" id="icon" name="icon"
+                                               accept="*">
+                                    </div>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <img src="{{ asset('assets/img/picture.png') }}" id="flag-img" width="80px"
+                                         class="profile-img"/>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -106,7 +125,25 @@
 
 
                     </form>
+                    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                    <script>
+                        function readURL(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
 
+                                reader.onload = function (e) {
+                                    $('#flag-img').attr('src', e.target.result);
+
+                                }
+                                reader.readAsDataURL(input.files[0]);
+
+                            }
+                        }
+                        $("#icon").change(function () {
+                            readURL(this);
+                        });
+
+                    </script>
 
                 </div>
             </div>

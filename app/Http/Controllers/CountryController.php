@@ -11,7 +11,7 @@ class CountryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'check.type']);
+        $this->middleware(['auth', 'check.type']) -> except(['getCountryCities']);
     }
     /**
      * Display a listing of the resource.

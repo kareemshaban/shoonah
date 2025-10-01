@@ -26,7 +26,25 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+  //  protected $redirectTo = RouteServiceProvider::HOME;
+
+
+    protected function redirectTo()
+    {
+        $redirect = session('redirect_to', RouteServiceProvider::HOME);
+        session()->forget('redirect_to'); // clean up after use
+        return $redirect;
+    }
+
+
+    public function showLoginForm(Request $request)
+    {
+        if ($request->has('redirect_to')) {
+            session(['redirect_to' => '/' . ltrim($request->input('redirect_to'), '/')]);
+        }
+
+        return view('auth.login');
+    }
 
     /**
      * Create a new controller instance.
@@ -40,15 +58,22 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        // If we have a redirect_to in session, honor it
+        if (session()->has('redirect_to')) {
+            $redirect = session()->pull('redirect_to'); // pull removes after getting
+            return redirect($redirect);
+        }
+
+        // Fallback to your user-type logic
         if ($user->type == 1) {
-            if($user -> verified == 0){
-                return redirect()->route('update-password' , $user -> id); // update your password
+            if ($user->verified == 0) {
+                return redirect()->route('update-password', $user->id);
             } else {
                 return redirect()->route('index');
             }
-
         } else {
-            return redirect()->route('index'); // your default home
+            return redirect()->route('index');
         }
     }
+
 }

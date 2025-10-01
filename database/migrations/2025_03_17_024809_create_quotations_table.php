@@ -24,6 +24,7 @@ class CreateQuotationsTable extends Migration
             $table->decimal('discount');
             $table->decimal('net');
             $table->text('notes');
+            $table -> integer('state') -> default(0);
             $table->timestamps();
         });
     }

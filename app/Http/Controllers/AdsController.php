@@ -51,6 +51,8 @@ class AdsController extends Controller
                 $bnanner = '' ;
             }
             Ads::create([
+                'title' => $request -> title,
+                'description' => $request -> description ?? "",
                 'banner' => $bnanner,
                 'type' => $request -> type,
                 'order' => $request -> order,
@@ -103,12 +105,14 @@ class AdsController extends Controller
         if($ad){
             if($request->banner){
                 $bnanner = time() . '.' . $request->banner->getClientOriginalExtension();
-                $request->flag->move(('images/banner'), $bnanner);
+                $request->banner->move(('images/banner'), $bnanner);
             } else {
                 $bnanner  =  $ad -> banner ;
             }
 
             $ad -> update([
+                'title' => $request -> title,
+                'description' => $request -> description ,
                 'banner' => $bnanner,
                 'type' => $request -> type,
                 'order' => $request -> order,

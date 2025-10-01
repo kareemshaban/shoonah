@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 102])
+        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 103])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,7 +27,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_request_report')}}
+                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_report')}}
                         </h4>
                         <button type="button" class="btn btn-primary"  id="searchButton" style="height: 45px">
                             {{__('main.search_btn')}}  <span class="tf-icons bx bx-search"></span>&nbsp;
@@ -42,7 +42,7 @@
                         <h5 class="card-header">{{__('main.filters')}}</h5>
                         @include('flash-message')
                         <div class="card-content" style="padding-left: 20px ; padding-right: 20px ; padding-bottom: 20px">
-                            <form class="center" method="POST" action="{{ route('quotations_request_report_show') }}"
+                            <form class="center" method="POST" action="{{ route('quotations_report_show') }}"
                                   enctype="multipart/form-data" id="reportform">
                                 @csrf
                                 <div class="row">
@@ -105,10 +105,9 @@
                                             <label> {{__('main.orderState')}} </label>
                                             <select class="form-control search" id="state" name="state">
                                                 <option value=""> {{__('main.all')}} </option>
-                                                <option value="0"> {{__('main.newRequest')}} </option>
-                                                <option value="1"> {{__('main.replied')}} </option>
-                                                <option value="2"> {{__('main.completed')}} </option>
-                                                <option value="2"> {{__('main.canceled')}} </option>
+                                                <option value="0"> {{__('main.notReplied')}} </option>
+                                                <option value="1"> {{__('main.accepted')}} </option>
+                                                <option value="2"> {{__('main.refused')}} </option>
                                             </select>
 
                                         </div>

@@ -160,6 +160,11 @@
                             <div data-i18n="Buttons">{{__('main.add_product_to_supplier')}}</div>
                         </a>
                     </li>
+                    <li class="menu-item @if($subSlag == 47)  active @endif">
+                        <a href="{{route('review_products')}}" class="menu-link">
+                            <div data-i18n="Buttons">{{__('main.review_products')}}</div>
+                        </a>
+                    </li>
                     @else
                     <li class="menu-item @if($subSlag == 46)  active @endif">
                         <a href="{{route('add_product_to_supplier')}}" class="menu-link">
@@ -299,11 +304,7 @@
                         <div data-i18n="Basic Inputs">{{__('main.quotations_request_report_by_product')}}</div>
                     </a>
                 </li>
-                <li class="menu-item @if($subSlag == 106)  active @endif">
-                    <a href="{{route('quotations_request_report_by_supplier')}}" class="menu-link">
-                        <div data-i18n="Basic Inputs">{{__('main.quotations_request_report_by_supplier')}}</div>
-                    </a>
-                </li>
+
             </ul>
         </li>
 

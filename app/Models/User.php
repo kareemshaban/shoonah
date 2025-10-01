@@ -26,6 +26,7 @@ class User extends Authenticatable
         'role_id',
         'default_password',
         'verified',
+        'hasAccount',
         'created_at'
     ];
 

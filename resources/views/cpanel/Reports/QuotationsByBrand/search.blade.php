@@ -9,7 +9,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 103])
+        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 104])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -27,7 +27,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_report')}}
+                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_request_report_by_company')}}
                         </h4>
                         <button type="button" class="btn btn-primary"  id="searchButton" style="height: 45px">
                             {{__('main.search_btn')}}  <span class="tf-icons bx bx-search"></span>&nbsp;
@@ -42,7 +42,7 @@
                         <h5 class="card-header">{{__('main.filters')}}</h5>
                         @include('flash-message')
                         <div class="card-content" style="padding-left: 20px ; padding-right: 20px ; padding-bottom: 20px">
-                            <form class="center" method="POST" action="{{ route('quotations_report_show') }}"
+                            <form class="center" method="POST" action="{{ route('quotations_request_report_by_company_show') }}"
                                   enctype="multipart/form-data" id="reportform">
                                 @csrf
                                 <div class="row">
@@ -74,11 +74,17 @@
 
                                     <div class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 10px;">
                                         <div class="form-group">
-                                            <label> {{__('main.client')}} </label>
-                                            <select class="form-control search" id="client_id" name="client_id">
+                                            <label> {{__('main.brand')}} </label>
+                                            <select class="form-control search" id="brand_id" name="brand_id">
                                                 <option value=""> {{__('main.all')}} </option>
-                                                @foreach($clients as $client)
-                                                    <option value="{{$client -> id}}"> {{$client -> name}} </option>
+                                                @foreach($brands as $brand)
+                                                    <option value="{{$brand -> id}}">
+                                                        @if(Config::get('app.locale')=='ar' )
+                                                            {{$brand -> name_ar}}
+                                                        @else
+                                                            {{$brand -> name_en}}
+                                                        @endif
+                                                    </option>
                                                 @endforeach
 
                                             </select>
@@ -86,19 +92,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 10px;">
-                                        <div class="form-group">
-                                            <label> {{__('main.supplier')}} </label>
-                                            <select class="form-control search" id="supplier_id" name="supplier_id">
-                                                <option value=""> {{__('main.all')}} </option>
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{$supplier -> id}}"> {{$supplier -> name}} </option>
-                                                @endforeach
-
-                                            </select>
-
-                                        </div>
-                                    </div>
 
                                     <div class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 10px;">
                                         <div class="form-group">

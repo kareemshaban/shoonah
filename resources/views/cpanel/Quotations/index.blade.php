@@ -48,10 +48,24 @@
                     <div class="card">
                         <h5 class="card-header">{{__('main.quotations')}}</h5>
                         @include('flash-message')
+                        <ul class="nav nav-pills mb-3" id="filter-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" data-filter="all">{{ __('main.all') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="0">{{ __('main.notReplied') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="1">{{ __('main.accepted') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-filter="2">{{ __('main.refused') }}</a>
+                            </li>
+                        </ul>
                         <div class="table-responsive  text-nowrap">
                             <table class="table table-striped table-hover">
                                 <thead>
-                                <tr class="text-nowrap">
+                                <tr class="text-nowrap" >
                                     <th class="text-center">#</th>
                                     <th class="text-center"> {{__('main.ref_no')}}</th>
                                     <th class="text-center"> {{__('main.request_ref_no')}}</th>
@@ -64,7 +78,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($quotations as $request)
-                                    <tr>
+                                    <tr data-state="{{ $request->state }}">
                                         <th scope="row" class="text-center">{{$loop -> index +1}}</th>
                                         <td class="text-center">{{$request -> ref_no}}</td>
                                         <td class="text-center">{{$request -> request_ref_no}}</td>
@@ -84,9 +98,11 @@
 
                                         <td class="text-center">
                                             <div style="display: flex ; gap: 10px ; justify-content: center ">
-                                                <i class='bx bx-show text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.view_action')}}"
-                                                   id="{{$request -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                <a href="{{route('quotation-view' , $request -> id)}}">
 
+                                                <i class='bx bx-show text-success' data-toggle="tooltip" data-placement="top" title="{{__('main.view_action')}}"
+                                                   id="{{$request -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                </a>
 
                                             </div>
                                         </td>
@@ -116,7 +132,7 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-@include('cpanel.Requests.view')
+
 @include('layouts.footer')
 <script type="text/javascript">
     var id = 0 ;
@@ -215,6 +231,26 @@
 
 
 
+</script>
+<script>
+    $(document).ready(function () {
+        $('#filter-tabs .nav-link').on('click', function (e) {
+            e.preventDefault();
+            $('#filter-tabs .nav-link').removeClass('active');
+            $(this).addClass('active');
+
+            let filter = $(this).data('filter');
+
+            $('table tbody tr').each(function () {
+                let state = $(this).data('state');
+                if (filter === 'all' || filter == state) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

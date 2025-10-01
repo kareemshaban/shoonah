@@ -11,7 +11,7 @@ class ClientController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'check.type']);
+        $this->middleware(['auth', 'check.type']) -> except(['update']);
     }
     /**
      * Display a listing of the resource.
@@ -79,9 +79,26 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request)
     {
-        //
+        $client = Client::find($request -> id) ;
+        if($client){
+            $client -> update([
+                'name' => $request -> name,
+                'country_id' => $request -> country_id,
+                'city_id' => $request ->city_id ,
+                'address' => $request -> address ?? "",
+                'phone' => $request -> phone ?? "",
+                'email' => $request -> email ,
+                'mobile' => $request -> mobile ,
+                'hasAccount' => $request -> user_id,
+                'gender' => 0,
+                'block' => 0,
+            ]);
+
+            return redirect()->route('profile' , $client -> hasAccount)->with('success', __('main.updated'));
+
+        }
     }
 
     /**

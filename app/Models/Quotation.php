@@ -19,6 +19,8 @@ class Quotation extends Model
       'total',
       'discount',
       'net',
-      'notes'
+      'notes',
+      'state',
+      'details',
     ];
 }

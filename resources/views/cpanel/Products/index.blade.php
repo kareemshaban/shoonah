@@ -2,7 +2,16 @@
 
 @include('layouts.head')
 
+<style>
+    a.no-hover:hover {
+        text-decoration: none !important;
+        color: inherit !important;
+    }
 
+    a.no-hover i {
+        color: inherit !important;
+    }
+</style>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
@@ -57,6 +66,7 @@
                                     <th class="text-center">{{__('main.productType')}}</th>
                                     <th class="text-center">{{__('main.productState')}}</th>
                                     <th class="text-center">{{__('main.isReviewed')}}</th>
+                                    <th class="text-center">{{__('main.isTop')}}</th>
                                     @if(auth() -> user() -> type == 1)
                                         <th class="text-center">{{__('main.quantity')}}</th>
                                         <th class="text-center">{{__('main.price')}}</th>
@@ -123,6 +133,14 @@
                                             @endif
 
                                         </td>
+                                        <td class="text-center">
+                                            @if($product -> isTop == 0)
+                                                <span class="badge bg-info">{{__('main.no')}}</span>
+                                            @else
+                                                <span class="badge bg-success">{{__('main.yes')}}</span>
+                                            @endif
+
+                                        </td>
                                         @if(auth() -> user() -> type == 1)
                                         <td class="text-center"> {{$product -> quantity}} </td>
                                         <td class="text-center"> {{$product -> price}} </td>
@@ -131,9 +149,21 @@
                                             @if(auth() -> user() -> type == 0)
 
                                                 <div style="display: flex ; gap: 10px ; justify-content: center ">
-                                                    <a href="{{route('edit-product' , $product -> id)}}">  <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}" style="font-size: 25px ; cursor: pointer"></i></a>
+                                                    <a href="{{route('edit-product' , $product -> id)}}"  class="no-hover">  <i class='bx bxs-edit-alt text-success editBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.edit_action')}}" style="font-size: 25px ; cursor: pointer"></i></a>
                                                     <i class='bx bxs-trash text-danger deleteBtn' data-toggle="tooltip" data-placement="top" title="{{__('main.delete_action')}}"
                                                        id="{{$product -> id}}" style="font-size: 25px ; cursor: pointer"></i>
+                                                    @if($product -> isTop == 0)
+                                                        <a href="{{route('add_to_top' , $product -> id)}}"  class="no-hover" style="  color: grey !important;">
+                                                            <i class='bx bxs-star text-grey' data-toggle="tooltip" data-placement="top" title="{{__('main.add_to_top')}}"
+                                                               style="font-size: 25px ; cursor: pointer"></i>
+                                                        </a>
+
+                                                        @else
+                                                        <a href="{{route('remove_from_top' , $product -> id)}}">
+                                                        <i class='bx bxs-star text-primary' data-toggle="tooltip" data-placement="top" title="{{__('main.remove_from_top')}}"
+                                                           style="font-size: 25px ; cursor: pointer"></i>
+                                                        </a>
+                                                    @endif
                                                 </div>
                                                 @else
                                                 @if(auth() -> user() -> id == $product -> user_ins)

@@ -15,7 +15,14 @@ class Category extends Model
         'name_ar',
         'name_en',
         'prefix' ,
+        'icon',
         'user_ins',
         'user_upd'
     ];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
 }

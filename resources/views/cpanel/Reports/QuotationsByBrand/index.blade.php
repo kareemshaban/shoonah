@@ -20,7 +20,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 103])
+        @include('layouts.sidebar' , ['slag' => 10 , 'subSlag' => 104])
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -38,7 +38,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div style="display: flex ; justify-content: space-between ; align-items: center">
                         <h4 class="fw-bold py-3 mb-4">
-                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_report')}}
+                            <span class="text-muted fw-light">{{__('main.report_list')}} /</span> {{__('main.quotations_request_report_by_company')}}
                         </h4>
                     </div>
 
@@ -46,7 +46,7 @@
 
                     <!-- Responsive Table -->
                     <div class="card">
-                        <h5 class="card-header">{{__('main.quotations_report')}}</h5>
+                        <h5 class="card-header">{{__('main.quotations_request_report_by_company')}}</h5>
                         @include('flash-message')
 
                         <div class="table-responsive  text-nowrap">
@@ -57,6 +57,7 @@
                                     <th class="text-center"> {{__('main.ref_no')}}</th>
                                     <th class="text-center"> {{__('main.request_ref_no')}}</th>
                                     <th class="text-center"> {{__('main.date')}}</th>
+                                    <th class="text-center">{{__('main.brand')}}</th>
                                     <th class="text-center"> {{__('main.client')}}</th>
                                     <th class="text-center">{{__('main.supplier')}}</th>
                                     <th class="text-center">{{__('main.orderState')}}</th>
@@ -69,6 +70,13 @@
                                         <td class="text-center">{{$request -> ref_no}}</td>
                                         <td class="text-center">{{$request -> request_ref_no}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::parse($request -> date) ->format('Y-m-d')}} </td>
+                                        <td class="text-center">
+                                            @if(Config::get('app.locale')=='ar' )
+                                                {{$request -> brand_ar}}
+                                            @else
+                                                {{$request -> brand_en}}
+                                            @endif
+                                        </td>
                                         <td class="text-center"> {{$request -> client}} </td>
                                         <td class="text-center"> {{$request -> supplier}} </td>
                                         <td class="text-center">

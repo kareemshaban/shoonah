@@ -123,6 +123,8 @@
                 $(".modal-body #name_en").val("");
                 $(".modal-body #prefix").val("");
                 $(".modal-body #department_id").val("");
+                $(".modal-body #flag-img").attr('src', '{{ asset('assets/img/picture.png') }}');
+                $(".modal-body #icon").val("");
                 var translatedText = "{{ __('main.newData') }}";
                 $(".modelTitle").html(translatedText);
 
@@ -161,6 +163,10 @@
                         // return the result
                         success: function(result) {
                             $('#createModal').modal("show");
+
+                            var img =  '/../images/categories/' + response.icon ;
+                            $(".modal-body #flag-img").attr('src' , img );
+
                             $(".modal-body #name_ar").val( response.name_ar );
                             $(".modal-body #name_en").val( response.name_en );
                             $(".modal-body #department_id").val( response.department_id );

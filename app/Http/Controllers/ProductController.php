@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'prevent.client']);
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +44,7 @@ class ProductController extends Controller
                 -> join('departments' , 'departments.id', '=', 'products.department_id')
                 -> select('supplier_products.price' , 'supplier_products.quantity' ,
                     'products.user_ins' , 'products.id' , 'products.name_ar' , 'products.name_en' ,
-                    'products.mainImg' , 'products.isReviewed',
+                    'products.mainImg' , 'products.isReviewed', 'products.isTop',
                     'products.isPrivate' , 'products.isAvailable' ,'brands.name_ar as brand_ar' , 'brands.name_en as brand_en' ,
                     'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
                     'departments.name_ar as department_ar' , 'departments.name_en as department_en')
@@ -124,6 +124,7 @@ class ProductController extends Controller
             'img2' => $img2,
             'img3' => $img3,
             'img4' => $img4,
+            'isTop' => 0 ,
             'isReviewed' => Auth::user() -> supplier_id == 0 ? 1 : 0 ,
             'user_ins' => Auth::user() -> id,
             'user_upd' => 0
@@ -447,5 +448,66 @@ class ProductController extends Controller
         $department = Department::find($id);
         echo json_encode($department);
         exit();
+    }
+
+    public function review_products()
+    {
+        $products = DB::table("products")
+            -> join('brands' , 'brands.id', '=', 'products.brand_id')
+            -> join('categories' , 'categories.id', '=', 'products.category_id')
+            -> join('departments' , 'departments.id', '=', 'products.department_id')
+            -> select('products.*' , 'brands.name_ar as brand_ar' , 'brands.name_en as brand_en' ,
+                'categories.name_ar as category_ar' , 'categories.name_en as category_en' ,
+                'departments.name_ar as department_ar' , 'departments.name_en as department_en')
+            -> where('products.isReviewed' , 0)
+            ->get();
+
+        return view('cpanel.Products.review', compact('products' ));
+    }
+
+    public function Accept($id)
+    {
+        $product = Product::find($id) ;
+        if($product){
+            $product -> update([
+                'isReviewed' => 1
+            ]);
+
+        }
+        return redirect()->route('products')->with('success', __('main.updated'));
+    }
+    public function Reject($id)
+    {
+        $product = Product::find($id) ;
+        if($product){
+            $product -> update([
+                'isReviewed' => 2
+            ]);
+
+        }
+        return redirect()->route('products')->with('success', __('main.updated'));
+    }
+
+    public function add_to_top($id)
+    {
+        $product = Product::find($id) ;
+        if($product){
+            $product -> update([
+                'isTop' => 1
+            ]);
+
+        }
+        return redirect()->route('products')->with('success', __('main.updated'));
+    }
+    public function remove_from_top($id)
+    {
+        $product = Product::find($id) ;
+        if($product){
+            $product -> update([
+                'isTop' => 0
+            ]);
+
+        }
+        return redirect()->route('products')->with('success', __('main.updated'));
     }
 }
