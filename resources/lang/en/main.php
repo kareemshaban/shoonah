@@ -38,7 +38,7 @@ return [
 
     'news_ads_department' => 'News Ads Department',
     'news_list' => 'News List',
-    'news' => 'Perfume News',
+    'news' => 'Shoonah Academy',
     'ads_list' => 'Ads List',
     'ads' => 'Companies Ads',
 

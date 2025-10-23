@@ -44,12 +44,12 @@
 
 
     .carousel {
-        max-height: 300px; /* adjust this to medium height */
+        max-height: 220px; /* adjust this to medium height */
 
     }
     .carousel-item img {
         object-fit: cover;
-        height: 300px; /* match carousel max-height */
+        height: 220px; /* match carousel max-height */
         width: 100%;
     }
 
@@ -106,41 +106,41 @@
 
     <div class="row">
 
-        <div class="col-md-3 sidebar-shadow rounded bg-white p-4">
-            <h5 class="mb-4 fw-bold text-primary" style="color: #b57e10 !important;">{{ __('main.f_categories') }}</h5>
+{{--        <div class="col-md-3 sidebar-shadow rounded bg-white p-4">--}}
+{{--            <h5 class="mb-4 fw-bold text-primary" style="color: #b57e10 !important;">{{ __('main.f_categories') }}</h5>--}}
 
-            <ul class="treeview list-unstyled p-0">
-                @foreach($departments as $department)
-                    <li>
-            <span class="tree-toggle d-flex justify-content-between align-items-center fw-semibold text-dark cursor-pointer">
-                {{ app()->getLocale() === 'ar' ? $department->name_ar : $department->name_en }}
-                <i class="bi
-                    @if(app()->getLocale() === 'ar') bi-chevron-left @else bi-chevron-right @endif
-                    transition-icon"></i>
-            </span>
+{{--            <ul class="treeview list-unstyled p-0">--}}
+{{--                @foreach($departments as $department)--}}
+{{--                    <li>--}}
+{{--            <span class="tree-toggle d-flex justify-content-between align-items-center fw-semibold text-dark cursor-pointer">--}}
+{{--                {{ app()->getLocale() === 'ar' ? $department->name_ar : $department->name_en }}--}}
+{{--                <i class="bi--}}
+{{--                    @if(app()->getLocale() === 'ar') bi-chevron-left @else bi-chevron-right @endif--}}
+{{--                    transition-icon"></i>--}}
+{{--            </span>--}}
 
-                        @if($department->categories->isNotEmpty())
-                            <ul class="nested list-unstyled ps-3 mt-2" style="display: none;">
-                                @foreach($department->categories as $category)
-                                    <li class="py-1">
-                                        <a href="#" class="text-decoration-none text-secondary category-hover">
-                                            {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </li>
-                @endforeach
-            </ul>
+{{--                        @if($department->categories->isNotEmpty())--}}
+{{--                            <ul class="nested list-unstyled ps-3 mt-2" style="display: none;">--}}
+{{--                                @foreach($department->categories as $category)--}}
+{{--                                    <li class="py-1">--}}
+{{--                                        <a href="#" class="text-decoration-none text-secondary category-hover">--}}
+{{--                                            {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+{{--                                @endforeach--}}
+{{--                            </ul>--}}
+{{--                        @endif--}}
+{{--                    </li>--}}
+{{--                @endforeach--}}
+{{--            </ul>--}}
 
 
 
-        </div>
+{{--        </div>--}}
 
 
         <!-- Product Grid -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="row g-4">
                 @forelse($products as $product)
                     <div class="col-md-4">

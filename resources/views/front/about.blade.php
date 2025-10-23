@@ -103,7 +103,7 @@
 <body class="animsition">
 
 <!-- Header -->
-@include('layouts.nav_front' , ['slag' => 3])
+@include('layouts.new_front_nav')
 
 
 <div class="sec-banner bg0 p-t-80 p-b-50 py-5 bg-light">

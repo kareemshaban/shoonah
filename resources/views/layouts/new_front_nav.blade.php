@@ -93,6 +93,11 @@
                         </li>
                     </ul>
 
+                    <a href="{{route('front')}}" class="nav-link text-secondary px-2 d-flex align-items-center" >
+                        <i class="bi bi-house-door-fill me-2" style="font-size: 22px"></i>
+                        <span style="font-size: 14px ; font-weight: 600;"> {{ __('main.home', ['default' => 'Login']) }} </span>
+                    </a>
+
                     {{-- Login --}}
                     <a href="#" class="nav-link text-secondary px-2 d-flex align-items-center" >
                         <i class="bi bi-person me-2" style="font-size: 22px"></i>
@@ -115,8 +120,8 @@
 
         {{-- Second Row: Menu --}}
         <div class="w-100">
-            <ul class="nav justify-content-center flex-wrap gap-3 bottom-nav">
-                <li class="nav-item">
+            <ul class="nav justify-content-start flex-wrap gap-3 bottom-nav">
+                <li class="nav-item" hidden="hidden">
                     <a href="{{ route('front') }}"
                        class="nav-link px-2 {{ Route::currentRouteName() === 'front' ? 'active' : 'text-secondary' }}"
                        style="font-weight: 600;">
@@ -182,7 +187,7 @@
                     <a href="{{ route('front_news') }}"
                        class="nav-link px-2 {{ Route::currentRouteName() === 'front_news' ? 'active' : 'text-secondary' }}"
                        style="font-weight: 600;">
-                        {{ __('main.news', ['default' => 'Perfume News']) }}
+                        {{ __('main.news', ['default' => 'Shoonah Academy']) }}
                     </a>
                 </li>
 
